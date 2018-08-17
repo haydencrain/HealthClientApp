@@ -1,4 +1,4 @@
-package yourteamnumber.seshealthpatient.Activities;
+package M5.seshealthpatient.Activities;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -18,13 +18,13 @@ import android.view.MenuItem;
 import android.view.View;
 
 
-import yourteamnumber.seshealthpatient.Fragments.DataPacketFragment;
-import yourteamnumber.seshealthpatient.Fragments.HeartRateFragment;
-import yourteamnumber.seshealthpatient.Fragments.MapFragment;
-import yourteamnumber.seshealthpatient.Fragments.PatientInformationFragment;
-import yourteamnumber.seshealthpatient.Fragments.RecordVideoFragment;
-import yourteamnumber.seshealthpatient.Fragments.SendFileFragment;
-import yourteamnumber.seshealthpatient.R;
+import M5.seshealthpatient.Fragments.DataPacketFragment;
+import M5.seshealthpatient.Fragments.HeartRateFragment;
+import M5.seshealthpatient.Fragments.MapFragment;
+import M5.seshealthpatient.Fragments.PatientInformationFragment;
+import M5.seshealthpatient.Fragments.RecordVideoFragment;
+import M5.seshealthpatient.Fragments.SendFileFragment;
+import M5.seshealthpatient.R;
 
 
 /**

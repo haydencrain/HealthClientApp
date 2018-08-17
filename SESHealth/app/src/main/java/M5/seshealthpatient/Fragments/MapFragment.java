@@ -1,4 +1,4 @@
-package yourteamnumber.seshealthpatient.Fragments;
+package M5.seshealthpatient.Fragments;
 
 
 import android.os.Bundle;
@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import yourteamnumber.seshealthpatient.R;
+import M5.seshealthpatient.R;
 
 /**
  * A simple {@link Fragment} subclass.
