@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "392030525716",
+    "firebase_url": "https://healthclientapp.firebaseio.com",
+    "project_id": "healthclientapp",
+    "storage_bucket": "healthclientapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:392030525716:android:98067c27670d087c",
+        "android_client_info": {
+          "package_name": "com.example.hristo.healthclientapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "392030525716-gfrcenv6mjknhiq2eavfvcreaaku26gi.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.hristo.healthclientapp",
+            "certificate_hash": "c846060886bc9d3f862569386d82b2778f31ad3c"
+          }
+        },
+        {
+          "client_id": "392030525716-b69qrqib6sa50qc6ej5a6mam3fjlem3s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCvqx4M4xl9PGfH5TFxXNAnuLSw-ZQ0zMI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "392030525716-b69qrqib6sa50qc6ej5a6mam3fjlem3s.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
