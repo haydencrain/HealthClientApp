@@ -66,7 +66,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_map, container, false);
 
-        mGeoDataClient = Places.getGeoDataClient(getActivity(), null);
+        mGeoDataClient = Places.getGeoDataClient(getActivity());
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getActivity());
 
         mMapView = view.findViewById(R.id.mapView);
@@ -81,16 +81,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         mGoogleMap = googleMap;
         mGoogleMap.getUiSettings().setMyLocationButtonEnabled(false);
-        double lat = mDefaultLocation.latitude;
-        double lng = mDefaultLocation.longitude;
 
         getLocationPermission();
 
         updateLocationUI();
         getDeviceLocation();
 
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(lat, lng), DEFAULT_ZOOM);
-        mGoogleMap.moveCamera(cameraUpdate);
     }
 
     /**
