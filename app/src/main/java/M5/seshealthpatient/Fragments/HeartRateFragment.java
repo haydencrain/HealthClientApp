@@ -1,16 +1,22 @@
 package M5.seshealthpatient.Fragments;
 
 
+import android.Manifest;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.hardware.Camera;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.os.Handler;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 
@@ -23,6 +29,7 @@ import M5.seshealthpatient.R;
 
 import android.content.res.Configuration;
 import android.hardware.Camera.PreviewCallback;
+import android.widget.Toast;
 
 
 /**
@@ -56,6 +63,7 @@ public class HeartRateFragment extends Fragment {
     private static Camera camera = null;
 
     private static TextView text = null;
+    private static Button btnHR = null;
 
 
     private static int averageIndex = 0;
@@ -77,6 +85,7 @@ public class HeartRateFragment extends Fragment {
     private static final int[] beatsArray = new int[beatsArraySize];
     private static double beats = 0;
     private static long startTime = 0;
+    private static int c=0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -85,6 +94,23 @@ public class HeartRateFragment extends Fragment {
         View x = inflater.inflate(R.layout.fragment_heart_rate, container, false);
 
         context = getActivity().getApplicationContext();
+
+        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA)
+                == PackageManager.PERMISSION_GRANTED) {
+            Log.i("TEST","Granted");
+            //init(barcodeScannerView, getIntent(), null);
+        } else {
+            ActivityCompat.requestPermissions(getActivity(),
+                    new String[]{Manifest.permission.CAMERA}, 1);//1 can be another integer
+        }
+
+        btnHR = (Button) x.findViewById (R.id.btnHR);
+        btnHR.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+              Toast.makeText( getActivity(),String.valueOf( c ),Toast.LENGTH_LONG ).show();
+            }
+        } );
 
         preview = (SurfaceView) x.findViewById(R.id.preview);
         previewHolder = preview.getHolder();
@@ -105,6 +131,10 @@ public class HeartRateFragment extends Fragment {
         super.onResume();
 
         camera = Camera.open();
+        Camera.Parameters mParameters;
+        mParameters = camera.getParameters();
+        mParameters.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
+        camera.setParameters(mParameters);
         startTime = System.currentTimeMillis();
     }
 
@@ -197,6 +227,7 @@ public class HeartRateFragment extends Fragment {
                     }
                 }
                 int beatsAvg = (beatsArrayAvg / beatsArrayCnt);
+                c = beatsAvg;
                 text.setText("Heart rate:" + String.valueOf(beatsAvg));
 
                 startTime = System.currentTimeMillis();
