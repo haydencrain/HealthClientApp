@@ -9,8 +9,8 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/login_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorPrimaryDark"
+        android:layout_height="match_parent"
+        android:background="@color/whiteColor"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:titleTextColor="@color/whiteColor"
         />
@@ -68,6 +68,15 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="70dp"
         android:text="@string/log_in_txt" />
+
+    <Button
+        android:id="@+id/register_btn"
+        style="@style/LoginStyles"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/login_btn"
+        android:layout_centerHorizontal="true"
+        android:text="Sign Up" />
 
 
 </RelativeLayout>
