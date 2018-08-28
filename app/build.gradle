@@ -18,6 +18,12 @@ android {
     }
 }
 
+ext {
+    //Add the firebase version
+    firebase = "16.0.3"
+    maps = "15.0.1"
+}
+
 dependencies {
     implementation 'com.android.support.constraint:constraint-layout:1.0.0-alpha2'
     implementation fileTree(include: ['*.jar'], dir: 'libs')
@@ -26,7 +32,6 @@ dependencies {
     // Using the design implementation to use the navigation drawer
     implementation 'com.android.support:design:27.1.1'
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
-    implementation 'com.google.firebase:firebase-auth:11.6.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
@@ -42,9 +47,14 @@ dependencies {
     /**
      *  Google play services ref: https://developers.google.com/android/guides/setup
      */
-    implementation 'com.google.android.gms:play-services-maps:15.0.1'
-    implementation 'com.google.android.gms:play-services-places:15.0.1'
-    implementation 'com.google.android.gms:play-services-location:15.0.1'
+    implementation "com.google.android.gms:play-services-maps:$maps"
+    implementation "com.google.android.gms:play-services-places:$maps"
+    implementation "com.google.android.gms:play-services-location:$maps"
+    implementation "com.google.firebase:firebase-core:$firebase"
+
+    implementation "com.google.firebase:firebase-auth:$firebase"
+    implementation "com.google.firebase:firebase-analytics:$firebase"
 }
 
 apply plugin: 'com.google.gms.google-services'
+

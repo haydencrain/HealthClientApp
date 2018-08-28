@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "498300237976",
+    "firebase_url": "https://healthclientapppat.firebaseio.com",
+    "project_id": "healthclientapppat",
+    "storage_bucket": "healthclientapppat.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:498300237976:android:8587d46dbf9ce159",
+        "android_client_info": {
+          "package_name": "M5.seshealthpatient"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "498300237976-oanti1rc37nnjhl4aoj3n8624ss48tt2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "M5.seshealthpatient",
+            "certificate_hash": "c846060886bc9d3f862569386d82b2778f31ad3c"
+          }
+        },
+        {
+          "client_id": "498300237976-1asadmrparr5ibekkr8kjpdqtnqd4jtt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBN3CAAzRpRzxcgepF-oUMFsfbx0R8iql8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "498300237976-1asadmrparr5ibekkr8kjpdqtnqd4jtt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
