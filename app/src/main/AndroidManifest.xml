@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="M5.seshealthpatient">
-
     <uses-sdk
         android:minSdkVersion="15"
         android:targetSdkVersion="15" />
@@ -11,6 +10,7 @@
 
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -18,7 +18,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat.Light.NoActionBar" >
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity android:name=".Activities.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,7 +26,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activities.MainActivity"></activity>
+        <activity android:name=".Activities.MainActivity" />
+        <activity android:name=".Activities.RegisterActivity"></activity>
     </application>
 
 </manifest>

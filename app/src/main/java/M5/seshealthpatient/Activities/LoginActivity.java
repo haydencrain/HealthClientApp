@@ -1,6 +1,7 @@
 package M5.seshealthpatient.Activities;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -8,6 +9,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Button;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -27,7 +36,6 @@ import M5.seshealthpatient.R;
  * <p>
  */
 public class LoginActivity extends AppCompatActivity {
-
 
     /**
      * Use the @BindView annotation so Butter Knife can search for that view, and cast it for you
@@ -49,6 +57,9 @@ public class LoginActivity extends AppCompatActivity {
      */
     private static String TAG = "LoginActivity";
 
+    private Button signup;
+    private FirebaseAuth auth;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +74,15 @@ public class LoginActivity extends AppCompatActivity {
 
         // Please try to use more String resources (values -> strings.xml) vs hardcoded Strings.
         setTitle(R.string.login_activity_title);
+
+        signup = findViewById(R.id.register_btn);
+        signup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                registerPage();
+            }
+        });
+        auth = FirebaseAuth.getInstance();
 
     }
 
@@ -83,11 +103,28 @@ public class LoginActivity extends AppCompatActivity {
         // knowing where the message should appear.
         Log.d(TAG, "LogIn: username: " + username + " password: " + password);
 
+        auth.signInWithEmailAndPassword(username, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if(task.isSuccessful()){
+                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                            startActivity(intent);
+                        }
+                        else {
+                            Toast.makeText(getApplicationContext(),"Account does not exist!", Toast.LENGTH_SHORT).show();
+                        }
+                        }
+                    });
+                };
+
 
         // Start a new activity
-        Intent intent = new Intent(this, MainActivity.class);
+
+
+    public void registerPage(){
+        Intent intent = new Intent(this, RegisterActivity.class);
         startActivity(intent);
     }
-
 
 }
