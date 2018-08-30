@@ -88,7 +88,7 @@ public class HeartRateFragment extends Fragment {
     private static double beats = 0;
     private static long startTime = 0;
     private static int c=0;
-    private static String skr = String.valueOf(c);
+    private static String skr;
     private FragmentManager manager;
     private FragmentTransaction ft;
 
@@ -246,7 +246,7 @@ public class HeartRateFragment extends Fragment {
                 int beatsAvg = (beatsArrayAvg / beatsArrayCnt);
                 c = beatsAvg;
                 text.setText("Heart rate:" + String.valueOf(beatsAvg));
-
+                skr = String.valueOf(c);
                 startTime = System.currentTimeMillis();
                 beats = 0;
             }

@@ -24,7 +24,7 @@ public class DataPacketFragment extends Fragment {
     private FragmentManager manager;
     private FragmentTransaction ft;
 
-    private String str;
+    private static String str;
     public DataPacketFragment() {
         // Required empty public constructor
     }
@@ -59,9 +59,21 @@ public class DataPacketFragment extends Fragment {
 
         TextView tvObj = (TextView)v.findViewById(R.id.fm01tvid);
 
-        str = (String)getArguments().get("str");
 
-        tvObj.setText( str );
+        Bundle arguments = getArguments();
+        if(arguments == null)
+        {
+            str = "Hello";
+            tvObj.setText( str );
+        }
+        else {
+            String x = (String)getArguments().get( "str");
+            tvObj.setText( x );
+
+        }
+
+
+
 
         return v;
     }
