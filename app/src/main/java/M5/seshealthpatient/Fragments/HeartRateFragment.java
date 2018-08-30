@@ -2,6 +2,8 @@ package M5.seshealthpatient.Fragments;
 
 
 import android.Manifest;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
@@ -86,6 +88,9 @@ public class HeartRateFragment extends Fragment {
     private static double beats = 0;
     private static long startTime = 0;
     private static int c=0;
+    private static String skr = String.valueOf(c);
+    private FragmentManager manager;
+    private FragmentTransaction ft;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -108,7 +113,19 @@ public class HeartRateFragment extends Fragment {
         btnHR.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-              Toast.makeText( getActivity(),String.valueOf( c ),Toast.LENGTH_LONG ).show();
+
+                manager = getFragmentManager();
+                DataPacketFragment myJDEditFragment = new DataPacketFragment();
+                ft = manager.beginTransaction();
+                ft.replace(R.id.fragment_container, myJDEditFragment);
+                ft.addToBackStack(null);
+                ft.commit();
+
+                Bundle bundle = new Bundle();
+                bundle.putString("str",skr);
+                myJDEditFragment.setArguments(bundle);
+
+
             }
         } );
 
