@@ -12,3 +12,4 @@
 /app/build
 /.idea/caches
 .vscode
+/app/src/main/res/values/secrets.xml
