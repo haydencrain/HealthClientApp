@@ -4,18 +4,56 @@
     android:layout_height="match_parent"
     android:id="@+id/datapk"
     tools:context="M5.seshealthpatient.Fragments.DataPacketFragment">
-    <Button
-        android:id="@+id/btnSHR"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="HeartRate" />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="30sp"
-        android:layout_marginLeft="110dp"
-        android:id="@+id/fm01tvid"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        
+        <RelativeLayout
+            android:id="@+id/heartRateContainer"
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+            <Button
+                android:id="@+id/btnSHR"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="HeartRate" />
+
+            <TextView
+                android:id="@+id/fm01tvid"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textSize="20sp"
+                android:layout_toRightOf="@+id/btnSHR"
+                android:gravity="center" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/locationContainer"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_below="@+id/heartRateContainer">
+
+            <Button
+                android:id="@+id/btnLocation"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Get Location" />
+
+            <TextView
+                android:id="@+id/txtLocation"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textSize="20sp"
+                android:gravity="center"
+                android:layout_toRightOf="@+id/btnLocation" />
+
+        </RelativeLayout>
 
 
+
+    </RelativeLayout>
 
 </FrameLayout>
