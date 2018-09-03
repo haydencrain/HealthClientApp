@@ -1,6 +1,7 @@
 package M5.seshealthpatient.Fragments;
 
-
+import M5.seshealthpatient.Models.PlaceResult;
+import M5.seshealthpatient.Services.Singleton;
 import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.LocationListener;
@@ -20,19 +21,31 @@ import android.view.ViewGroup;
 import android.location.Location;
 import android.location.LocationManager;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.places.GeoDataClient;
 import com.google.android.gms.location.places.PlaceDetectionClient;
 import com.google.android.gms.location.places.Places;
+import com.google.android.gms.location.places.Place;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.List;
 
 import M5.seshealthpatient.R;
 
@@ -47,12 +60,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private PlaceDetectionClient mPlaceDetectionClient;
     private FusedLocationProviderClient mFusedLocationProviderClient;
 
-
     private LatLng mDefaultLocation = new LatLng(-33.86, 151.2);
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
     private static final int DEFAULT_ZOOM = 15;
     private boolean mLocationPermissionGranted;
     private Location mLastKnownLocation;
+
+
+    private List<Place> mPlaces;
 
 
     public MapFragment() {
@@ -68,7 +83,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
         mGeoDataClient = Places.getGeoDataClient(getActivity());
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getActivity());
-
         mMapView = view.findViewById(R.id.mapView);
         mMapView.onCreate(savedInstanceState);
         mMapView.getMapAsync(this);
@@ -81,12 +95,55 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         mGoogleMap = googleMap;
         mGoogleMap.getUiSettings().setMyLocationButtonEnabled(false);
+        mGoogleMap.getUiSettings().setRotateGesturesEnabled(false);
 
         getLocationPermission();
 
         updateLocationUI();
         getDeviceLocation();
+    }
 
+    private void getMedicalPlaces(double lat, double lng) {
+        String url = getUrl(lat, lng, "hospital");
+        Log.d("getUrl", url);
+
+        Singleton.getInstance(getActivity()).addToRequestQueue(new JsonObjectRequest(Request.Method.GET, url, null,  new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Log.d("googlePlacesResponse", response.toString());
+                JSONArray places;
+                try {
+                    places = response.getJSONArray("results");
+                    for(int i = 0; i < places.length(); i++) {
+                        MarkerOptions markerOptions = new MarkerOptions();
+                        PlaceResult place = new PlaceResult(places.getJSONObject(i));
+                        Log.d("placeResult", place.toString());
+                        markerOptions.position(new LatLng(place.getLat(), place.getLng()));
+                        markerOptions.title(place.getName());
+                        mGoogleMap.addMarker(markerOptions);
+                    }
+
+                } catch (JSONException e) {
+                    Log.d("GooglePlaceResults", e.toString());
+                }
+
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }));
+    }
+
+    private String getUrl(double lat, double lng, String placeType) {
+        StringBuilder url = new StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?");
+        url.append("location=" + String.valueOf(lat) + "," + String.valueOf(lng));
+        url.append("&radius=" + String.valueOf(5000));
+        url.append("&type=" + placeType);
+        url.append("&key=" + getResources().getString(R.string.api_key));
+        return url.toString();
     }
 
     /**
@@ -109,10 +166,17 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                             mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
                                     new LatLng(mLastKnownLocation.getLatitude(),
                                             mLastKnownLocation.getLongitude()), DEFAULT_ZOOM));
+
+                            // get nearby medical places using known location
+                            getMedicalPlaces(mLastKnownLocation.getLatitude(), mLastKnownLocation.getLongitude());
+
                         } else {
                             mGoogleMap.moveCamera(CameraUpdateFactory
                                     .newLatLngZoom(mDefaultLocation, DEFAULT_ZOOM));
                             mGoogleMap.getUiSettings().setMyLocationButtonEnabled(false);
+
+                            // get nearby places using default location
+                            getMedicalPlaces(mDefaultLocation.latitude, mDefaultLocation.longitude);
                         }
                     }
                 });
@@ -121,7 +185,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             Log.e("Exception: %s", e.getMessage());
         }
     }
-
 
     @Override
     public void onResume() {
@@ -197,7 +260,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 getLocationPermission();
             }
         } catch (SecurityException e)  {
-            throw(e);
+            Log.e("Exception: %s", e.getMessage());
         }
+    }
+
+    private void appPlacesToMap() {
+        if (mGoogleMap == null) {
+            return;
+        }
+
     }
 }
