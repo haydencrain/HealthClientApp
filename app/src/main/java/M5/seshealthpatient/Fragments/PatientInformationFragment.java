@@ -1,14 +1,24 @@
 package M5.seshealthpatient.Fragments;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
+
+import M5.seshealthpatient.Activities.AddDetails;
+import M5.seshealthpatient.Activities.LoginActivity;
+import M5.seshealthpatient.Activities.ViewInformation;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import M5.seshealthpatient.R;
@@ -25,17 +35,10 @@ import M5.seshealthpatient.R;
 
  */
 public class PatientInformationFragment extends Fragment {
-
-
-    // Note how Butter Knife also works on Fragments, but here it is a little different
-    @BindView(R.id.blank_frag_msg)
-    TextView blankFragmentTV;
-
-
     public PatientInformationFragment() {
         // Required empty public constructor
     }
-
+    FirebaseAuth auth;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,18 +52,31 @@ public class PatientInformationFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_patient_information, container, false);
+        Button btnOpen = (Button)v.findViewById(R.id.btnAD);
+        Button btnView = (Button)v.findViewById(R.id.btnView);
+        Button btnSignOut = (Button)v.findViewById(R.id.sign_out_button);
 
-        // Note how we are telling butter knife to bind during the on create view method
-        ButterKnife.bind(this, v);
+        btnOpen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent in = new Intent(getActivity(), AddDetails.class);
+                in.putExtra("Information", "personal detail");
+                startActivity(in);
+            }
+        });
+
+        btnView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent in = new Intent(getActivity(), ViewInformation.class);
+                in.putExtra("Information", "personal detail");
+                startActivity(in);
+            }
+        });
+
+
 
         return v;
     }
 
-
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        // Now that the view has been created, we can use butter knife functionality
-        blankFragmentTV.setText("Welcome to this fragment");
-    }
 }
