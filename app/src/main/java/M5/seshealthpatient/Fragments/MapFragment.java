@@ -1,5 +1,6 @@
 package M5.seshealthpatient.Fragments;
 
+import M5.seshealthpatient.Models.LocationDefaults;
 import M5.seshealthpatient.Models.PlaceResult;
 import M5.seshealthpatient.Services.Singleton;
 import android.content.pm.PackageManager;
@@ -60,14 +61,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private PlaceDetectionClient mPlaceDetectionClient;
     private FusedLocationProviderClient mFusedLocationProviderClient;
 
-    private LatLng mDefaultLocation = new LatLng(-33.86, 151.2);
-    private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
+
     private static final int DEFAULT_ZOOM = 15;
     private boolean mLocationPermissionGranted;
     private Location mLastKnownLocation;
-
-
-    private List<Place> mPlaces;
 
 
     public MapFragment() {
@@ -172,11 +169,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
                         } else {
                             mGoogleMap.moveCamera(CameraUpdateFactory
-                                    .newLatLngZoom(mDefaultLocation, DEFAULT_ZOOM));
+                                    .newLatLngZoom(LocationDefaults.mDefaultLocation, DEFAULT_ZOOM));
                             mGoogleMap.getUiSettings().setMyLocationButtonEnabled(false);
 
                             // get nearby places using default location
-                            getMedicalPlaces(mDefaultLocation.latitude, mDefaultLocation.longitude);
+                            getMedicalPlaces(LocationDefaults.mDefaultLocation.latitude, LocationDefaults.mDefaultLocation.longitude);
                         }
                     }
                 });
@@ -223,14 +220,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         } else {
             ActivityCompat.requestPermissions(getActivity(),
                     new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
-                    PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+                    LocationDefaults.PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
         }
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults ) {
         switch (requestCode) {
-            case PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION: {
+            case LocationDefaults.PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION: {
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -262,12 +259,5 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         } catch (SecurityException e)  {
             Log.e("Exception: %s", e.getMessage());
         }
-    }
-
-    private void appPlacesToMap() {
-        if (mGoogleMap == null) {
-            return;
-        }
-
     }
 }
