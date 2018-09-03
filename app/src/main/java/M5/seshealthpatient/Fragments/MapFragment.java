@@ -1,5 +1,6 @@
 package M5.seshealthpatient.Fragments;
 
+import M5.seshealthpatient.Models.PlaceResult;
 import M5.seshealthpatient.Services.Singleton;
 import android.content.pm.PackageManager;
 import android.location.Criteria;
@@ -36,9 +37,12 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.List;
@@ -48,7 +52,7 @@ import M5.seshealthpatient.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MapFragment extends Fragment implements OnMapReadyCallback, Response.Listener<JSONObject>, Response.ErrorListener {
+public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     private MapView mMapView;
     private GoogleMap mGoogleMap;
@@ -92,30 +96,54 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Respons
         mGoogleMap = googleMap;
         mGoogleMap.getUiSettings().setMyLocationButtonEnabled(false);
         mGoogleMap.getUiSettings().setRotateGesturesEnabled(false);
-        mGoogleMap.getUiSettings().setScrollGesturesEnabled(false);
 
         getLocationPermission();
 
         updateLocationUI();
         getDeviceLocation();
-
-        getMedicalPlaces();
-
     }
 
-    private void getMedicalPlaces() {
-        String url = "";
-        Singleton.getInstance(getActivity()).addToRequestQueue(new JsonObjectRequest(Request.Method.GET, url, null, this, this));
+    private void getMedicalPlaces(double lat, double lng) {
+        String url = getUrl(lat, lng, "hospital");
+        Log.d("getUrl", url);
+
+        Singleton.getInstance(getActivity()).addToRequestQueue(new JsonObjectRequest(Request.Method.GET, url, null,  new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Log.d("googlePlacesResponse", response.toString());
+                JSONArray places;
+                try {
+                    places = response.getJSONArray("results");
+                    for(int i = 0; i < places.length(); i++) {
+                        MarkerOptions markerOptions = new MarkerOptions();
+                        PlaceResult place = new PlaceResult(places.getJSONObject(i));
+                        Log.d("placeResult", place.toString());
+                        markerOptions.position(new LatLng(place.getLat(), place.getLng()));
+                        markerOptions.title(place.getName());
+                        mGoogleMap.addMarker(markerOptions);
+                    }
+
+                } catch (JSONException e) {
+                    Log.d("GooglePlaceResults", e.toString());
+                }
+
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }));
     }
 
-    @Override
-    public void onResponse(JSONObject res) {
-        
-    }
-
-    @Override
-    public void onErrorResponse(VolleyError err) {
-
+    private String getUrl(double lat, double lng, String placeType) {
+        StringBuilder url = new StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?");
+        url.append("location=" + String.valueOf(lat) + "," + String.valueOf(lng));
+        url.append("&radius=" + String.valueOf(5000));
+        url.append("&type=" + placeType);
+        url.append("&key=" + getResources().getString(R.string.api_key));
+        return url.toString();
     }
 
     /**
@@ -138,10 +166,17 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Respons
                             mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
                                     new LatLng(mLastKnownLocation.getLatitude(),
                                             mLastKnownLocation.getLongitude()), DEFAULT_ZOOM));
+
+                            // get nearby medical places using known location
+                            getMedicalPlaces(mLastKnownLocation.getLatitude(), mLastKnownLocation.getLongitude());
+
                         } else {
                             mGoogleMap.moveCamera(CameraUpdateFactory
                                     .newLatLngZoom(mDefaultLocation, DEFAULT_ZOOM));
                             mGoogleMap.getUiSettings().setMyLocationButtonEnabled(false);
+
+                            // get nearby places using default location
+                            getMedicalPlaces(mDefaultLocation.latitude, mDefaultLocation.longitude);
                         }
                     }
                 });
@@ -150,7 +185,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Respons
             Log.e("Exception: %s", e.getMessage());
         }
     }
-
 
     @Override
     public void onResume() {
