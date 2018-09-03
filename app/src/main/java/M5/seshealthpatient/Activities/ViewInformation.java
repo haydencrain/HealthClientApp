@@ -96,13 +96,23 @@ public class ViewInformation extends AppCompatActivity {
     private void showData(DataSnapshot dataSnapshot) {
         for (DataSnapshot ds : dataSnapshot.getChildren()) {
             UserInformation uInfo = new UserInformation();
-            uInfo.setName(ds.child(userID).getValue(UserInformation.class).getName()); //set the name
-            uInfo.setPhone(ds.child(userID).getValue(UserInformation.class).getPhone()); //set the phone
-            uInfo.setWeight(ds.child(userID).getValue(UserInformation.class).getWeight()); //set the weight
-            uInfo.setHeight(ds.child(userID).getValue(UserInformation.class).getHeight());//set the height
-            uInfo.setDoctorID(ds.child(userID).getValue(UserInformation.class).getDoctorID()); //set the doctorID
-            uInfo.setQuery(ds.child(userID).getValue(UserInformation.class).getQuery()); //set the query
 
+            UserInformation user = ds.child(userID).getValue(UserInformation.class);
+            if (user == null) {
+                uInfo.setName(""); //set the name
+                uInfo.setPhone(""); //set the phone
+                uInfo.setWeight(""); //set the weight
+                uInfo.setHeight("");//set the height
+                uInfo.setDoctorID(""); //set the doctorID
+                uInfo.setQuery(""); //set the query
+            } else {
+                uInfo.setName(user.getName()); //set the name
+                uInfo.setPhone(user.getPhone()); //set the phone
+                uInfo.setWeight(user.getWeight()); //set the weight
+                uInfo.setHeight(user.getHeight());//set the height
+                uInfo.setDoctorID(user.getDoctorID()); //set the doctorID
+                uInfo.setQuery(user.getQuery()); //set the query
+            }
 
             ArrayList<String> array = new ArrayList<>();
             array.add(uInfo.getName());
