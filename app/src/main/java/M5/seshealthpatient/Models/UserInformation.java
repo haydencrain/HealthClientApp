@@ -1,4 +1,4 @@
-package M5.seshealthpatient.Activities;
+package M5.seshealthpatient.Models;
 
 public class UserInformation {
     private String Name;

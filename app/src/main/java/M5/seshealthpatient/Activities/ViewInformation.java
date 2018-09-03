@@ -15,6 +15,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import M5.seshealthpatient.Activities.AddDetails;
+import M5.seshealthpatient.Models.UserInformation;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import android.support.annotation.NonNull;
