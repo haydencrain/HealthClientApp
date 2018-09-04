@@ -84,7 +84,7 @@ public class DataPacketFragment extends Fragment {
 
                 dataPacket dp = new dataPacket(txtLocation.getText().toString(), str, queryText);
 
-                dbref.child("Doctors").child("sampleDoctorId").child("1").setValue(dp);
+                dbref.child("Queries").child("1").setValue(dp);
 
                 Toast.makeText(getActivity(),
                         "Query Sent Successfully, try and stay alive", Toast.LENGTH_LONG).show();
