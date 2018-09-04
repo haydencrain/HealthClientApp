@@ -82,7 +82,7 @@ public class DataPacketFragment extends Fragment {
 
                 DatabaseReference dbref = FirebaseDatabase.getInstance().getReference("Users/" + uid);
 
-                dataPacket dp = new dataPacket(txtLocation.getText().toString(), str, queryText);
+                dataPacket dp = new dataPacket(txtLocation.getText().toString(), heartRate, queryText);
 
                 dbref.child("Queries").child("1").setValue(dp);
 
