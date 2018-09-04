@@ -1,13 +1,12 @@
 package M5.seshealthpatient.Fragments;
 
 
+import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -17,14 +16,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import M5.seshealthpatient.Models.LocationDefaults;
+import M5.seshealthpatient.Models.dataPacket;
 import M5.seshealthpatient.R;
 
 /**
@@ -48,6 +54,7 @@ public class DataPacketFragment extends Fragment {
     private static Button btnLocation;
     private TextView txtLocation;
     private Location mLastKnownLocation;
+    private String queryText;
 
     public DataPacketFragment() {
         // Required empty public constructor
@@ -61,6 +68,44 @@ public class DataPacketFragment extends Fragment {
 
         super.onCreate(savedInstanceState);// Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_data_packet, container, false);
+
+
+        EditText queryBox = (EditText) v.findViewById(R.id.queryBox);
+        queryText = queryBox.getText().toString();
+
+        Button sendPacketbtn = (Button) v.findViewById(R.id.btnSendQ);
+        sendPacketbtn.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                String uid = user.getUid();
+
+                DatabaseReference dbref = FirebaseDatabase.getInstance().getReference("Users/" + uid);
+
+                dataPacket dp = new dataPacket(txtLocation.getText().toString(), str, queryText);
+
+                dbref.child("Doctors").child("sampleDoctorId").child("1").setValue(dp);
+
+                Toast.makeText(getActivity(),
+                        "Query Sent Successfully, try and stay alive", Toast.LENGTH_LONG).show();
+
+
+
+
+            }
+
+
+        });
+
+
+
+
+
+
+
+
+
+
 
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getActivity());
 
