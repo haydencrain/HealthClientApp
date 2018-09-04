@@ -47,8 +47,8 @@ public class DataPacketFragment extends Fragment {
     private FusedLocationProviderClient mFusedLocationProviderClient;
 
     // heart rate stuff
-    private static Button btn = null;
-    private static String str;
+    private static Button btnHeartRate = null;
+    private static String heartRate;
 
     // location
     private static Button btnLocation;
@@ -119,9 +119,9 @@ public class DataPacketFragment extends Fragment {
             }
         });
 
-        btn = v.findViewById( R.id.btnSHR );
+        btnHeartRate = v.findViewById( R.id.btnSHR );
 
-        btn.setOnClickListener( new View.OnClickListener() {
+        btnHeartRate.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -143,8 +143,8 @@ public class DataPacketFragment extends Fragment {
         Bundle arguments = getArguments();
         if(arguments == null)
         {
-            str = "";
-            tvObj.setText( str );
+            heartRate = "";
+            tvObj.setText( heartRate );
         }
         else {
             String x = (String)getArguments().get( "str");

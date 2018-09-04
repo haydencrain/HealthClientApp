@@ -24,4 +24,10 @@
         android:layout_weight="1"
         android:text="Heart rate"></TextView>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Please cover the camera with your fingers and wait for ten seconds"></TextView>
+
 </LinearLayout>
