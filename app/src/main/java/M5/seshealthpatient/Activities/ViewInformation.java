@@ -104,14 +104,14 @@ public class ViewInformation extends AppCompatActivity {
                 uInfo.setWeight(""); //set the weight
                 uInfo.setHeight("");//set the height
                 uInfo.setDoctorID(""); //set the doctorID
-                uInfo.setQuery(""); //set the query
+
             } else {
                 uInfo.setName(user.getName()); //set the name
                 uInfo.setPhone(user.getPhone()); //set the phone
                 uInfo.setWeight(user.getWeight()); //set the weight
                 uInfo.setHeight(user.getHeight());//set the height
                 uInfo.setDoctorID(user.getDoctorID()); //set the doctorID
-                uInfo.setQuery(user.getQuery()); //set the query
+
             }
 
             ArrayList<String> array = new ArrayList<>();
@@ -120,7 +120,7 @@ public class ViewInformation extends AppCompatActivity {
             array.add(uInfo.getWeight() + "kg");
             array.add(uInfo.getHeight() + "cm");
             array.add(uInfo.getDoctorID()+ "ID");
-            array.add(uInfo.getQuery() + " queries sent.");
+
 
             ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, array);
             mListView.setAdapter(adapter);

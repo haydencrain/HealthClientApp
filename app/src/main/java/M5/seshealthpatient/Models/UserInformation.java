@@ -6,7 +6,7 @@ public class UserInformation {
     private String Weight;
     private String Height;
     private String DoctorID;
-    private String Query;
+
 
     public UserInformation(){
     }
@@ -47,25 +47,19 @@ public class UserInformation {
         return DoctorID;
     }
 
-    public String getQuery() {
-        return Query;
-    }
 
-    public void setQuery(String query) {
-        Query = query;
-    }
 
     public void setDoctorID(String doctor) {
         DoctorID = doctor;
     }
 
-    public UserInformation(String name, String phone, String weight, String height, String doctor, String query) {
+    public UserInformation(String name, String phone, String weight, String height, String doctor) {
         Name = name;
         Phone = phone;
         Weight = weight;
         Height = height;
         DoctorID = doctor;
-        Query = query;
+
     }
 
 }

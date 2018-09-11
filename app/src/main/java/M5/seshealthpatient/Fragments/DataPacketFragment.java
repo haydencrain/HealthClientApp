@@ -119,9 +119,11 @@ public class DataPacketFragment extends Fragment {
             public void onClick(View v){
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 String uid = user.getUid();
+                //getting the db directory for the currently logged in user using their id
                 DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference("Users/" + uid);
 
                 dataPacket.setQuery(queryTextBox.getText().toString());
+
 
                 dbRef.child("Queries").child("1").setValue(dataPacket);
                 Toast.makeText(getActivity(), "Query Sent Successfully, try and stay alive", Toast.LENGTH_LONG).show();

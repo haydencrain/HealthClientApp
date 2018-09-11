@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import M5.seshealthpatient.Activities.AddDetails;
+import M5.seshealthpatient.Models.UserInformation;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import android.support.annotation.NonNull;
@@ -42,7 +43,7 @@ public class AddDetails extends AppCompatActivity {
     private EditText nWeight;
     private EditText nHeight;
     private EditText nDoctor;
-    private EditText nQuery;
+
 
     //add Firebase
     private FirebaseDatabase mFirebaseDatabase;
@@ -62,7 +63,7 @@ public class AddDetails extends AppCompatActivity {
         nWeight = (EditText) findViewById(R.id.add_weight);
         nHeight = (EditText) findViewById(R.id.add_height);
         nDoctor = (EditText) findViewById(R.id.doctor_id);
-        nQuery = (EditText)findViewById(R.id.query_sent);
+
 
 
         mAuth = FirebaseAuth.getInstance();
@@ -105,61 +106,21 @@ public class AddDetails extends AppCompatActivity {
         mAddToDB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d(TAG, "onClick: Attempting to add object to database.");
-                String newName = nNewName.getText().toString();
-                String newPhone = nPhone.getText().toString();
-                String newWeight = nWeight.getText().toString();
-                String newHeight = nHeight.getText().toString();
-                String newDoctor = nDoctor.getText().toString();
-                String newQuery = nQuery.getText().toString();
-                if(!newName.equals("")){
+
+
+                if (textBoxesNotEmpty()) {
                     FirebaseUser user = mAuth.getCurrentUser();
                     String userID = user.getUid();
-                    myRef.child("User").child(userID).child("Name").setValue(newName);
-                    toastMessage("Adding " + newName + " to database...");
-                    //reset the text
-                    nNewName.setText("");
+
+                    UserInformation userInfo = createUser();
+                    clearTextBoxes();
+
+                    myRef.child("Users").child(userID).child("UserInformation").setValue(userInfo);
+                    toastMessage("Added user "+ nNewName.getText().toString() + " successfully");
+
                 }
-                if(!newPhone.equals("")){
-                    FirebaseUser user = mAuth.getCurrentUser();
-                    String userID = user.getUid();
-                    myRef.child("User").child(userID).child("Phone").setValue(newPhone);
-                    toastMessage("Adding " + newPhone + " to database...");
-                    //reset the text
-                    nPhone.setText("");
-                }
-                if(!newWeight.equals("")){
-                    FirebaseUser user = mAuth.getCurrentUser();
-                    String userID = user.getUid();
-                    myRef.child("User").child(userID).child("Weight").setValue(newWeight);
-                    toastMessage("Adding " + newWeight + " to database...");
-                    //reset the text
-                    nWeight.setText("");
-                }
-                if(!newHeight.equals("")){
-                    FirebaseUser user = mAuth.getCurrentUser();
-                    String userID = user.getUid();
-                    myRef.child("User").child(userID).child("Height").setValue(newHeight);
-                    toastMessage("Adding " + newHeight + " to database...");
-                    //reset the text
-                    nHeight.setText("");
-                }
-                if(!newDoctor.equals("")){
-                    FirebaseUser user = mAuth.getCurrentUser();
-                    String userID = user.getUid();
-                    myRef.child("User").child(userID).child("DoctorID").setValue(newDoctor);
-                    toastMessage("Adding " + newDoctor + " to database...");
-                    //reset the text
-                    nDoctor.setText("");
-                }
-                if(!newQuery.equals("")){
-                    FirebaseUser user = mAuth.getCurrentUser();
-                    String userID = user.getUid();
-                    myRef.child("User").child(userID).child("query").setValue(newQuery);
-                    toastMessage("Adding " + newDoctor + " to database...");
-                    //reset the text
-                    nQuery.setText("");
-                }
+
+
 
             }
         });
@@ -182,15 +143,52 @@ public class AddDetails extends AppCompatActivity {
         }
     }
     //add a toast to show when successfully signed in
+
     /**
      * customizable toast
+     *
      * @param message
      */
-    private void toastMessage(String message){
-        Toast.makeText(this,message,Toast.LENGTH_SHORT).show();
+    private void toastMessage(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    boolean textBoxesNotEmpty() {
+        String newName = nNewName.getText().toString();
+        String newPhone = nPhone.getText().toString();
+        String newWeight = nWeight.getText().toString();
+        String newHeight = nHeight.getText().toString();
+        String newDoctor = nDoctor.getText().toString();
+        return !newName.equals("") && !newPhone.equals("") && !newWeight.equals("") && !newHeight.equals("") && !newDoctor.equals("");
     }
 
 
+    //creates the user object from the user input
+    UserInformation createUser() {
+        Log.d(TAG, "onClick: Attempting to add object to database.");
+        String newName = nNewName.getText().toString();
+        String newPhone = nPhone.getText().toString();
+        String newWeight = nWeight.getText().toString();
+        String newHeight = nHeight.getText().toString();
+        String newDoctor = nDoctor.getText().toString();
+
+
+        UserInformation userInfo = new UserInformation(newName, newPhone, newWeight, newHeight, newDoctor);
+
+        return userInfo;
+
+    }
+
+    void clearTextBoxes()
+    {
+        nNewName.setText("");
+        nPhone.setText("");
+        nWeight.setText("");
+        nHeight.setText("");
+        nDoctor.setText("");
+
+
+    }
 
 
 
