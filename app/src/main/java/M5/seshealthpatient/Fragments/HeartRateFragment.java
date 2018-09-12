@@ -245,7 +245,7 @@ public class HeartRateFragment extends Fragment {
                 }
                 int beatsAvg = (beatsArrayAvg / beatsArrayCnt);
                 c = beatsAvg;
-                text.setText("Heart rate:" + String.valueOf(beatsAvg));
+                text.setText(String.valueOf(beatsAvg));
                 skr = String.valueOf(c);
                 startTime = System.currentTimeMillis();
                 beats = 0;

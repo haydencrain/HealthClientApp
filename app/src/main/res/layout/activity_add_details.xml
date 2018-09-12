@@ -1,83 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:background="@drawable/gradient"
     tools:context=".Activities.AddDetails">
 
-    <EditText
-        android:hint="Enter your name"
 
-        android:layout_marginTop="20dp"
-        android:textAlignment="center"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:id="@+id/add_name"/>
-
-    <EditText
-        android:hint="Phone Number"
-
-        android:layout_marginTop="20dp"
-        android:textAlignment="center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:id="@+id/add_phone"/>
-
-    <EditText
-        android:hint="Add Weight"
-
-        android:layout_marginTop="20dp"
-        android:textAlignment="center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:id="@+id/add_weight"/>
-
-    <EditText
-        android:hint="Add Height"
-
-        android:layout_marginTop="20dp"
-        android:textAlignment="center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:id="@+id/add_height"/>
-
-    <EditText
-        android:hint="Doctor ID"
-
-        android:layout_marginTop="20dp"
-        android:textAlignment="center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:id="@+id/doctor_id"/>
-
-    <EditText
-        android:hint="Amount of queries sent"
-
-        android:layout_marginTop="20dp"
-        android:textAlignment="center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:id="@+id/query_sent"/>
-
-    <Button
-        android:text="Update personal information"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/btnAddNewName"/>
+        style="@style/Container"
+        android:orientation="vertical"
+        android:layout_centerVertical="true">
 
 
-</LinearLayout>
+            <EditText
+                android:hint="Enter your name"
+                android:layout_marginTop="20dp"
+                android:textAlignment="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:ems="10"
+                android:id="@+id/add_name"/>
+
+            <EditText
+                android:hint="Phone Number"
+                android:layout_below="@id/add_name"
+                android:layout_marginTop="20dp"
+                android:textAlignment="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:ems="10"
+                android:id="@+id/add_phone"/>
+
+            <EditText
+                android:hint="Add Weight"
+                android:layout_below="@id/add_phone"
+                android:layout_marginTop="20dp"
+                android:textAlignment="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:ems="10"
+                android:id="@+id/add_weight"/>
+
+            <EditText
+                android:hint="Add Height"
+                android:layout_below="@id/add_weight"
+                android:layout_marginTop="20dp"
+                android:textAlignment="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:ems="10"
+                android:id="@+id/add_height"/>
+
+            <EditText
+                android:hint="Doctor ID"
+                android:layout_below="@id/add_height"
+                android:layout_marginTop="20dp"
+                android:textAlignment="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:ems="10"
+                android:id="@+id/doctor_id"/>
+
+            <Button
+                style="@style/ButtonPrimary"
+                android:layout_marginTop="40dp"
+                android:layout_below="@id/doctor_id"
+                android:text="Update personal information"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/btnAddNewName"/>
+
+    </LinearLayout>
+
+
+</RelativeLayout>

@@ -1,33 +1,46 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context="M5.seshealthpatient.Fragments.RecordVideoFragment">
 
 
     <SurfaceView
         android:id="@+id/preview"
-        android:layout_width="200dp"
-        android:layout_height="200dp" />
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
-    <Button
-        android:id="@+id/btnHR"
-        android:layout_width="100dp"
+    <LinearLayout
+        style="@style/Container"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Record" />
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical"
+        android:layout_marginBottom="20dp">
 
-    <TextView
-        android:id="@+id/text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="Heart rate"></TextView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Please cover the camera with your fingers and wait for ten seconds"></TextView>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="Please cover the camera with your fingers and wait for ten seconds"></TextView>
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/text"
+            android:textSize="25dp"
+            android:layout_margin="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text=""></TextView>
+
+        <Button
+            style="@style/ButtonPrimary"
+            android:id="@+id/btnHR"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="Record" />
+
+    </LinearLayout>
+
+</RelativeLayout>
