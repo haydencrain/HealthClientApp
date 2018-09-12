@@ -16,6 +16,16 @@
         android:layout_marginTop="20dp"
         android:layout_centerVertical="true">
 
+        <TextView
+            android:id="@+id/loginTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:text="New Account"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="20dp"
+            android:layout_centerHorizontal="true"/>
+
 
             <EditText
                 android:id="@+id/email_field"

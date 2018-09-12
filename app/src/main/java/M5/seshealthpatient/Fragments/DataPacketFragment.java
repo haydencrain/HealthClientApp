@@ -60,6 +60,12 @@ public class DataPacketFragment extends Fragment {
         // Required empty public constructor
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        getActivity().setTitle("Create New Data Packet");
+    }
+
 
     @Nullable
     @Override

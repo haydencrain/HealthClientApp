@@ -11,6 +11,7 @@ import android.Manifest;
 import android.support.annotation.NonNull;
 import android.app.Fragment;
 import android.app.AlertDialog;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -69,6 +70,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     public MapFragment() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        getActivity().setTitle("Facilities Map");
     }
 
 
