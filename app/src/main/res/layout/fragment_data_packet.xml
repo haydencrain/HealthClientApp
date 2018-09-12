@@ -8,25 +8,50 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        
+
+       <RelativeLayout
+           android:layout_width="match_parent"
+           android:layout_height="100dp"
+           android:id="@+id/textContainer">
+
+           <TextView
+               android:id="@+id/textLabel"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:layout_alignParentStart="true"
+               android:text="Enter Text Query" />
+
+
+           <EditText
+               android:id="@+id/queryBox"
+               android:inputType="text|textMultiLine"
+               android:minLines="6"
+               android:layout_below="@id/textLabel"
+               android:layout_height="fill_parent"
+               android:layout_width="match_parent"
+               android:scrollbars="vertical" />
+
+       </RelativeLayout>
+
         <RelativeLayout
             android:id="@+id/heartRateContainer"
             android:layout_width="match_parent"
-            android:layout_height="50dp">
+            android:layout_height="50dp"
+            android:layout_below="@id/textContainer">
 
             <Button
                 android:id="@+id/btnSHR"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="HeartRate" />
+                android:text="Get Heart Rate" />
 
             <TextView
-                android:id="@+id/fm01tvid"
+                android:id="@+id/tvHeartRate"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:textSize="20sp"
                 android:layout_toRightOf="@+id/btnSHR"
-                android:gravity="center" />
+                android:gravity="center"
+                android:textSize="20sp" />
 
         </RelativeLayout>
 
@@ -46,13 +71,21 @@
                 android:id="@+id/txtLocation"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:textSize="20sp"
+                android:layout_toRightOf="@+id/btnLocation"
                 android:gravity="center"
-                android:layout_toRightOf="@+id/btnLocation" />
+                android:textSize="20sp" />
 
         </RelativeLayout>
 
-
+        <Button
+            android:id="@+id/btnSendQ"
+            android:layout_below="@id/locationContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:background="@color/btnPrimary"
+            android:text="Send Query" />
 
     </RelativeLayout>
 

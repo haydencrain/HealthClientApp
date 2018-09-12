@@ -1,13 +1,12 @@
 package M5.seshealthpatient.Fragments;
 
 
+import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -17,13 +16,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
+import M5.seshealthpatient.Models.DataPacket;
 import M5.seshealthpatient.Models.LocationDefaults;
 import M5.seshealthpatient.R;
 
@@ -32,22 +38,23 @@ import M5.seshealthpatient.R;
  */
 public class DataPacketFragment extends Fragment {
 
-
     private FragmentManager manager;
     private FragmentTransaction ft;
-
-
     private boolean mLocationPermissionGranted;
     private FusedLocationProviderClient mFusedLocationProviderClient;
 
-    // heart rate stuff
-    private static Button btnHeartRate = null;
-    private static String heartRate;
 
-    // location
-    private static Button btnLocation;
+    // view components
+    private EditText queryTextBox;
+    private TextView tvHeartRate;
+    private Button btnHeartRate;
+    private Button btnLocation;
     private TextView txtLocation;
-    private Location mLastKnownLocation;
+    private Button btnSendPacket;
+
+    // data packet
+    DataPacket dataPacket;
+
 
     public DataPacketFragment() {
         // Required empty public constructor
@@ -56,16 +63,50 @@ public class DataPacketFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);// Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_data_packet, container, false);
-
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getActivity());
 
-        txtLocation = v.findViewById(R.id.txtLocation);
-        btnLocation = v.findViewById(R.id.btnLocation);
+        View view = inflater.inflate(R.layout.fragment_data_packet, container, false);
+        bindViewComponents(view);
+
+        dataPacket = new DataPacket();
+
+        Bundle arguments = getArguments();
+        if(arguments != null)
+        {
+            String heartRate = (String)arguments.get("str");
+            dataPacket.setHeartRate(heartRate);
+            tvHeartRate.setText(heartRate);
+        }
+
+        setEventListeners();
+        return view;
+    }
+
+    private void bindViewComponents(View view) {
+        queryTextBox = view.findViewById(R.id.queryBox);
+        txtLocation = view.findViewById(R.id.txtLocation);
+        btnLocation = view.findViewById(R.id.btnLocation);
+        btnHeartRate = view.findViewById(R.id.btnSHR);
+        tvHeartRate = view.findViewById(R.id.tvHeartRate);
+        btnSendPacket = view.findViewById(R.id.btnSendQ);
+    }
+
+    private void setEventListeners() {
+        btnHeartRate.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                manager = getFragmentManager();
+                HeartRateFragment myJDEditFragment = new HeartRateFragment();
+                ft = manager.beginTransaction();
+                ft.replace(R.id.fragment_container, myJDEditFragment);
+                ft.addToBackStack(null);
+                ft.commit();
+            }
+
+        } );
+
         btnLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -74,43 +115,22 @@ public class DataPacketFragment extends Fragment {
             }
         });
 
-        btnHeartRate = v.findViewById( R.id.btnSHR );
+        btnSendPacket.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                String uid = user.getUid();
+                //getting the db directory for the currently logged in user using their id
+                DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference("Users/" + uid);
 
-        btnHeartRate.setOnClickListener( new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+                dataPacket.setQuery(queryTextBox.getText().toString());
 
-                manager = getFragmentManager();
-                HeartRateFragment myJDEditFragment = new HeartRateFragment();
-                ft = manager.beginTransaction();
-                ft.replace(R.id.fragment_container, myJDEditFragment);
-                ft.addToBackStack(null);
-                ft.commit();
-
+                String queryKey = dbRef.child("Queries").push().getKey();
+                dbRef.child("Queries").child(queryKey).setValue(dataPacket);
+                Toast.makeText(getActivity(), "Query Sent Successfully", Toast.LENGTH_LONG).show();
             }
-            
-        } );
 
 
-        TextView tvObj = (TextView)v.findViewById(R.id.fm01tvid);
-
-
-        Bundle arguments = getArguments();
-        if(arguments == null)
-        {
-            heartRate = "";
-            tvObj.setText( heartRate );
-        }
-        else {
-            String x = (String)getArguments().get( "str");
-            tvObj.setText( x );
-
-        }
-
-
-
-
-        return v;
+        });
     }
 
     private void setDeviceLocation() {
@@ -126,11 +146,9 @@ public class DataPacketFragment extends Fragment {
                     public void onComplete(@NonNull Task<Location> task) {
                     if (task.isSuccessful()) {
                         // Set the map's camera position to the current location of the device.
-                        mLastKnownLocation = task.getResult();
-                        txtLocation.setText(mLastKnownLocation.getLatitude() + ", " + mLastKnownLocation.getLongitude());
-
-                    } else {
-                        // can't set location
+                        Location location = task.getResult();
+                        dataPacket.setLocation(location);
+                        txtLocation.setText(String.format("%s, %s", location.getLatitude(), location.getLongitude()));
                     }
                     }
                 });
