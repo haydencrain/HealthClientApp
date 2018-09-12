@@ -113,10 +113,12 @@ public class AddDetails extends AppCompatActivity {
                     String userID = user.getUid();
 
                     UserInformation userInfo = createUser();
-                    clearTextBoxes();
 
-                    myRef.child("Users").child(userID).child("UserInformation").setValue(userInfo);
-                    toastMessage("Added user "+ nNewName.getText().toString() + " successfully");
+
+                    myRef.child("Users").child(userID).setValue(userInfo);
+                    toastMessage("Added "+ nNewName.getText().toString() + " successfully");
+
+                    clearTextBoxes();
 
                 }
 

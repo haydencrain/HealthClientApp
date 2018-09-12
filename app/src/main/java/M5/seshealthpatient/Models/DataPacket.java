@@ -44,13 +44,6 @@ public class DataPacket {
         this.location = location;
     }
 
-    public double getLongitude() {
-        return location.getLongitude();
-    }
-
-    public double getLatitude() {
-        return location.getLatitude();
-    }
 
     public String getQuery() {
         return query;
