@@ -43,10 +43,12 @@
         </activity>
         <activity android:name=".Activities.MainActivity"></activity>
         <activity android:name=".Activities.RegisterActivity"></activity>
+        <activity android:name=".Activities.AddDetails"></activity>
+        <activity android:name=".Activities.ViewInformation"></activity>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyD_B42Y4ui8UA_8dVpTpBOifT75YWjATQc"/>
+            android:value="@string/api_key"/>
 
     </application>
 
