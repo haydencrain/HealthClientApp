@@ -57,7 +57,6 @@ public class LoginActivity extends AppCompatActivity {
      */
     private static String TAG = "LoginActivity";
 
-    private Button signup;
     private FirebaseAuth auth;
 
 
@@ -68,24 +67,13 @@ public class LoginActivity extends AppCompatActivity {
         // You need this line on your activity so Butter Knife knows what Activity-View we are referencing
         ButterKnife.bind(this);
 
-        // A reference to the toolbar, that way we can modify it as we please
-        Toolbar toolbar = findViewById(R.id.login_toolbar);
-        setSupportActionBar(toolbar);
 
         // Please try to use more String resources (values -> strings.xml) vs hardcoded Strings.
         setTitle(R.string.login_activity_title);
 
-        signup = findViewById(R.id.register_btn);
-        signup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                registerPage();
-            }
-        });
         auth = FirebaseAuth.getInstance();
 
     }
-
 
     /**
      * See how Butter Knife also lets us add an on click event by adding this annotation before the
@@ -121,11 +109,8 @@ public class LoginActivity extends AppCompatActivity {
 
         // Start a new activity
 
-
-    public void registerPage(){
+    public void onRegisterClick(View view) {
         Intent intent = new Intent(this, RegisterActivity.class);
         startActivity(intent);
     }
-
-
 }
