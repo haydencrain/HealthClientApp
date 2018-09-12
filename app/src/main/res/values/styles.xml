@@ -8,10 +8,38 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="IconLogin">
+        <item name="android:layout_width">150dp</item>
+        <item name="android:layout_height">150dp</item>
+        <item name="android:background">@drawable/ic_local_hospital_24dp</item>
+    </style>
+
+    <style name="IconGradient">
+        <item name="android:layout_width">150dp</item>
+        <item name="android:layout_height">150dp</item>
+        <item name="android:background">@drawable/ic_local_hospital_24dp</item>
+    </style>
+
 
     <style name="LoginStyles" >
-        <item name="android:padding">5dp</item>
-        <item name="android:textSize">8pt</item>
+        <item name="android:textSize">@dimen/default_text_size</item>
+    </style>
+
+    <style name="Container">
+        <item name="android:background">@drawable/container</item>
+        <item name="android:padding">20dp</item>
+        <item name="android:layout_marginLeft">20dp</item>
+        <item name="android:layout_marginRight">20dp</item>
+        <item name="android:elevation">10dp</item>
+    </style>
+
+    <style name="ButtonPrimary" >
+        <item name="android:textSize">@dimen/default_text_size</item>
+        <item name="android:layout_marginBottom">10dp</item>
+        <item name="android:layout_width">250dp</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:background">@drawable/button</item>
+        <item name="android:textColor">@color/whiteColor</item>
     </style>
 
 </resources>
