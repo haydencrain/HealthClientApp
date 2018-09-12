@@ -4,15 +4,27 @@ package M5.seshealthpatient.Fragments;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+
+import M5.seshealthpatient.Models.LocationDefaults;
 import M5.seshealthpatient.R;
 
 /**
@@ -20,11 +32,23 @@ import M5.seshealthpatient.R;
  */
 public class DataPacketFragment extends Fragment {
 
-    private static Button btn = null;
+
     private FragmentManager manager;
     private FragmentTransaction ft;
 
-    private static String str;
+
+    private boolean mLocationPermissionGranted;
+    private FusedLocationProviderClient mFusedLocationProviderClient;
+
+    // heart rate stuff
+    private static Button btnHeartRate = null;
+    private static String heartRate;
+
+    // location
+    private static Button btnLocation;
+    private TextView txtLocation;
+    private Location mLastKnownLocation;
+
     public DataPacketFragment() {
         // Required empty public constructor
     }
@@ -38,10 +62,21 @@ public class DataPacketFragment extends Fragment {
         super.onCreate(savedInstanceState);// Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_data_packet, container, false);
 
-        btn = (Button) v.findViewById( R.id.btnSHR );
+        mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getActivity());
 
+        txtLocation = v.findViewById(R.id.txtLocation);
+        btnLocation = v.findViewById(R.id.btnLocation);
+        btnLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getLocationPermission();
+                setDeviceLocation();
+            }
+        });
 
-        btn.setOnClickListener( new View.OnClickListener() {
+        btnHeartRate = v.findViewById( R.id.btnSHR );
+
+        btnHeartRate.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -63,8 +98,8 @@ public class DataPacketFragment extends Fragment {
         Bundle arguments = getArguments();
         if(arguments == null)
         {
-            str = "Hello";
-            tvObj.setText( str );
+            heartRate = "";
+            tvObj.setText( heartRate );
         }
         else {
             String x = (String)getArguments().get( "str");
@@ -76,6 +111,64 @@ public class DataPacketFragment extends Fragment {
 
 
         return v;
+    }
+
+    private void setDeviceLocation() {
+        /*
+         * Get the best and most recent location of the device, which may be null in rare
+         * cases when a location is not available.
+         */
+        try {
+            if (mLocationPermissionGranted) {
+                Task<Location> locationResult = mFusedLocationProviderClient.getLastLocation();
+                locationResult.addOnCompleteListener(getActivity(), new OnCompleteListener<Location>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Location> task) {
+                    if (task.isSuccessful()) {
+                        // Set the map's camera position to the current location of the device.
+                        mLastKnownLocation = task.getResult();
+                        txtLocation.setText(mLastKnownLocation.getLatitude() + ", " + mLastKnownLocation.getLongitude());
+
+                    } else {
+                        // can't set location
+                    }
+                    }
+                });
+            }
+        } catch (SecurityException e)  {
+            Log.e("Exception: %s", e.getMessage());
+        }
+    }
+
+    private void getLocationPermission() {
+        /*
+         * Request location permission, so that we can get the location of the
+         * device. The result of the permission request is handled by a callback,
+         * onRequestPermissionsResult.
+         */
+        if (ContextCompat.checkSelfPermission(getActivity().getApplicationContext(),
+                android.Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            mLocationPermissionGranted = true;
+        } else {
+            ActivityCompat.requestPermissions(getActivity(),
+                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                    LocationDefaults.PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults ) {
+        switch (requestCode) {
+            case LocationDefaults.PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    mLocationPermissionGranted = true;
+                }
+            }
+        }
+        setDeviceLocation();
     }
 
 }
