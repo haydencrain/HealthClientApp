@@ -62,7 +62,6 @@ public class AddDetails extends AppCompatActivity {
         nWeight = (EditText) findViewById(R.id.add_weight);
         nHeight = (EditText) findViewById(R.id.add_height);
         nDoctor = (EditText) findViewById(R.id.doctor_id);
-        nQuery = (EditText)findViewById(R.id.query_sent);
 
 
         mAuth = FirebaseAuth.getInstance();

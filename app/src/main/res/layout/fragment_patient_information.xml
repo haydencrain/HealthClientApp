@@ -1,29 +1,57 @@
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:orientation="vertical"
     android:layout_height="match_parent"
-    tools:context="M5.seshealthpatient.Fragments.PatientInformationFragment">
+    android:orientation="vertical"
+    android:weightSum="100"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="M5.seshealthpatient.Activities.LoginActivity">
 
-    <!-- TODO: Update blank fragment layout -->
-
-    <Button
-        android:id="@+id/btnAD"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Add personal details" />
+        android:layout_height="0dp"
+        android:layout_weight="50">
 
-    <Button
-        android:id="@+id/btnView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="View my details" />
+        <LinearLayout
+            style="@style/IconGradient"
+            android:backgroundTint="@color/colorPrimary"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true" />
 
-    <Button
-        android:id="@+id/sign_out_button"
+    </RelativeLayout>
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Sign out" />
+        android:layout_height="0dp"
+        android:layout_weight="50" >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true">
+
+            <Button
+                android:id="@+id/btnAD"
+                style="@style/ButtonPrimary"
+                android:text="Add personal details" />
+
+            <Button
+                android:id="@+id/btnView"
+                style="@style/ButtonPrimary"
+                android:text="View my details" />
+
+            <Button
+                android:id="@+id/sign_out_button"
+                style="@style/ButtonPrimary"
+                android:text="Sign out" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
 
 
 </LinearLayout>
