@@ -41,10 +41,6 @@
             android:layout_gravity="center_horizontal"
             android:text="Record" />
 
-
-
-
-
     </LinearLayout>
 
 </RelativeLayout>
