@@ -2,6 +2,7 @@ package M5.seshealthpatient.Models;
 
 import android.location.Location;
 
+import java.util.Date;
 import java.util.LinkedList;
 
 public class DataPacket {
@@ -9,6 +10,7 @@ public class DataPacket {
     private String heartRate;
     private Location location;
     private LinkedList<String> files;
+    private Date sentDate;
 
     public DataPacket(String query, String heartRate, Location location) {
         this.heartRate = heartRate;
@@ -45,6 +47,7 @@ public class DataPacket {
     }
 
 
+
     public String getQuery() {
         return query;
     }
@@ -55,5 +58,13 @@ public class DataPacket {
 
     public LinkedList<String> getFiles() {
         return files;
+    }
+
+    public Date getSentDate() {
+        return sentDate;
+    }
+
+    public void setSentDate(Date sentDate) {
+        this.sentDate = sentDate;
     }
 }

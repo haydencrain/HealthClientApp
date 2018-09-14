@@ -29,6 +29,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.Date;
+
 import M5.seshealthpatient.Models.DataPacket;
 import M5.seshealthpatient.Models.LocationDefaults;
 import M5.seshealthpatient.R;
@@ -123,6 +125,10 @@ public class DataPacketFragment extends Fragment {
                 DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference("Users/" + uid);
 
                 dataPacket.setQuery(queryTextBox.getText().toString());
+                dataPacket.setSentDate(new Date());
+
+
+
 
                 String queryKey = dbRef.child("Queries").push().getKey();
                 dbRef.child("Queries").child(queryKey).setValue(dataPacket);
@@ -188,5 +194,7 @@ public class DataPacketFragment extends Fragment {
         }
         setDeviceLocation();
     }
+
+
 
 }
