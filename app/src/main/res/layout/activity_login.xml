@@ -1,82 +1,139 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    tools:context="M5.seshealthpatient.Activities.LoginActivity"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="M5.seshealthpatient.Activities.LoginActivity">
+    android:layout_height="match_parent">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/login_toolbar"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/whiteColor"
-        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-        app:titleTextColor="@color/whiteColor"
-        />
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@drawable/gradient"
+            android:gravity="center_horizontal">
+
+            <ImageView
+                style="@style/IconLogin"
+                android:layout_marginTop="25dp" />
+
+        </LinearLayout>
 
 
-    <TextView
-        android:id="@+id/usernameTV"
-        style="@style/LoginStyles"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center_horizontal">
+
+            <TextView
+                android:id="@+id/register_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/login_btn"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="240dp"
+                android:text="Sign Up"
+                android:textAllCaps="true"
+                android:onClick="onRegisterClick"
+                android:clickable="true"
+                />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_centerVertical="true"
-        android:labelFor="@+id/usernameET"
-        android:text="@string/username_txt" />
-
-    <EditText
-        android:id="@id/usernameET"
-        style="@style/LoginStyles"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_centerVertical="true"
-        android:layout_toEndOf="@id/usernameTV"
-        android:hint="@string/email_example_com"
-        android:inputType="textEmailAddress" />
-
-    <TextView
-        android:id="@+id/passwordTV"
-        style="@style/LoginStyles"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@id/usernameTV"
-        android:layout_marginTop="20dp"
-        android:labelFor="@+id/passwordET"
-        android:text="@string/password_txt" />
-
-    <EditText
-        android:id="@id/passwordET"
-        style="@style/LoginStyles"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_below="@id/usernameET"
-        android:layout_marginTop="20dp"
-        android:layout_toEndOf="@id/passwordTV"
-        android:inputType="textPassword" />
-
-    <Button
-        android:id="@+id/login_btn"
-        style="@style/LoginStyles"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/passwordTV"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="70dp"
-        android:text="@string/log_in_txt" />
+        android:layout_marginTop="450dp"
+        android:elevation="20dp">
 
-    <Button
-        android:id="@+id/register_btn"
-        style="@style/LoginStyles"
-        android:layout_width="wrap_content"
+        <Button
+            android:id="@+id/login_btn"
+            style="@style/ButtonPrimary"
+            android:layout_centerHorizontal="true"
+            android:text="@string/log_in_txt"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/login_btn"
-        android:layout_centerHorizontal="true"
-        android:text="Sign Up" />
+        style="@style/Container"
+        android:layout_marginTop="220dp">
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="30dp">
+
+
+
+            <TextView
+                android:id="@+id/loginTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20dp"
+                android:text="Login"
+                android:layout_marginBottom="20dp"
+                android:layout_centerHorizontal="true"/>
+
+
+            <TextView
+                android:id="@+id/usernameTV"
+                style="@style/LoginStyles"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:labelFor="@+id/usernameET"
+                android:layout_below="@+id/loginTV"
+                android:text="@string/username_txt" />
+
+            <EditText
+                android:id="@id/usernameET"
+                style="@style/LoginStyles"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_below="@id/usernameTV"
+                android:hint="@string/email_example_com"
+                android:inputType="textEmailAddress" />
+
+            <TextView
+                android:id="@+id/passwordTV"
+                style="@style/LoginStyles"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_below="@id/usernameET"
+                android:layout_marginTop="20dp"
+                android:labelFor="@+id/passwordET"
+                android:text="@string/password_txt" />
+
+            <EditText
+                android:id="@id/passwordET"
+                style="@style/LoginStyles"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@id/passwordTV"
+                android:inputType="textPassword" />
+
+
+
+
+
+        </RelativeLayout>
+
+    </LinearLayout>
 
 </RelativeLayout>
