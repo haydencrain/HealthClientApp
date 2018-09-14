@@ -3,90 +3,102 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/datapk"
-    tools:context="M5.seshealthpatient.Fragments.DataPacketFragment">
+    tools:context="M5.seshealthpatient.Fragments.DataPacketFragment"
+    android:background="@color/whiteColor">
 
-    <RelativeLayout
+    <LinearLayout
+        style="@style/Container"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-       <RelativeLayout
-           android:layout_width="match_parent"
-           android:layout_height="100dp"
-           android:id="@+id/textContainer">
-
-           <TextView
-               android:id="@+id/textLabel"
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:layout_alignParentStart="true"
-               android:text="Enter Text Query" />
-
-
-           <EditText
-               android:id="@+id/queryBox"
-               android:inputType="text|textMultiLine"
-               android:minLines="6"
-               android:layout_below="@id/textLabel"
-               android:layout_height="fill_parent"
-               android:layout_width="match_parent"
-               android:scrollbars="vertical" />
-
-       </RelativeLayout>
-
         <RelativeLayout
-            android:id="@+id/heartRateContainer"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_below="@id/textContainer">
+            android:layout_height="match_parent">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginBottom="20dp"
+                android:id="@+id/textContainer">
+
+
+                <TextView
+                    android:id="@+id/textLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Enter Text Query" />
+
+
+                <EditText
+                    android:id="@+id/queryBox"
+                    android:inputType="text|textMultiLine"
+                    android:minLines="6"
+                    android:layout_below="@id/textLabel"
+                    android:layout_height="fill_parent"
+                    android:layout_width="match_parent"
+                    android:scrollbars="vertical" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/heartRateContainer"
+                android:layout_width="match_parent"
+                android:layout_marginBottom="20dp"
+                android:layout_height="50dp"
+                android:layout_below="@id/textContainer">
+
+                <Button
+                    style="@style/ButtonSecondary"
+                    android:layout_width="150dp"
+                    android:layout_height="match_parent"
+                    android:id="@+id/btnSHR"
+                    android:text="Get Heart Rate" />
+
+                <TextView
+                    android:id="@+id/tvHeartRate"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_toRightOf="@+id/btnSHR"
+                    android:gravity="center"
+                    android:textSize="18dp"
+                    android:text=""/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/locationContainer"
+                android:layout_width="match_parent"
+                android:layout_marginBottom="20dp"
+                android:layout_height="50dp"
+                android:layout_below="@+id/heartRateContainer">
+
+                <Button
+                    android:id="@+id/btnLocation"
+                    style="@style/ButtonSecondary"
+                    android:layout_width="150dp"
+                    android:text="Get Location" />
+
+                <TextView
+                    android:id="@+id/txtLocation"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_toRightOf="@+id/btnLocation"
+                    android:gravity="center"
+                    android:textSize="20sp" />
+
+            </RelativeLayout>
 
             <Button
-                android:id="@+id/btnSHR"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="Get Heart Rate" />
-
-            <TextView
-                android:id="@+id/tvHeartRate"
+                style="@style/ButtonPrimary"
+                android:id="@+id/btnSendQ"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_toRightOf="@+id/btnSHR"
-                android:gravity="center"
-                android:textSize="20sp" />
+                android:layout_alignParentBottom="true"
+                android:text="Send Packet" />
 
         </RelativeLayout>
 
-        <RelativeLayout
-            android:id="@+id/locationContainer"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_below="@+id/heartRateContainer">
-
-            <Button
-                android:id="@+id/btnLocation"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="Get Location" />
-
-            <TextView
-                android:id="@+id/txtLocation"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_toRightOf="@+id/btnLocation"
-                android:gravity="center"
-                android:textSize="20sp" />
-
-        </RelativeLayout>
-
-        <Button
-            android:id="@+id/btnSendQ"
-            android:layout_below="@id/locationContainer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:background="@color/btnPrimary"
-            android:text="Send Query" />
-
-    </RelativeLayout>
+    </LinearLayout>
 
 </FrameLayout>

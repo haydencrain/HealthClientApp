@@ -3,20 +3,21 @@ package M5.seshealthpatient.Models;
 import android.location.Location;
 
 import java.util.Date;
+import java.io.Serializable;
 import java.util.LinkedList;
 
-public class DataPacket {
+public class DataPacket implements Serializable {
     private String query;
     private String heartRate;
     private Location location;
     private LinkedList<String> files;
     private Date sentDate;
 
-    public DataPacket(String query, String heartRate, Location location) {
+    public DataPacket(String query, String heartRate, Location location, LinkedList<String> files) {
         this.heartRate = heartRate;
         this.query = query;
         this.location = location;
-        this.files = new LinkedList<>();
+        this.files = files;
     }
 
     public DataPacket() {

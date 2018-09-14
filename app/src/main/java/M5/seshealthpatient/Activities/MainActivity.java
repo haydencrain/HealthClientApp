@@ -24,6 +24,7 @@ import M5.seshealthpatient.Fragments.MapFragment;
 import M5.seshealthpatient.Fragments.PatientInformationFragment;
 import M5.seshealthpatient.Fragments.RecordVideoFragment;
 import M5.seshealthpatient.Fragments.SendFileFragment;
+import M5.seshealthpatient.Fragments.ViewDataPacketsFragment;
 import M5.seshealthpatient.R;
 
 
@@ -72,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
      * what I mean with this later in this code.
      */
     private enum MenuStates {
-        PATIENT_INFO, DATA_PACKET, HEARTRATE, RECORD_VIDEO, SEND_FILE, NAVIGATION_MAP
+        PATIENT_INFO, DATA_PACKET, NAVIGATION_MAP, VIEW_DATA_PACKETS
     }
 
     /**
@@ -128,6 +129,12 @@ public class MainActivity extends AppCompatActivity {
                                 if (currentState != MenuStates.DATA_PACKET) {
                                     ChangeFragment(new DataPacketFragment());
                                     currentState = MenuStates.DATA_PACKET;
+                                }
+                                break;
+                            case R.id.nav_view_data_packets:
+                                if (currentState != MenuStates.VIEW_DATA_PACKETS) {
+                                    ChangeFragment(new ViewDataPacketsFragment());
+                                    currentState = MenuStates.VIEW_DATA_PACKETS;
                                 }
                                 break;
                             case R.id.nav_map:

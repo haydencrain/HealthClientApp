@@ -40,6 +40,7 @@
                 android:text="Sign Up"
                 android:textAllCaps="true"
                 android:onClick="onRegisterClick"
+                android:background="@color/whiteColor"
                 android:clickable="true"
                 />
 
