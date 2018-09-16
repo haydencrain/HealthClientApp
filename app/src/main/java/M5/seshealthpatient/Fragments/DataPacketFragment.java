@@ -29,6 +29,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.LinkedList;
+
 import M5.seshealthpatient.Models.DataPacket;
 import M5.seshealthpatient.Models.LocationDefaults;
 import M5.seshealthpatient.R;
@@ -51,9 +53,12 @@ public class DataPacketFragment extends Fragment {
     private Button btnLocation;
     private TextView txtLocation;
     private Button btnSendPacket;
+    private Button btnRecord;
 
     // data packet
     DataPacket dataPacket;
+
+    private LinkedList<String> files;
 
 
     public DataPacketFragment() {
@@ -97,6 +102,7 @@ public class DataPacketFragment extends Fragment {
         btnHeartRate = view.findViewById(R.id.btnSHR);
         tvHeartRate = view.findViewById(R.id.tvHeartRate);
         btnSendPacket = view.findViewById(R.id.btnSendQ);
+        btnRecord = view.findViewById( R.id.btnRecord );
     }
 
     private void setEventListeners() {
@@ -111,6 +117,18 @@ public class DataPacketFragment extends Fragment {
                 ft.commit();
             }
 
+        } );
+
+        btnRecord.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                manager = getFragmentManager();
+                RecordVideoFragment myJDEditFragment = new RecordVideoFragment();
+                ft = manager.beginTransaction();
+                ft.replace(R.id.fragment_container, myJDEditFragment);
+                ft.addToBackStack(null);
+                ft.commit();
+            }
         } );
 
         btnLocation.setOnClickListener(new View.OnClickListener() {

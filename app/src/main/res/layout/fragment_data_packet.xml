@@ -90,6 +90,22 @@
 
             </RelativeLayout>
 
+            <RelativeLayout
+                android:id="@+id/VideoContainer"
+                android:layout_width="match_parent"
+                android:layout_marginBottom="20dp"
+                android:layout_height="50dp"
+                android:layout_below="@+id/locationContainer">
+
+                <Button
+                    android:id="@+id/btnRecord"
+                    style="@style/ButtonSecondary"
+                    android:layout_width="150dp"
+                    android:text="Record Video" />
+
+
+            </RelativeLayout>
+
             <Button
                 style="@style/ButtonPrimary"
                 android:id="@+id/btnSendQ"

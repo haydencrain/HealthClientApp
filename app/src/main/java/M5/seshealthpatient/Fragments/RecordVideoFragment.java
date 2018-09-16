@@ -1,5 +1,7 @@
 package M5.seshealthpatient.Fragments;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -20,7 +22,10 @@ import M5.seshealthpatient.R;
  * A simple {@link Fragment} subclass.
  */
 public class RecordVideoFragment extends Fragment {
+    private FragmentManager manager;
+    private FragmentTransaction ft;
     private Button mRecordViedo;
+    private Button mReturn;
     private int VIDEO_REQUEST_CODE = 1001;
     public RecordVideoFragment() {
         // Required empty public constructor
@@ -39,6 +44,20 @@ public class RecordVideoFragment extends Fragment {
                 recordVideo(v);
             }
         } );
+
+        mReturn = (Button) v.findViewById( R.id.videoReturn );
+        mReturn.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                manager = getFragmentManager();
+                DataPacketFragment myJDEditFragment = new DataPacketFragment();
+                ft = manager.beginTransaction();
+                ft.replace(R.id.fragment_container, myJDEditFragment);
+                ft.addToBackStack(null);
+                ft.commit();
+            }
+        } );
+
         return v;
     }
 
@@ -46,7 +65,7 @@ public class RecordVideoFragment extends Fragment {
         Intent camera_intent = new Intent( MediaStore.ACTION_VIDEO_CAPTURE);
         File video_file = getFilepath();
         //Uri video_uri = Uri.fromFile(video_file);
-        Uri video_uri = FileProvider.getUriForFile(getActivity(), "yourteamnumber.seshealthpatient.provider", getFilepath());
+        Uri video_uri = FileProvider.getUriForFile(getActivity(), "M5.seshealthpatient.provider", getFilepath());
         camera_intent.putExtra(MediaStore.EXTRA_OUTPUT, video_uri);
         camera_intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
         startActivityForResult(camera_intent, VIDEO_REQUEST_CODE);

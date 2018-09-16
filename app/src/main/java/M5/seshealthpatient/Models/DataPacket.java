@@ -57,4 +57,6 @@ public class DataPacket implements Serializable {
     public LinkedList<String> getFiles() {
         return files;
     }
+
+
 }
