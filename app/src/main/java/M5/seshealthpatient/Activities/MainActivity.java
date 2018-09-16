@@ -19,11 +19,8 @@ import android.view.View;
 
 
 import M5.seshealthpatient.Fragments.DataPacketFragment;
-import M5.seshealthpatient.Fragments.HeartRateFragment;
 import M5.seshealthpatient.Fragments.MapFragment;
 import M5.seshealthpatient.Fragments.PatientInformationFragment;
-import M5.seshealthpatient.Fragments.RecordVideoFragment;
-import M5.seshealthpatient.Fragments.SendFileFragment;
 import M5.seshealthpatient.Fragments.ViewDataPacketsFragment;
 import M5.seshealthpatient.R;
 

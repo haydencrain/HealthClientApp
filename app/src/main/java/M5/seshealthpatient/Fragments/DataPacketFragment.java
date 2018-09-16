@@ -4,13 +4,17 @@ package M5.seshealthpatient.Fragments;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +33,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.io.File;
 import java.util.LinkedList;
 
 import M5.seshealthpatient.Models.DataPacket;
@@ -54,6 +59,7 @@ public class DataPacketFragment extends Fragment {
     private TextView txtLocation;
     private Button btnSendPacket;
     private Button btnRecord;
+    private int VIDEO_REQUEST_CODE = 1001;
 
     // data packet
     DataPacket dataPacket;
@@ -122,12 +128,7 @@ public class DataPacketFragment extends Fragment {
         btnRecord.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                manager = getFragmentManager();
-                RecordVideoFragment myJDEditFragment = new RecordVideoFragment();
-                ft = manager.beginTransaction();
-                ft.replace(R.id.fragment_container, myJDEditFragment);
-                ft.addToBackStack(null);
-                ft.commit();
+                recordVideo(v);
             }
         } );
 
@@ -155,6 +156,42 @@ public class DataPacketFragment extends Fragment {
 
 
         });
+    }
+
+    public void recordVideo(View view) {
+        Intent camera_intent = new Intent( MediaStore.ACTION_VIDEO_CAPTURE);
+        File video_file = getFilepath();
+        //Uri video_uri = Uri.fromFile(video_file);
+        Uri video_uri = FileProvider.getUriForFile(getActivity(), "M5.seshealthpatient.provider", getFilepath());
+        camera_intent.putExtra(MediaStore.EXTRA_OUTPUT, video_uri);
+        camera_intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
+        startActivityForResult(camera_intent, VIDEO_REQUEST_CODE);
+    }
+
+    public File getFilepath() {
+        //create a folder to store the video
+        File folder = new File("sdcard/video_app");
+        //check fold if exists
+        if (folder.exists()) {
+            folder.mkdir();
+        }
+        File video_file = new File(folder, "sample_video.mp4");
+        return video_file;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == VIDEO_REQUEST_CODE) {
+            if (resultCode == getActivity().RESULT_OK) {
+                Toast.makeText(getActivity(),
+                        "Video Successfully Recorded",
+                        Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getActivity(),
+                        "Video recorded failed",
+                        Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     private void setDeviceLocation() {
