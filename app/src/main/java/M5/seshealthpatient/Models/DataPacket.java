@@ -1,6 +1,7 @@
 package M5.seshealthpatient.Models;
 
 import android.location.Location;
+import android.net.Uri;
 
 import java.util.Date;
 import java.io.Serializable;
@@ -12,12 +13,16 @@ public class DataPacket implements Serializable {
     private Location location;
     private LinkedList<String> files;
     private Date sentDate;
+    private String note;
+    private Uri photoFilePath;
 
-    public DataPacket(String query, String heartRate, Location location, LinkedList<String> files) {
+    public DataPacket(String query, String heartRate, Location location, LinkedList<String> files, String note, Uri photoFilePath) {
         this.heartRate = heartRate;
         this.query = query;
         this.location = location;
         this.files = files;
+        this.note = note;
+        this.photoFilePath = photoFilePath;
     }
 
     public DataPacket() {
@@ -25,6 +30,8 @@ public class DataPacket implements Serializable {
         this.query = null;
         this.heartRate = null;
         this.files = new LinkedList<>();
+        this.note = null;
+        this.photoFilePath = null;
     }
 
     public void addFile(String file) {
@@ -68,4 +75,12 @@ public class DataPacket implements Serializable {
     public void setSentDate(Date sentDate) {
         this.sentDate = sentDate;
     }
+
+    public String getNote() { return note; }
+
+    public void setNote(String note) { this.note = note; }
+
+    public Uri getPhotoFilePath() { return photoFilePath; }
+
+    public void setPhotoFilePath(Uri photoFilePath) { this.photoFilePath = photoFilePath; }
 }

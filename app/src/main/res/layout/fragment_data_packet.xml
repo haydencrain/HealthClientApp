@@ -90,6 +90,50 @@
 
             </RelativeLayout>
 
+            <RelativeLayout
+                android:id="@+id/noteContainer"
+                android:layout_width="match_parent"
+                android:layout_marginBottom="20dp"
+                android:layout_height="50dp"
+                android:layout_below="@+id/locationContainer">
+
+                <Button
+                    android:id="@+id/btnNote"
+                    style="@style/ButtonSecondary"
+                    android:layout_width="150dp"
+                    android:text="Add a note" />
+
+                <TextView
+                    android:id="@+id/txtNote"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_toRightOf="@+id/btnNote"
+                    android:gravity="center"
+                    android:textSize="20sp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/pictureContainer"
+                android:layout_width="match_parent"
+                android:layout_marginBottom="20dp"
+                android:layout_height="50dp"
+                android:layout_below="@+id/locationContainer">
+
+                <Button
+                    android:id="@+id/btnPicture"
+                    style="@style/ButtonSecondary"
+                    android:layout_width="150dp"
+                    android:text="Pick an image" />
+
+                <ImageView
+                    android:id="@+id/imgPicture"
+                    android:layout_toRightOf="@+id/btnPicture"
+                    android:gravity="center"
+                    android:textSize="20sp" />
+
+            </RelativeLayout>
+
             <Button
                 style="@style/ButtonPrimary"
                 android:id="@+id/btnSendQ"
