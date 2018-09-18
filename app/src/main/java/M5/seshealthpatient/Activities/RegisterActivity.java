@@ -1,9 +1,9 @@
 package M5.seshealthpatient.Activities;
 
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -12,10 +12,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 import M5.seshealthpatient.R;
 
@@ -47,7 +43,12 @@ public class RegisterActivity extends AppCompatActivity {
         }
         else if(!password.equals(confirmPassword))
         {
-            Toast.makeText(getApplicationContext(), "Password does not match!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Passwords do not match!", Toast.LENGTH_SHORT).show();
+        }
+
+        else if(password.length()<6)
+        {
+            Toast.makeText(getApplicationContext(), "Password less than 6 characters!", Toast.LENGTH_SHORT).show();
         }
         else
         {
@@ -57,6 +58,8 @@ public class RegisterActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if(task.isSuccessful()){
                                 Toast.makeText(getApplicationContext(),"Patient is registered", Toast.LENGTH_SHORT).show();
+                                Intent in = new Intent(RegisterActivity.this, LoginActivity.class);
+                                startActivity(in);
                         }
                         else{
                                 Toast.makeText(getApplicationContext(),"Patient cannot be registered", Toast.LENGTH_SHORT).show();
