@@ -4,17 +4,13 @@ package M5.seshealthpatient.Fragments;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.content.FileProvider;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,8 +29,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.io.File;
-import java.util.LinkedList;
+import java.util.Date;
 
 import M5.seshealthpatient.Models.DataPacket;
 import M5.seshealthpatient.Models.LocationDefaults;
@@ -58,13 +53,9 @@ public class DataPacketFragment extends Fragment {
     private Button btnLocation;
     private TextView txtLocation;
     private Button btnSendPacket;
-    private Button btnRecord;
-    private int VIDEO_REQUEST_CODE = 1001;
 
     // data packet
     DataPacket dataPacket;
-
-    private LinkedList<String> files;
 
 
     public DataPacketFragment() {
@@ -108,7 +99,6 @@ public class DataPacketFragment extends Fragment {
         btnHeartRate = view.findViewById(R.id.btnSHR);
         tvHeartRate = view.findViewById(R.id.tvHeartRate);
         btnSendPacket = view.findViewById(R.id.btnSendQ);
-        btnRecord = view.findViewById( R.id.btnRecord );
     }
 
     private void setEventListeners() {
@@ -123,13 +113,6 @@ public class DataPacketFragment extends Fragment {
                 ft.commit();
             }
 
-        } );
-
-        btnRecord.setOnClickListener( new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                recordVideo(v);
-            }
         } );
 
         btnLocation.setOnClickListener(new View.OnClickListener() {
@@ -148,6 +131,10 @@ public class DataPacketFragment extends Fragment {
                 DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference("Users/" + uid);
 
                 dataPacket.setQuery(queryTextBox.getText().toString());
+                dataPacket.setSentDate(new Date());
+
+
+
 
                 String queryKey = dbRef.child("Queries").push().getKey();
                 dbRef.child("Queries").child(queryKey).setValue(dataPacket);
@@ -156,42 +143,6 @@ public class DataPacketFragment extends Fragment {
 
 
         });
-    }
-
-    public void recordVideo(View view) {
-        Intent camera_intent = new Intent( MediaStore.ACTION_VIDEO_CAPTURE);
-        File video_file = getFilepath();
-        //Uri video_uri = Uri.fromFile(video_file);
-        Uri video_uri = FileProvider.getUriForFile(getActivity(), "M5.seshealthpatient.provider", getFilepath());
-        camera_intent.putExtra(MediaStore.EXTRA_OUTPUT, video_uri);
-        camera_intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
-        startActivityForResult(camera_intent, VIDEO_REQUEST_CODE);
-    }
-
-    public File getFilepath() {
-        //create a folder to store the video
-        File folder = new File("sdcard/video_app");
-        //check fold if exists
-        if (folder.exists()) {
-            folder.mkdir();
-        }
-        File video_file = new File(folder, "sample_video.mp4");
-        return video_file;
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == VIDEO_REQUEST_CODE) {
-            if (resultCode == getActivity().RESULT_OK) {
-                Toast.makeText(getActivity(),
-                        "Video Successfully Recorded",
-                        Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(getActivity(),
-                        "Video recorded failed",
-                        Toast.LENGTH_SHORT).show();
-            }
-        }
     }
 
     private void setDeviceLocation() {
@@ -249,5 +200,7 @@ public class DataPacketFragment extends Fragment {
         }
         setDeviceLocation();
     }
+
+
 
 }
