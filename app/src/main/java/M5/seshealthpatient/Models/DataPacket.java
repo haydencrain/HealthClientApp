@@ -48,7 +48,6 @@ public class DataPacket implements Serializable {
     }
 
 
-
     public String getQuery() {
         return query;
     }
@@ -60,12 +59,15 @@ public class DataPacket implements Serializable {
     public LinkedList<String> getFiles() {
         return files;
     }
-
-    public Date getSentDate() {
+    
+        public Date getSentDate() {
         return sentDate;
     }
 
     public void setSentDate(Date sentDate) {
         this.sentDate = sentDate;
     }
+
+
+
 }
