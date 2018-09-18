@@ -43,7 +43,12 @@ public class RegisterActivity extends AppCompatActivity {
         }
         else if(!password.equals(confirmPassword))
         {
-            Toast.makeText(getApplicationContext(), "Password does not match!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Passwords do not match!", Toast.LENGTH_SHORT).show();
+        }
+
+        else if(password.length()<6)
+        {
+            Toast.makeText(getApplicationContext(), "Password less than 6 characters!", Toast.LENGTH_SHORT).show();
         }
         else
         {
