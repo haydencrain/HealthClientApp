@@ -2,26 +2,19 @@ package M5.seshealthpatient.Fragments;
 
 import M5.seshealthpatient.Models.LocationDefaults;
 import M5.seshealthpatient.Models.PlaceResult;
-import M5.seshealthpatient.Services.Singleton;
+import M5.seshealthpatient.Services.RequestQueueSingleton;
 import android.content.pm.PackageManager;
-import android.location.Criteria;
-import android.location.LocationListener;
 import android.os.Bundle;
-import android.Manifest;
 import android.support.annotation.NonNull;
 import android.app.Fragment;
-import android.app.AlertDialog;
 import android.support.annotation.Nullable;
 import android.util.Log;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.location.Location;
-import android.location.LocationManager;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -32,8 +25,6 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.places.GeoDataClient;
 import com.google.android.gms.location.places.PlaceDetectionClient;
 import com.google.android.gms.location.places.Places;
-import com.google.android.gms.location.places.Place;
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -46,8 +37,6 @@ import com.google.android.gms.tasks.Task;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.List;
 
 import M5.seshealthpatient.R;
 
@@ -111,7 +100,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         String url = getUrl(lat, lng, "hospital");
         Log.d("getUrl", url);
 
-        Singleton.getInstance(getActivity()).addToRequestQueue(new JsonObjectRequest(Request.Method.GET, url, null,  new Response.Listener<JSONObject>() {
+        RequestQueueSingleton.getInstance(getActivity()).addToRequestQueue(new JsonObjectRequest(Request.Method.GET, url, null,  new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 Log.d("googlePlacesResponse", response.toString());

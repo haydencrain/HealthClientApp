@@ -1,4 +1,4 @@
-package M5.seshealthpatient.Fragments;
+package M5.seshealthpatient.Utils;
 
 public abstract class ImageProcessing {
 
