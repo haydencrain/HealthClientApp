@@ -12,13 +12,17 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
 
+import M5.seshealthpatient.Models.DoctorUser;
+import M5.seshealthpatient.Models.PatientUser;
 import M5.seshealthpatient.R;
 
 public class RegisterActivity extends AppCompatActivity {
     EditText emailTxt, passTxt,confirmTxt;
 
     FirebaseAuth auth;
+    FirebaseDatabase db;
 
 
     @Override
@@ -28,7 +32,7 @@ public class RegisterActivity extends AppCompatActivity {
         emailTxt = (EditText)findViewById(R.id.email_field);
         passTxt = (EditText)findViewById(R.id.password_field);
         confirmTxt = (EditText)findViewById(R.id.confirmTxt);
-
+        db = FirebaseDatabase.getInstance();
         auth = FirebaseAuth.getInstance();
     }
 
@@ -57,6 +61,20 @@ public class RegisterActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if(task.isSuccessful()){
+
+                                // IF RADIO BUTTON IS PATIENT
+                                    // Add a new empty Patient Record
+                                    db.getReference()
+                                            .child("Users")
+                                            .child(auth.getCurrentUser().getUid())
+                                            .setValue(new PatientUser());
+                                // ELSE
+                                    // Add a new empty Doctor Record
+                                    //db.getReference()
+                                    //        .child("Users")
+                                    //        .child(auth.getCurrentUser().getUid())
+                                    //        .setValue(new DoctorUser());
+
                                 Toast.makeText(getApplicationContext(),"Patient is registered", Toast.LENGTH_SHORT).show();
                                 Intent in = new Intent(RegisterActivity.this, LoginActivity.class);
                                 startActivity(in);

@@ -1,22 +1,28 @@
 package M5.seshealthpatient.Models;
 
-public class UserInformation {
-    private String Name;
+public class PatientUser extends BaseUser {
     private String Phone;
     private String Weight;
     private String Height;
     private String DoctorID;
 
 
-    public UserInformation(){
+    public PatientUser() {
+        setName("");
+        Phone = "";
+        Weight = "";
+        Height = "";
+        DoctorID = "";
+        setIsDoctor(false);
     }
 
-    public void setName(String name) {
-        Name = name;
-    }
-
-    public String getName() {
-        return Name;
+    public PatientUser(String name, String phone, String weight, String height, String doctor) {
+        super.setName(name);
+        Phone = phone;
+        Weight = weight;
+        Height = height;
+        DoctorID = doctor;
+        super.setIsDoctor(false);
     }
 
     public String getPhone() {
@@ -47,19 +53,8 @@ public class UserInformation {
         return DoctorID;
     }
 
-
-
     public void setDoctorID(String doctor) {
         DoctorID = doctor;
-    }
-
-    public UserInformation(String name, String phone, String weight, String height, String doctor) {
-        Name = name;
-        Phone = phone;
-        Weight = weight;
-        Height = height;
-        DoctorID = doctor;
-
     }
 
 }
