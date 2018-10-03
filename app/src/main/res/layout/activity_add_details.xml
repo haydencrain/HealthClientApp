@@ -16,6 +16,7 @@
         android:layout_centerVertical="true">
 
 
+
             <EditText
                 android:hint="Enter your name"
                 android:layout_marginTop="20dp"
@@ -59,21 +60,24 @@
                 android:ems="10"
                 android:id="@+id/add_height"/>
 
-            <EditText
-                android:hint="Doctor ID"
-                android:layout_below="@id/add_height"
-                android:layout_marginTop="20dp"
-                android:textAlignment="center"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:labelFor="@+id/doctorDropdown"
+                android:text="Choose your Doctor" />
+
+            <Spinner
+                android:id="@+id/doctorDropdown"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPersonName"
-                android:ems="10"
-                android:id="@+id/doctor_id"/>
+                android:background="@android:drawable/btn_dropdown"
+                android:spinnerMode="dropdown"/>
 
             <Button
                 style="@style/ButtonPrimary"
                 android:layout_marginTop="40dp"
-                android:layout_below="@id/doctor_id"
                 android:text="Update personal information"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
