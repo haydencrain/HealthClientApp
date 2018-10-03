@@ -26,8 +26,8 @@ public class ViewDataPacket extends AppCompatActivity {
             mQueryTV.setText(mDataPacket.getQuery());
         if (mDataPacket.getHeartRate() != null)
             mHeartRateTV.setText(mDataPacket.getHeartRate());
-        if (mDataPacket.getLocation() != null)
-            mLocationTV.setText(mDataPacket.getLocation().getLatitude() + ", " + mDataPacket.getLocation().getLongitude());
+        if (mDataPacket.getLatitude() != 0 || mDataPacket.getLongitude() != 0)
+            mLocationTV.setText(mDataPacket.getLatitude() + ", " + mDataPacket.getLongitude());
     }
 
     public void bindViewComponents() {
