@@ -149,7 +149,8 @@ public class DataPacketFragment extends Fragment {
                 DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference("Users/" + uid);
 
                 dataPacket.setQuery(queryTextBox.getText().toString());
-                dataPacket.setSentDate(new Date());
+                Date date = new Date();
+                dataPacket.setSentDate(date.getTime());
 
 
                 String queryKey = dbRef.child("Queries").push().getKey();
@@ -211,7 +212,8 @@ public class DataPacketFragment extends Fragment {
                     if (task.isSuccessful()) {
                         // Set the map's camera position to the current location of the device.
                         Location location = task.getResult();
-                        dataPacket.setLocation(location);
+                        dataPacket.setLatitude(location.getLatitude());
+                        dataPacket.setLongitude(location.getLongitude());
                         txtLocation.setText(String.format("%s, %s", location.getLatitude(), location.getLongitude()));
                     }
                     }

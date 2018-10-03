@@ -9,21 +9,26 @@ import java.util.LinkedList;
 public class DataPacket implements Serializable {
     private String query;
     private String heartRate;
-    private Location location;
+    private double latitude;
+    private double longitude;
+    private long sentDate;
     private LinkedList<String> files;
-    private Date sentDate;
 
-    public DataPacket(String query, String heartRate, Location location, LinkedList<String> files) {
+    public DataPacket(String query, String heartRate, double latitude, double longitude, long sentDate, LinkedList<String> files) {
         this.heartRate = heartRate;
         this.query = query;
-        this.location = location;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.sentDate = sentDate;
         this.files = files;
     }
 
     public DataPacket() {
-        this.location = null;
+        this.latitude = 0;
+        this.longitude = 0;
         this.query = null;
         this.heartRate = null;
+        this.sentDate = 0;
         this.files = new LinkedList<>();
     }
 
@@ -39,14 +44,21 @@ public class DataPacket implements Serializable {
         this.heartRate = heartRate;
     }
 
-    public Location getLocation() {
-        return location;
+    public double getLatitude() {
+        return latitude;
     }
 
-    public void setLocation(Location location) {
-        this.location = location;
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
     }
 
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
 
     public String getQuery() {
         return query;
@@ -56,17 +68,18 @@ public class DataPacket implements Serializable {
         this.query = query;
     }
 
-    public LinkedList<String> getFiles() {
-        return files;
-    }
-    
-        public Date getSentDate() {
+    public long getSentDate() {
         return sentDate;
     }
 
-    public void setSentDate(Date sentDate) {
+    public void setSentDate(long sentDate) {
         this.sentDate = sentDate;
     }
+
+    public LinkedList<String> getFiles() {
+        return files;
+    }
+
 
 
 
