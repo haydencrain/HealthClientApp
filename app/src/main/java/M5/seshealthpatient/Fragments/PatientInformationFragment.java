@@ -17,6 +17,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import M5.seshealthpatient.Activities.AddDetails;
 import M5.seshealthpatient.Activities.LoginActivity;
 import M5.seshealthpatient.Activities.ViewInformation;
+import M5.seshealthpatient.Activities.ViewPatientDataPackets;
 import M5.seshealthpatient.R;
 
 /**
@@ -85,6 +86,14 @@ public class PatientInformationFragment extends Fragment {
             }
         });
 
+        v.findViewById(R.id.btnTEMP).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent in = new Intent(getActivity(), ViewPatientDataPackets.class);
+                in.putExtra("PATIENT_ID", "ebso6YbxA4PInNY64dTeGrww0x33");
+                startActivity(in);
+            }
+        });
 
 
 
