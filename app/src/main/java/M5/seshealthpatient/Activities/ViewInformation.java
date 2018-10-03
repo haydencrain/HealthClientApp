@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import M5.seshealthpatient.Models.DoctorUser;
 import M5.seshealthpatient.Models.PatientUser;
 
 import android.support.annotation.NonNull;
@@ -89,21 +90,18 @@ public class ViewInformation extends AppCompatActivity {
                 uInfo.setDoctorID(""); //set the doctorID
 
             } else {
-                uInfo.setName(user.getName()); //set the name
-                uInfo.setPhone(user.getPhone()); //set the phone
-                uInfo.setWeight(user.getWeight()); //set the weight
-                uInfo.setHeight(user.getHeight());//set the height
-                uInfo.setDoctorID(user.getDoctorID()); //set the doctorID
-
+                uInfo = user;
             }
 
             ArrayList<String> array = new ArrayList<>();
-            array.add(uInfo.getName());
-            array.add(uInfo.getPhone());
-            array.add(uInfo.getWeight() + "kg");
-            array.add(uInfo.getHeight() + "cm");
-            array.add(uInfo.getDoctorID()+ "ID");
-            array.add(uInfo.getIsDoctor() + "");
+            array.add("Name:        " + uInfo.getName());
+            array.add("Number:  " + uInfo.getPhone());
+            array.add("Weight:      " + uInfo.getWeight() + "kg");
+            array.add("Height:      " + uInfo.getHeight() + "cm");
+
+            // get doctor's user account and set their name as the selected doctor
+            DoctorUser doctor = ds.child(uInfo.getDoctorID()).getValue(DoctorUser.class);
+            array.add("Doctor:      " + doctor.getName());
 
 
             ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, array);
