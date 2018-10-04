@@ -86,18 +86,6 @@ public class PatientInformationFragment extends Fragment {
             }
         });
 
-        v.findViewById(R.id.btnTEMP).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent in = new Intent(getActivity(), ViewPatientDataPackets.class);
-                in.putExtra("PATIENT_ID", "ebso6YbxA4PInNY64dTeGrww0x33");
-                startActivity(in);
-            }
-        });
-
-
-
-
         return v;
     }
 

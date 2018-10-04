@@ -32,12 +32,7 @@
             android:orientation="vertical"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true">
-
-            <Button
-                android:id="@+id/btnTEMP"
-                style="@style/ButtonPrimary"
-                android:text="THIS IS A TEMP BUTTON GET RID OF IT LATER" />
-
+            
             <Button
                 android:id="@+id/btnAD"
                 style="@style/ButtonPrimary"

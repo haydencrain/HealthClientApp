@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -29,6 +30,7 @@ import M5.seshealthpatient.R;
 public class ViewPatientDataPackets extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
     private String mPatientId;
+    private PatientUser mPatient;
     private DatabaseReference mUserDb;
     private ListView mListView;
     private LinkedList<DataPacket> mDataPackets;
@@ -37,19 +39,18 @@ public class ViewPatientDataPackets extends AppCompatActivity implements Adapter
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle("Patient Data Packets");
         setContentView(R.layout.activity_view_patient_data_packets);
+        toolbar = findViewById(R.id.dataPacketToolbar);
+        toolbar.setTitle("Data Packets");
         mPatientId = (String)getIntent().getSerializableExtra("PATIENT_ID");
-
-
         mListView = findViewById(R.id.dataPacketsListView);
 
         mUserDb = FirebaseDatabase.getInstance().getReference("Users/" + mPatientId);
         mUserDb.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                // for (DataSnapshot snapshot : dataSnapshot)
+                mPatient = dataSnapshot.getValue(PatientUser.class);
+                toolbar.setTitle(mPatient.getName() + " - Data Packets");
             }
 
             @Override
@@ -109,3 +110,14 @@ public class ViewPatientDataPackets extends AppCompatActivity implements Adapter
         startActivity(intent);
     }
 }
+
+/* EXAMPLE CODE TO SUCCESSFULLY CALL THIS ACTIVITY (PASS IN THE PATIENT ID INTO THE INTENT)
+v.findViewById(R.id.btnTEMP).setOnClickListener(new View.OnClickListener() {
+@Override
+public void onClick(View v) {
+        Intent in = new Intent(getActivity(), ViewPatientDataPackets.class);
+        in.putExtra("PATIENT_ID", "ebso6YbxA4PInNY64dTeGrww0x33");
+        startActivity(in);
+    }
+});
+*/
