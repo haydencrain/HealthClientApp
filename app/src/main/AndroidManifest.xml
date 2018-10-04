@@ -49,6 +49,7 @@
         <activity android:name=".Activities.AddDetails"></activity>
         <activity android:name=".Activities.ViewInformation"></activity>
         <activity android:name=".Activities.ViewDataPacket"></activity>
+        <activity android:name=".Activities.ViewPatientDataPackets"></activity>
 
 
         <meta-data
