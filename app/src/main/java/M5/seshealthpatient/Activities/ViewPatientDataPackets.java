@@ -4,10 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -15,6 +18,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.LinkedList;
 
 import M5.seshealthpatient.Models.DataPacket;
@@ -27,10 +32,13 @@ public class ViewPatientDataPackets extends AppCompatActivity implements Adapter
     private DatabaseReference mUserDb;
     private ListView mListView;
     private LinkedList<DataPacket> mDataPackets;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle("Patient Data Packets");
         setContentView(R.layout.activity_view_patient_data_packets);
         mPatientId = (String)getIntent().getSerializableExtra("PATIENT_ID");
 
@@ -38,6 +46,17 @@ public class ViewPatientDataPackets extends AppCompatActivity implements Adapter
         mListView = findViewById(R.id.dataPacketsListView);
 
         mUserDb = FirebaseDatabase.getInstance().getReference("Users/" + mPatientId);
+        mUserDb.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                // for (DataSnapshot snapshot : dataSnapshot)
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
         mUserDb.child("Queries").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -55,16 +74,31 @@ public class ViewPatientDataPackets extends AppCompatActivity implements Adapter
     }
 
     public void createDataPacketList(DataSnapshot dataSnapshot) {
-        mDataPackets = new LinkedList<>();
-        LinkedList<String> dataPacketDisplays = new LinkedList<>();
-        int i = 0;
+        LinkedList<DataPacket> dataPackets = new LinkedList<>();
+        LinkedList<String> dataPacketQueries = new LinkedList<>();
         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
             DataPacket dataPacket = snapshot.getValue(DataPacket.class);
-            mDataPackets.add(dataPacket);
-            dataPacketDisplays.add(dataPacket.getQuery());
+            dataPackets.add(dataPacket);
+            dataPacketQueries.add(dataPacket.getQuery());
         }
 
-        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, dataPacketDisplays);
+        mDataPackets = dataPackets;
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_2, android.R.id.text1, dataPacketQueries) {
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                View view = super.getView(position, convertView, parent);
+                TextView text1 = view.findViewById(android.R.id.text1);
+                TextView text2 = view.findViewById(android.R.id.text2);
+
+                DataPacket dataPacket = mDataPackets.get(position);
+                Date date = new Date(dataPacket.getSentDate());
+                String dateString = String.format("%1$s %2$tr %2$te %2$tb %2$tY", "Sent at:", date);
+                text1.setText(dataPacket.getQuery());
+                text2.setText(dateString);
+
+                return view;
+            }
+        };
         mListView.setAdapter(adapter);
     }
 
