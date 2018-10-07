@@ -22,6 +22,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
+import java.util.Locale;
 
 import M5.seshealthpatient.Models.DataPacket;
 import M5.seshealthpatient.Models.PatientUser;
@@ -80,7 +81,7 @@ public class ViewPatientDataPackets extends AppCompatActivity implements Adapter
         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
             DataPacket dataPacket = snapshot.getValue(DataPacket.class);
             dataPackets.add(dataPacket);
-            dataPacketQueries.add(dataPacket.getQuery());
+            dataPacketQueries.add(dataPacket.getTitle());
         }
 
         mDataPackets = dataPackets;
@@ -93,8 +94,8 @@ public class ViewPatientDataPackets extends AppCompatActivity implements Adapter
 
                 DataPacket dataPacket = mDataPackets.get(position);
                 Date date = new Date(dataPacket.getSentDate());
-                String dateString = String.format("%1$s %2$tr %2$te %2$tb %2$tY", "Sent at:", date);
-                text1.setText(dataPacket.getQuery());
+                String dateString = String.format(Locale.ENGLISH, "%1$s %2$tr %2$te %2$tb %2$tY", "Sent at:", date);
+                text1.setText(dataPacket.getTitle());
                 text2.setText(dateString);
 
                 return view;

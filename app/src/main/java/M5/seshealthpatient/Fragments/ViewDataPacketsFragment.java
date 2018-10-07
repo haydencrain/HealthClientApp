@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -20,7 +21,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Date;
 import java.util.LinkedList;
+import java.util.Locale;
 
 import M5.seshealthpatient.Activities.ViewDataPacket;
 import M5.seshealthpatient.Models.DataPacket;
@@ -76,10 +79,25 @@ public class ViewDataPacketsFragment extends Fragment implements AdapterView.OnI
             DataPacket dataPacket = snapshot.getValue(DataPacket.class);
             mDataPackets.add(dataPacket);
             mDataPacketKeys.add(snapshot.getKey());
-            dataPacketDisplays.add("Data Packet " + ++i);
+            dataPacketDisplays.add(dataPacket.getTitle());
         }
 
-        ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, dataPacketDisplays);
+        ArrayAdapter adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_2, android.R.id.text1, dataPacketDisplays) {
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                View view = super.getView(position, convertView, parent);
+                TextView text1 = view.findViewById(android.R.id.text1);
+                TextView text2 = view.findViewById(android.R.id.text2);
+
+                DataPacket dataPacket = mDataPackets.get(position);
+                Date date = new Date(dataPacket.getSentDate());
+                String dateString = String.format(Locale.ENGLISH, "%1$s %2$tr %2$te %2$tb %2$tY", "Sent at:", date);
+                text1.setText(dataPacket.getTitle());
+                text2.setText(dateString);
+
+                return view;
+            }
+        };
         mListView.setAdapter(adapter);
     }
 
