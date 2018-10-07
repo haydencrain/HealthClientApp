@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.NavUtils;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -51,11 +52,6 @@ public class MainActivity extends BaseActivity {
     private DrawerLayout mDrawerLayout;
 
     /**
-     * A reference to the toolbar
-     */
-    private Toolbar toolbar;
-
-    /**
      * Helps to manage the fragment that is being used in the main view.
      */
     private FragmentManager fragmentManager;
@@ -78,23 +74,20 @@ public class MainActivity extends BaseActivity {
      */
     private MenuStates currentState;
 
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_main;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
         // the default fragment on display is the patient information
         currentState = MenuStates.PATIENT_INFO;
 
         // go look for the main drawer layout
         mDrawerLayout = findViewById(R.id.main_drawer_layout);
 
-        toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-
-        // Set up the menu button
         ActionBar actionbar = getSupportActionBar();
         actionbar.setDisplayHomeAsUpEnabled(true);
         actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
@@ -193,16 +186,6 @@ public class MainActivity extends BaseActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
-    /**
-     * This function changes the title of the fragment.
-     *
-     * @param newTitle The new title to write in the
-     */
-    public void ChangeTitle(String newTitle) {
-        toolbar.setTitle(newTitle);
-    }
-
 
     /**
      * This function allows to change the content of the Fragment holder

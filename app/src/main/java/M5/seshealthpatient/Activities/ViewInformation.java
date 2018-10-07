@@ -32,11 +32,15 @@ public class ViewInformation extends BaseActivity {
 
     private ListView mListView;
 
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_view_information;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_information);
+        setTitle("View Information");
 
         mListView = (ListView) findViewById(R.id.listview);
 
