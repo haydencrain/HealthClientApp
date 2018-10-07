@@ -29,10 +29,12 @@
            android:padding="20dp">
 
            <TextView
+               style="@style/TextHeading"
                android:layout_marginTop="20dp"
                android:layout_width="match_parent"
                android:layout_height="wrap_content"
-               android:text="Text Query"/>
+               android:text="Text Query"
+               />
 
            <TextView
                android:id="@+id/queryTV"
@@ -42,6 +44,7 @@
                />
 
            <TextView
+               style="@style/TextHeading"
                android:layout_marginTop="20dp"
                android:layout_width="match_parent"
                android:layout_height="wrap_content"
@@ -55,6 +58,7 @@
                />
 
            <TextView
+               style="@style/TextHeading"
                android:layout_marginTop="20dp"
                android:layout_width="match_parent"
                android:layout_height="wrap_content"

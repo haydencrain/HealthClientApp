@@ -26,6 +26,10 @@
         <item name="android:background">@drawable/ic_local_hospital_24dp</item>
     </style>
 
+    <style name="TextHeading">
+        <item name="android:textSize">20dp</item>
+    </style>
+
 
     <style name="LoginStyles" >
         <item name="android:textSize">@dimen/default_text_size</item>
