@@ -17,7 +17,7 @@ import M5.seshealthpatient.Models.DataPacket;
 import M5.seshealthpatient.Models.PatientUser;
 import M5.seshealthpatient.R;
 
-public class ViewDataPacket extends AppCompatActivity {
+public class ViewDataPacket extends BaseActivity {
 
     private DatabaseReference mUserDb;
     private DataPacket mDataPacket;
@@ -33,6 +33,8 @@ public class ViewDataPacket extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_data_packet);
+
+
         bindViewComponents();
         mDataPacket = (DataPacket)getIntent().getSerializableExtra("DATA_PACKET");
         mPatientId = (String)getIntent().getSerializableExtra("PATIENT_ID");

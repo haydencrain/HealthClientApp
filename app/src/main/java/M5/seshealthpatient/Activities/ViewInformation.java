@@ -23,7 +23,7 @@ import java.util.ArrayList;
 
 import M5.seshealthpatient.R;
 
-public class ViewInformation extends AppCompatActivity {
+public class ViewInformation extends BaseActivity {
     private FirebaseDatabase mFirebaseDatabase;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;

@@ -18,7 +18,7 @@ import M5.seshealthpatient.Models.DoctorUser;
 import M5.seshealthpatient.Models.PatientUser;
 import M5.seshealthpatient.R;
 
-public class RegisterActivity extends AppCompatActivity {
+public class RegisterActivity extends BaseActivity {
     EditText emailTxt, passTxt,confirmTxt;
 
     FirebaseAuth auth;

@@ -31,7 +31,7 @@ import java.util.LinkedList;
 
 import M5.seshealthpatient.R;
 
-public class AddDetails extends AppCompatActivity {
+public class AddDetails extends BaseActivity {
 
     private static final String TAG = "AddToDatabase";
     private Button mAddToDB;

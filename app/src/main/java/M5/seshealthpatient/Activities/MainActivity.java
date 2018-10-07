@@ -40,7 +40,7 @@ import M5.seshealthpatient.R;
  * completely the design of the app, but for this design specifically I will use Fragments.
  * <p>
  */
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     /**
      * A basic Drawer layout that helps you build the side menu. I followed the steps on how to

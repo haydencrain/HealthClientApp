@@ -28,7 +28,7 @@ import M5.seshealthpatient.Models.DataPacket;
 import M5.seshealthpatient.Models.PatientUser;
 import M5.seshealthpatient.R;
 
-public class ViewPatientDataPackets extends AppCompatActivity implements AdapterView.OnItemClickListener {
+public class ViewPatientDataPackets extends BaseActivity implements AdapterView.OnItemClickListener {
 
     private String mPatientId;
     private PatientUser mPatient;
