@@ -53,6 +53,7 @@ public class DataPacketFragment extends Fragment {
 
 
     // view components
+    private EditText titleTextBox;
     private EditText queryTextBox;
     private TextView tvHeartRate;
     private Button btnHeartRate;
@@ -103,6 +104,7 @@ public class DataPacketFragment extends Fragment {
     }
 
     private void bindViewComponents(View view) {
+        titleTextBox = view.findViewById(R.id.titleBox);
         queryTextBox = view.findViewById(R.id.queryBox);
         txtLocation = view.findViewById(R.id.txtLocation);
         btnLocation = view.findViewById(R.id.btnLocation);
@@ -148,6 +150,7 @@ public class DataPacketFragment extends Fragment {
                 //getting the db directory for the currently logged in user using their id
                 DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference("Users/" + uid);
 
+                dataPacket.setTitle(queryTextBox.getText().toString());
                 dataPacket.setQuery(queryTextBox.getText().toString());
                 Date date = new Date();
                 dataPacket.setSentDate(date.getTime());
