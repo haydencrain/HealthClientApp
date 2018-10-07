@@ -35,14 +35,17 @@ public class ViewPatientDataPackets extends BaseActivity implements AdapterView.
     private DatabaseReference mUserDb;
     private ListView mListView;
     private LinkedList<DataPacket> mDataPackets;
-    private Toolbar toolbar;
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_view_patient_data_packets;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_patient_data_packets);
-        toolbar = findViewById(R.id.dataPacketToolbar);
-        toolbar.setTitle("Data Packets");
+
+        setTitle("Data Packets");
         mPatientId = (String)getIntent().getSerializableExtra("PATIENT_ID");
         mListView = findViewById(R.id.dataPacketsListView);
 
@@ -51,7 +54,7 @@ public class ViewPatientDataPackets extends BaseActivity implements AdapterView.
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 mPatient = dataSnapshot.getValue(PatientUser.class);
-                toolbar.setTitle(mPatient.getName() + " - Data Packets");
+                setTitle(mPatient.getName() + " - Data Packets");
             }
 
             @Override

@@ -53,11 +53,15 @@ public class AddDetails extends BaseActivity {
     private FirebaseAuth.AuthStateListener mAuthListener;
     private DatabaseReference myRef;
 
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_add_details;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_details);
+        setTitle("Add Details");
 
         mAddToDB = (Button) findViewById(R.id.btnAddNewName);
         nNewName = (EditText) findViewById(R.id.add_name);

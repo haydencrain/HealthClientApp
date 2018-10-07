@@ -35,7 +35,7 @@ import M5.seshealthpatient.R;
  * gonna work. Please, Modify Accordingly!
  * <p>
  */
-public class LoginActivity extends BaseActivity {
+public class LoginActivity extends AppCompatActivity {
 
     /**
      * Use the @BindView annotation so Butter Knife can search for that view, and cast it for you

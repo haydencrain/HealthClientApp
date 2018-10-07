@@ -38,23 +38,25 @@ public class ViewDataPacket extends BaseActivity implements OnMapReadyCallback {
     private TextView mQueryTV;
     private TextView mHeartRateTV;
     private TextView mLocationTV;
-    private Toolbar toolbar;
     private MapView mMapView;
     private GoogleMap mGoogleMap;
     private GeoDataClient mGeoDataClient;
 
 
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_view_data_packet;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_data_packet);
 
 
         bindViewComponents();
         mDataPacket = (DataPacket)getIntent().getSerializableExtra("DATA_PACKET");
         mPatientId = (String)getIntent().getSerializableExtra("PATIENT_ID");
-        toolbar.setTitle("Data Packet - " + mDataPacket.getTitle());
+        setTitle("Data Packet - " + mDataPacket.getTitle());
         if (mDataPacket.getQuery() != null)
             mQueryTV.setText(mDataPacket.getQuery());
         if (mDataPacket.getHeartRate() != null)
@@ -90,7 +92,6 @@ public class ViewDataPacket extends BaseActivity implements OnMapReadyCallback {
         mHeartRateTV = findViewById(R.id.heartRateTV);
         mLocationTV = findViewById(R.id.locationTV);
         mMapView = findViewById(R.id.mapView);
-        toolbar = findViewById(R.id.toolbar);
     }
 
     public void setUpGoogleMaps(Bundle savedInstanceState) {

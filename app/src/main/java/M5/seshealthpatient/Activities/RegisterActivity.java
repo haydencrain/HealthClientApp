@@ -18,12 +18,11 @@ import M5.seshealthpatient.Models.DoctorUser;
 import M5.seshealthpatient.Models.PatientUser;
 import M5.seshealthpatient.R;
 
-public class RegisterActivity extends BaseActivity {
+public class RegisterActivity extends AppCompatActivity {
     EditText emailTxt, passTxt,confirmTxt;
 
     FirebaseAuth auth;
     FirebaseDatabase db;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

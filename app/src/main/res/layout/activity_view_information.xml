@@ -1,11 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Activities.ViewInformation"
+    android:orientation="vertical"
     android:background="@drawable/gradient">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:theme="@style/ToolbarTheme"
+        app:titleTextColor="@color/whiteColor" />
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,14 +24,6 @@
         android:orientation="vertical"
         android:layout_centerVertical="true">
 
-        <TextView
-            android:textAlignment="center"
-            android:textSize="25sp"
-            android:text="User Information"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/tvUserInfo"/>
-
         <ListView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -30,4 +31,4 @@
 
     </LinearLayout>
 
-</RelativeLayout>
+</LinearLayout>

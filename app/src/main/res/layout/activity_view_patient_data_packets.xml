@@ -11,13 +11,12 @@
        android:orientation="vertical">
 
        <android.support.v7.widget.Toolbar
-           android:id="@+id/dataPacketToolbar"
+           android:id="@+id/toolbar"
            android:layout_width="match_parent"
            android:layout_height="?attr/actionBarSize"
            android:background="@color/colorPrimary"
-           android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+           android:theme="@style/ToolbarTheme"
            app:titleTextColor="@color/whiteColor" />
-
 
        <ListView
            android:layout_width="match_parent"
