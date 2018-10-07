@@ -27,6 +27,7 @@ import java.util.Locale;
 
 import M5.seshealthpatient.Activities.ViewDataPacket;
 import M5.seshealthpatient.Models.DataPacket;
+import M5.seshealthpatient.Models.PatientUser;
 import M5.seshealthpatient.R;
 
 public class ViewDataPacketsFragment extends Fragment implements AdapterView.OnItemClickListener {
@@ -36,6 +37,7 @@ public class ViewDataPacketsFragment extends Fragment implements AdapterView.OnI
     private DatabaseReference mUserDb;
     private LinkedList<DataPacket> mDataPackets;
     private LinkedList<String> mDataPacketKeys;
+    private PatientUser mPatient;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -74,7 +76,6 @@ public class ViewDataPacketsFragment extends Fragment implements AdapterView.OnI
         mDataPackets = new LinkedList<>();
         mDataPacketKeys = new LinkedList<>();
         LinkedList<String> dataPacketDisplays = new LinkedList<>();
-        int i = 0;
         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
             DataPacket dataPacket = snapshot.getValue(DataPacket.class);
             mDataPackets.add(dataPacket);
@@ -105,6 +106,7 @@ public class ViewDataPacketsFragment extends Fragment implements AdapterView.OnI
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         Intent intent = new Intent(getActivity(), ViewDataPacket.class);
         intent.putExtra("DATA_PACKET", mDataPackets.get(i));
+        intent.putExtra("PATIENT_ID", mUserDb.getKey());
         startActivity(intent);
     }
 }

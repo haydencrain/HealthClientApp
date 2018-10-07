@@ -108,6 +108,7 @@ public class ViewPatientDataPackets extends AppCompatActivity implements Adapter
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         Intent intent = new Intent(this, ViewDataPacket.class);
         intent.putExtra("DATA_PACKET", mDataPackets.get(i));
+        intent.putExtra("PATIENT_ID", mPatientId);
         startActivity(intent);
     }
 }
