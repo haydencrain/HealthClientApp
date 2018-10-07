@@ -109,7 +109,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     }
 
     private void getMedicalPlaces(double lat, double lng) {
-        String url = Helpers.getUrl(getActivity(), lat, lng, "hospital");
+        String url = Helpers.getNearbyPlacesUrl(getActivity(), lat, lng, "hospital");
         Log.d("getUrl", url);
 
         RequestQueueSingleton.getInstance(getActivity()).addToRequestQueue(new JsonObjectRequest(Request.Method.GET, url, null,  new Response.Listener<JSONObject>() {
@@ -161,7 +161,13 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                     public void onComplete(@NonNull Task<Location> task) {
                         if (task.isSuccessful()) {
                             // Set the map's camera position to the current location of the device.
-                            mLastKnownLocation = task.getResult();
+                            Location location = task.getResult();
+
+                            if (location == null) {
+                                location.setLatitude(LocationDefaults.DEFAULT_LOCATION.latitude);
+                                location.setLongitude(LocationDefaults.DEFAULT_LOCATION.longitude);
+                            }
+                            mLastKnownLocation = location;
                             mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
                                     new LatLng(mLastKnownLocation.getLatitude(),
                                             mLastKnownLocation.getLongitude()), LocationDefaults.DEFAULT_ZOOM));
@@ -272,9 +278,22 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     public void openGooglePlaceBrowser(String placeName) {
         for (PlaceResult place : mMedicalFacilities) {
             if (place.getName().equals(placeName)) {
-                String url = "https://www.google.com/maps/place/?q=place_id:" + place.getPlaceId();
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                startActivity(browserIntent);
+                String url = Helpers.getPlaceDetailsUrl(getActivity(), place.getPlaceId());
+                RequestQueueSingleton.getInstance(getActivity()).addToRequestQueue(new JsonObjectRequest(Request.Method.GET, url, null,  new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            String placeUrl = response.getJSONObject("result").getString("url");
+                            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(placeUrl));
+                            startActivity(browserIntent);
+                        } catch (JSONException e) {
+                            Log.d("GooglePlaceDetailResult", e.toString());
+                        }
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {}
+                }));
             }
         }
     }

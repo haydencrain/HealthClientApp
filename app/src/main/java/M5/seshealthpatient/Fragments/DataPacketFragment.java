@@ -215,6 +215,10 @@ public class DataPacketFragment extends Fragment {
                     if (task.isSuccessful()) {
                         // Set the map's camera position to the current location of the device.
                         Location location = task.getResult();
+                        if (location == null) {
+                            location.setLatitude(LocationDefaults.DEFAULT_LOCATION.latitude);
+                            location.setLongitude(LocationDefaults.DEFAULT_LOCATION.longitude);
+                        }
                         dataPacket.setLatitude(location.getLatitude());
                         dataPacket.setLongitude(location.getLongitude());
                         txtLocation.setText(String.format("%s, %s", location.getLatitude(), location.getLongitude()));
