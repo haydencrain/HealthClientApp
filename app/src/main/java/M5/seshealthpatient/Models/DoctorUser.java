@@ -23,4 +23,8 @@ public class DoctorUser extends BaseUser {
     public String getOccupation() {
         return Occupation;
     }
+
+    public boolean setIsDoctor(){
+        return true;
+    }
 }

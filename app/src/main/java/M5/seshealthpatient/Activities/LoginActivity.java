@@ -17,7 +17,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
 
+import M5.seshealthpatient.Models.DoctorUser;
+import M5.seshealthpatient.Models.PatientUser;
+import M5.seshealthpatient.Models.BaseUser;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -58,7 +62,8 @@ public class LoginActivity extends AppCompatActivity {
     private static String TAG = "LoginActivity";
 
     private FirebaseAuth auth;
-
+    private FirebaseDatabase db;
+    private DoctorUser doctorUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,8 +77,11 @@ public class LoginActivity extends AppCompatActivity {
         setTitle(R.string.login_activity_title);
 
         auth = FirebaseAuth.getInstance();
+        db = FirebaseDatabase.getInstance();
+
 
     }
+
 
     /**
      * See how Butter Knife also lets us add an on click event by adding this annotation before the
@@ -96,6 +104,7 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
+
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                             startActivity(intent);
                         }
@@ -108,9 +117,9 @@ public class LoginActivity extends AppCompatActivity {
 
 
         // Start a new activity
-
     public void onRegisterClick(View view) {
         Intent intent = new Intent(this, RegisterActivity.class);
         startActivity(intent);
     }
+
 }

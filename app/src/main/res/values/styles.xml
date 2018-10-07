@@ -27,7 +27,7 @@
     </style>
 
 
-    <style name="LoginStyles" >
+    <style name="LoginStyles">
         <item name="android:textSize">@dimen/default_text_size</item>
     </style>
 
@@ -39,7 +39,7 @@
         <item name="android:elevation">10dp</item>
     </style>
 
-    <style name="ButtonPrimary" >
+    <style name="ButtonPrimary">
         <item name="android:textSize">@dimen/default_text_size</item>
         <item name="android:layout_marginBottom">10dp</item>
         <item name="android:layout_width">250dp</item>
@@ -48,7 +48,7 @@
         <item name="android:textColor">@color/whiteColor</item>
     </style>
 
-    <style name="ButtonSecondary" >
+    <style name="ButtonSecondary">
         <item name="android:textSize">@dimen/default_text_size</item>
         <item name="android:layout_marginBottom">10dp</item>
         <item name="android:layout_height">50dp</item>
@@ -56,6 +56,10 @@
         <item name="android:background">@drawable/button_secondary</item>
         <item name="android:textColor">@color/whiteColor</item>
     </style>
+
+    <style name="AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 
 </resources>

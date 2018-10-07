@@ -6,6 +6,8 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -20,7 +22,8 @@ import M5.seshealthpatient.R;
 
 public class RegisterActivity extends AppCompatActivity {
     EditText emailTxt, passTxt,confirmTxt;
-
+    RadioGroup radioGroup;
+    RadioButton radioButton1, radioButton2;
     FirebaseAuth auth;
     FirebaseDatabase db;
 
@@ -32,11 +35,18 @@ public class RegisterActivity extends AppCompatActivity {
         emailTxt = (EditText)findViewById(R.id.email_field);
         passTxt = (EditText)findViewById(R.id.password_field);
         confirmTxt = (EditText)findViewById(R.id.confirmTxt);
+        radioGroup = (RadioGroup)findViewById(R.id.radio_group);
+        radioButton1 = (RadioButton)findViewById(R.id.radio_patient);
+        radioButton2 = (RadioButton)findViewById(R.id.radio_doctor);
         db = FirebaseDatabase.getInstance();
         auth = FirebaseAuth.getInstance();
     }
 
     public void createUser(View v){
+
+       // int radiobuttonid = radioGroup.getCheckedRadioButtonId();
+        // RadioButton radioButton = (RadioButton) findViewById(radiobuttonid);
+
         String confirmPassword = confirmTxt.getText().toString();
         String email = emailTxt.getText().toString();
         String password = passTxt.getText().toString();
@@ -61,13 +71,21 @@ public class RegisterActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if(task.isSuccessful()){
-
                                 // IF RADIO BUTTON IS PATIENT
                                     // Add a new empty Patient Record
-                                    db.getReference()
-                                            .child("Users")
-                                            .child(auth.getCurrentUser().getUid())
-                                            .setValue(new PatientUser());
+                                    if(radioButton1.isChecked()) {
+                                        db.getReference()
+                                                .child("Users")
+                                                .child(auth.getCurrentUser().getUid())
+                                                .setValue(new PatientUser());
+                                    }
+                                    else if(radioButton2.isChecked())
+                                    {
+                                        db.getReference()
+                                                .child("Users")
+                                                .child(auth.getCurrentUser().getUid())
+                                                .setValue(new DoctorUser());
+                                    }
                                 // ELSE
                                     // Add a new empty Doctor Record
                                     //db.getReference()
@@ -88,6 +106,8 @@ public class RegisterActivity extends AppCompatActivity {
         }
 
     }
+
+
 
 
 }
