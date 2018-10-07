@@ -8,7 +8,7 @@ import android.widget.TextView;
 import M5.seshealthpatient.Models.DataPacket;
 import M5.seshealthpatient.R;
 
-public class ViewDataPacket extends AppCompatActivity {
+public class ViewDataPacket extends BaseActivity {
 
     private DataPacket mDataPacket;
 
@@ -20,6 +20,8 @@ public class ViewDataPacket extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_data_packet);
+
+
         bindViewComponents();
         mDataPacket = (DataPacket)getIntent().getSerializableExtra("DATA_PACKET");
         if (mDataPacket.getQuery() != null)
