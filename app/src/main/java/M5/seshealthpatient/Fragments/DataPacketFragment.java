@@ -150,7 +150,7 @@ public class DataPacketFragment extends Fragment {
                 //getting the db directory for the currently logged in user using their id
                 DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference("Users/" + uid);
 
-                dataPacket.setTitle(queryTextBox.getText().toString());
+                dataPacket.setTitle(titleTextBox.getText().toString());
                 dataPacket.setQuery(queryTextBox.getText().toString());
                 Date date = new Date();
                 dataPacket.setSentDate(date.getTime());
