@@ -14,7 +14,7 @@
         android:orientation="vertical">
 
         <android.support.v7.widget.Toolbar
-            android:id="@+id/dataPacketToolbar"
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/colorPrimary"
@@ -30,7 +30,6 @@
 
            <TextView
                style="@style/TextHeading"
-               android:layout_marginTop="20dp"
                android:layout_width="match_parent"
                android:layout_height="wrap_content"
                android:text="Sent From"
@@ -76,16 +75,24 @@
            <TextView
                style="@style/TextHeading"
                android:layout_marginTop="20dp"
+               android:layout_marginBottom="10dp"
                android:layout_width="match_parent"
                android:layout_height="wrap_content"
                android:text="Location"/>
 
+           <com.google.android.gms.maps.MapView
+               android:id="@+id/mapView"
+               android:layout_width="match_parent"
+               android:layout_height="200dp" />
+
            <TextView
                android:id="@+id/locationTV"
-               android:layout_marginTop="10dp"
                android:layout_width="match_parent"
                android:layout_height="wrap_content"
                />
+
+
+
 
        </LinearLayout>
 

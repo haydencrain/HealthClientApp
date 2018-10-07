@@ -39,6 +39,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import M5.seshealthpatient.R;
+import M5.seshealthpatient.Utils.Helpers;
+
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -52,7 +55,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private FusedLocationProviderClient mFusedLocationProviderClient;
 
 
-    private static final int DEFAULT_ZOOM = 15;
     private boolean mLocationPermissionGranted;
     private Location mLastKnownLocation;
 
@@ -97,7 +99,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     }
 
     private void getMedicalPlaces(double lat, double lng) {
-        String url = getUrl(lat, lng, "hospital");
+        String url = Helpers.getUrl(getActivity(), lat, lng, "hospital");
         Log.d("getUrl", url);
 
         RequestQueueSingleton.getInstance(getActivity()).addToRequestQueue(new JsonObjectRequest(Request.Method.GET, url, null,  new Response.Listener<JSONObject>() {
@@ -130,15 +132,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         }));
     }
 
-    private String getUrl(double lat, double lng, String placeType) {
-        StringBuilder url = new StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?");
-        url.append("location=" + String.valueOf(lat) + "," + String.valueOf(lng));
-        url.append("&radius=" + String.valueOf(5000));
-        url.append("&type=" + placeType);
-        url.append("&key=" + getResources().getString(R.string.api_key));
-        return url.toString();
-    }
-
     /**
      * Gets the current location of the device, and positions the map's camera.
      */
@@ -158,18 +151,18 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                             mLastKnownLocation = task.getResult();
                             mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
                                     new LatLng(mLastKnownLocation.getLatitude(),
-                                            mLastKnownLocation.getLongitude()), DEFAULT_ZOOM));
+                                            mLastKnownLocation.getLongitude()), LocationDefaults.DEFAULT_ZOOM));
 
                             // get nearby medical places using known location
                             getMedicalPlaces(mLastKnownLocation.getLatitude(), mLastKnownLocation.getLongitude());
 
                         } else {
                             mGoogleMap.moveCamera(CameraUpdateFactory
-                                    .newLatLngZoom(LocationDefaults.mDefaultLocation, DEFAULT_ZOOM));
+                                    .newLatLngZoom(LocationDefaults.DEFAULT_LOCATION, LocationDefaults.DEFAULT_ZOOM));
                             mGoogleMap.getUiSettings().setMyLocationButtonEnabled(false);
 
                             // get nearby places using default location
-                            getMedicalPlaces(LocationDefaults.mDefaultLocation.latitude, LocationDefaults.mDefaultLocation.longitude);
+                            getMedicalPlaces(LocationDefaults.DEFAULT_LOCATION.latitude, LocationDefaults.DEFAULT_LOCATION.longitude);
                         }
                     }
                 });
