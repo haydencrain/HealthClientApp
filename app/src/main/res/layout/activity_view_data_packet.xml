@@ -3,63 +3,98 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activities.ViewDataPacket"
-    android:background="@drawable/gradient">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".Activities.ViewDataPacket">
+
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        style="@style/Container"
-        android:layout_marginTop="20dp"
-        android:orientation="vertical"
-        android:layout_centerVertical="true">
+        android:orientation="vertical">
 
-        <TextView
-            android:textAlignment="center"
-            android:textSize="25sp"
-            android:text="View Data Packet"
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/tvDataPacket"/>
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/colorPrimary"
+            android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+            app:titleTextColor="@color/whiteColor" />
 
-        <TextView
-            android:layout_marginTop="20dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Text Query"/>
 
-        <TextView
-            android:id="@+id/queryTV"
-            android:layout_marginTop="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            />
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="match_parent"
+           android:orientation="vertical"
+           android:padding="20dp">
 
-        <TextView
-            android:layout_marginTop="20dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Heart Rate"/>
+           <TextView
+               style="@style/TextHeading"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:text="Sent From"
+               />
 
-        <TextView
-            android:id="@+id/heartRateTV"
-            android:layout_marginTop="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            />
+           <TextView
+               android:id="@+id/sentFromTV"
+               android:layout_marginTop="10dp"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               />
 
-        <TextView
-            android:layout_marginTop="20dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Location"/>
 
-        <TextView
-            android:id="@+id/locationTV"
-            android:layout_marginTop="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            />
+           <TextView
+               style="@style/TextHeading"
+               android:layout_marginTop="20dp"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:text="Text Query"
+               />
+
+           <TextView
+               android:id="@+id/queryTV"
+               android:layout_marginTop="10dp"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               />
+
+           <TextView
+               style="@style/TextHeading"
+               android:layout_marginTop="20dp"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:text="Heart Rate"/>
+
+           <TextView
+               android:id="@+id/heartRateTV"
+               android:layout_marginTop="10dp"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               />
+
+           <TextView
+               style="@style/TextHeading"
+               android:layout_marginTop="20dp"
+               android:layout_marginBottom="10dp"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:text="Location"/>
+
+           <com.google.android.gms.maps.MapView
+               android:id="@+id/mapView"
+               android:layout_width="match_parent"
+               android:layout_height="200dp" />
+
+           <TextView
+               android:id="@+id/locationTV"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               />
+
+
+
+
+       </LinearLayout>
 
     </LinearLayout>
 

@@ -91,4 +91,8 @@ public class DataPacket implements Serializable {
         return files;
     }
 
+    public boolean hasLocation() {
+        return latitude != 0 && longitude != 0;
+    }
+
 }
