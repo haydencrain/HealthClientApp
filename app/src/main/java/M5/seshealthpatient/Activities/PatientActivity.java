@@ -4,15 +4,12 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.NavUtils;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
-
 
 
 import android.view.MenuItem;
@@ -27,7 +24,7 @@ import M5.seshealthpatient.R;
 
 
 /**
- * Class: MainActivity
+ * Class: PatientActivity
  * Extends:  {@link AppCompatActivity}
  * Author:  Carlos Tirado < Carlos.TiradoCorts@uts.edu.au>, and YOU!
  * Description:
@@ -41,7 +38,7 @@ import M5.seshealthpatient.R;
  * completely the design of the app, but for this design specifically I will use Fragments.
  * <p>
  */
-public class MainActivity extends BaseActivity {
+public class PatientActivity extends BaseActivity {
 
     /**
      * A basic Drawer layout that helps you build the side menu. I followed the steps on how to
@@ -59,7 +56,7 @@ public class MainActivity extends BaseActivity {
     /**
      * TAG to use
      */
-    private static String TAG = "MainActivity";
+    private static String TAG = "PatientActivity";
 
     /**
      * I am using this enum to know which is the current fragment being displayed, you will see
@@ -76,7 +73,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_main;
+        return R.layout.activity_patient;
     }
 
     @Override
@@ -106,7 +103,7 @@ public class MainActivity extends BaseActivity {
 
                         // Using a switch to see which item on the menu was clicked
                         switch (menuItem.getItemId()) {
-                            // You can find these id's at: res -> menu -> drawer_view.xml
+                            // You can find these id's at: res -> menu -> drawer_view_patient_patient.xml
                             case R.id.nav_patient_info:
                                 // If the user clicked on a different item than the current item
                                 if (currentState != MenuStates.PATIENT_INFO) {

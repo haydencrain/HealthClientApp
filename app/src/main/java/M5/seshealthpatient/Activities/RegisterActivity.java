@@ -95,6 +95,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 Toast.makeText(getApplicationContext(),"Patient is registered", Toast.LENGTH_SHORT).show();
                                 Intent in = new Intent(RegisterActivity.this, LoginActivity.class);
                                 startActivity(in);
+                                finish();
                         }
                         else{
                                 Toast.makeText(getApplicationContext(),"Patient cannot be registered", Toast.LENGTH_SHORT).show();

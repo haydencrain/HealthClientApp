@@ -81,8 +81,8 @@ public class PatientInformationFragment extends Fragment {
                 FirebaseAuth.getInstance().signOut();
                 Toast.makeText(getActivity(), "Signed out successfully.", Toast.LENGTH_LONG).show();
                 Intent in = new Intent(getActivity(), LoginActivity.class);
-                in.putExtra("Information", "personal detail");
                 startActivity(in);
+                getActivity().finish();
             }
         });
 

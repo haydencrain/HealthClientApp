@@ -46,7 +46,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activities.MainActivity" />
+        <activity android:name=".Activities.PatientActivity" />
         <activity android:name=".Activities.RegisterActivity" />
         <activity android:name=".Activities.AddDetails" />
         <activity android:name=".Activities.ViewInformation" />
@@ -66,7 +66,7 @@
                 android:resource="@xml/provider_path" />
         </provider>
 
-        <activity android:name=".Activities.DocActivity"></activity>
+        <activity android:name=".Activities.DoctorActivity"></activity>
     </application>
 
 </manifest>

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="M5.seshealthpatient.Activities.MainActivity">
+    tools:context="M5.seshealthpatient.Activities.DoctorActivity">
 
 
     <!-- This layout will be the one in charge of loading the different fragments-->
@@ -41,7 +41,7 @@
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header"
-        app:menu="@menu/drawer_view" />
+        app:menu="@menu/drawer_view_doctor" />
 
 
 </android.support.v4.widget.DrawerLayout>
