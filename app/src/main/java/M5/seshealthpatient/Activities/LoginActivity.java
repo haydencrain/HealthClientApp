@@ -17,7 +17,15 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import M5.seshealthpatient.Models.DoctorUser;
+import M5.seshealthpatient.Models.PatientUser;
+import M5.seshealthpatient.Models.BaseUser;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -36,6 +44,10 @@ import M5.seshealthpatient.R;
  * <p>
  */
 public class LoginActivity extends AppCompatActivity {
+
+    private DatabaseReference myRef;
+    private FirebaseDatabase mFirebaseDatabase;
+    private  String userID;
 
     /**
      * Use the @BindView annotation so Butter Knife can search for that view, and cast it for you
@@ -58,7 +70,8 @@ public class LoginActivity extends AppCompatActivity {
     private static String TAG = "LoginActivity";
 
     private FirebaseAuth auth;
-
+    private FirebaseDatabase db;
+    private DoctorUser doctorUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,10 +83,13 @@ public class LoginActivity extends AppCompatActivity {
 
         // Please try to use more String resources (values -> strings.xml) vs hardcoded Strings.
         setTitle(R.string.login_activity_title);
-
+        myRef = mFirebaseDatabase.getInstance().getReference();
         auth = FirebaseAuth.getInstance();
+        db = FirebaseDatabase.getInstance();
+
 
     }
+
 
     /**
      * See how Butter Knife also lets us add an on click event by adding this annotation before the
@@ -96,21 +112,43 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
-                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                            startActivity(intent);
+                            userID = auth.getUid();
+                            myRef.child("Users").child(userID).addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    PatientUser user = dataSnapshot.getValue(PatientUser.class);
+                                    if(user.getIsDoctor() != true){
+                                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                        startActivity(intent);
+                                    }
+                                    else
+                                    {
+                                        Intent intent = new Intent(LoginActivity.this, DocActivity.class);
+                                        startActivity(intent);
+                                    }
+
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                }
+                            });
+
+
                         }
                         else {
                             Toast.makeText(getApplicationContext(),"Account does not exist!", Toast.LENGTH_SHORT).show();
                         }
-                        }
-                    });
-                };
+                    }
+                });
+    };
 
 
-        // Start a new activity
-
+    // Start a new activity
     public void onRegisterClick(View view) {
         Intent intent = new Intent(this, RegisterActivity.class);
         startActivity(intent);
     }
+
 }
