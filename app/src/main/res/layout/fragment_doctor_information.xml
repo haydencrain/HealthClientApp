@@ -1,0 +1,49 @@
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="100"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="M5.seshealthpatient.Activities.LoginActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="50">
+
+        <LinearLayout
+            style="@style/IconGradient"
+            android:backgroundTint="@color/colorPrimary"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="50" >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true">
+            
+
+
+            <Button
+                android:id="@+id/sign_out_button"
+                style="@style/ButtonPrimary"
+                android:text="Sign out" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+
+
+</LinearLayout>

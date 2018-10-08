@@ -2,7 +2,6 @@ package M5.seshealthpatient.Fragments;
 
 
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -33,50 +32,27 @@ import M5.seshealthpatient.R;
  * <p>
 
  */
-public class PatientInformationFragment extends Fragment {
-    public PatientInformationFragment() {
+public class DoctorInformationFragment extends Fragment {
+    private Button btnSignOut;
+    public DoctorInformationFragment() {
         // Required empty public constructor
     }
-    FirebaseAuth auth;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //TODO: Instead of hardcoding the title perhaps take the user name from somewhere?
         // Note the use of getActivity() to reference the Activity holding this fragment
-        getActivity().setTitle("Patient Information");
+        getActivity().setTitle("Doctor Information");
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_patient_information, container, false);
+        View v = inflater.inflate(R.layout.fragment_doctor_information, container, false);
 
-        Button btnOpen = (Button)v.findViewById(R.id.btnAD);
-
-
-
-        Button btnView = (Button)v.findViewById(R.id.btnView);
-        Button btnSignOut = (Button)v.findViewById(R.id.sign_out_button);
-
-        btnOpen.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent in = new Intent(getActivity(), AddDetails.class);
-                in.putExtra("Information", "personal detail");
-                startActivity(in);
-            }
-        });
-
-        btnView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent in = new Intent(getActivity(), ViewInformation.class);
-                in.putExtra("Information", "personal detail");
-                startActivity(in);
-            }
-        });
-
+        btnSignOut = (Button)v.findViewById(R.id.sign_out_button);
         btnSignOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -84,7 +60,6 @@ public class PatientInformationFragment extends Fragment {
                     ((BaseActivity)getActivity()).signOut();
             }
         });
-
         return v;
     }
 

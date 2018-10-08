@@ -93,8 +93,7 @@ public class RegisterActivity extends AppCompatActivity {
                                     //        .setValue(new DoctorUser());
 
                                 Toast.makeText(getApplicationContext(),"Patient is registered", Toast.LENGTH_SHORT).show();
-                                Intent in = new Intent(RegisterActivity.this, LoginActivity.class);
-                                startActivity(in);
+                                navigateToLogin();
                         }
                         else{
                                 Toast.makeText(getApplicationContext(),"Patient cannot be registered", Toast.LENGTH_SHORT).show();
@@ -104,6 +103,12 @@ public class RegisterActivity extends AppCompatActivity {
                     });
         }
 
+    }
+
+    public void navigateToLogin() {
+        Intent in = new Intent(RegisterActivity.this, LoginActivity.class);
+        startActivity(in);
+        finish();
     }
 
 
