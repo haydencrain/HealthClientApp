@@ -2,6 +2,7 @@ package M5.seshealthpatient.Fragments;
 
 
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 
 import M5.seshealthpatient.Activities.AddDetails;
+import M5.seshealthpatient.Activities.BaseActivity;
 import M5.seshealthpatient.Activities.LoginActivity;
 import M5.seshealthpatient.Activities.ViewInformation;
 import M5.seshealthpatient.Activities.ViewPatientDataPackets;
@@ -78,11 +80,8 @@ public class PatientInformationFragment extends Fragment {
         btnSignOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FirebaseAuth.getInstance().signOut();
-                Toast.makeText(getActivity(), "Signed out successfully.", Toast.LENGTH_LONG).show();
-                Intent in = new Intent(getActivity(), LoginActivity.class);
-                startActivity(in);
-                getActivity().finish();
+                if (getActivity() instanceof BaseActivity)
+                    ((BaseActivity)getActivity()).signOut();
             }
         });
 

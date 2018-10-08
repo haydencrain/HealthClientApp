@@ -152,7 +152,6 @@ public class LoginActivity extends AppCompatActivity {
     public void navigateToRegister() {
         Intent intent = new Intent(this, RegisterActivity.class);
         startActivity(intent);
-        finish();
     }
 
     public void navigatetoPatientMain() {

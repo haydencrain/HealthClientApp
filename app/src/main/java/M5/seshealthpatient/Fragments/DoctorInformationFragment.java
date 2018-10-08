@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 
 import M5.seshealthpatient.Activities.AddDetails;
+import M5.seshealthpatient.Activities.BaseActivity;
 import M5.seshealthpatient.Activities.LoginActivity;
 import M5.seshealthpatient.Activities.ViewInformation;
 import M5.seshealthpatient.Activities.ViewPatientDataPackets;
@@ -32,6 +33,7 @@ import M5.seshealthpatient.R;
 
  */
 public class DoctorInformationFragment extends Fragment {
+    private Button btnSignOut;
     public DoctorInformationFragment() {
         // Required empty public constructor
     }
@@ -50,8 +52,14 @@ public class DoctorInformationFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_doctor_information, container, false);
 
-
-
+        btnSignOut = (Button)v.findViewById(R.id.sign_out_button);
+        btnSignOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (getActivity() instanceof BaseActivity)
+                    ((BaseActivity)getActivity()).signOut();
+            }
+        });
         return v;
     }
 
