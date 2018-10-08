@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.util.LinkedList;
 
 public class DataPacket implements Serializable {
+    private String title;
     private String query;
     private String heartRate;
     private double latitude;
@@ -14,7 +15,8 @@ public class DataPacket implements Serializable {
     private long sentDate;
     private LinkedList<String> files;
 
-    public DataPacket(String query, String heartRate, double latitude, double longitude, long sentDate, LinkedList<String> files) {
+    public DataPacket(String title, String query, String heartRate, double latitude, double longitude, long sentDate, LinkedList<String> files) {
+        this.title = title == null || title.isEmpty() ? "Data Packet" : title;
         this.heartRate = heartRate;
         this.query = query;
         this.latitude = latitude;
@@ -24,12 +26,21 @@ public class DataPacket implements Serializable {
     }
 
     public DataPacket() {
+        this.title = "Data Packet";
         this.latitude = 0;
         this.longitude = 0;
         this.query = null;
         this.heartRate = null;
         this.sentDate = 0;
         this.files = new LinkedList<>();
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public void addFile(String file) {
@@ -80,7 +91,8 @@ public class DataPacket implements Serializable {
         return files;
     }
 
-
-
+    public boolean hasLocation() {
+        return latitude != 0 && longitude != 0;
+    }
 
 }

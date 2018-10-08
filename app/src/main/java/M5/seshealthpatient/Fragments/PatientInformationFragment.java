@@ -17,6 +17,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import M5.seshealthpatient.Activities.AddDetails;
 import M5.seshealthpatient.Activities.LoginActivity;
 import M5.seshealthpatient.Activities.ViewInformation;
+import M5.seshealthpatient.Activities.ViewPatientDataPackets;
 import M5.seshealthpatient.R;
 
 /**
@@ -84,10 +85,6 @@ public class PatientInformationFragment extends Fragment {
                 startActivity(in);
             }
         });
-
-
-
-
 
         return v;
     }

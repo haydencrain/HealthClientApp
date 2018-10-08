@@ -54,7 +54,7 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value= "@string/api_key" />
+            android:value="@string/api_key" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -66,6 +66,7 @@
                 android:resource="@xml/provider_path" />
         </provider>
 
+        <activity android:name=".Activities.DocActivity"></activity>
     </application>
 
 </manifest>

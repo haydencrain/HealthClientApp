@@ -23,7 +23,7 @@ import java.util.ArrayList;
 
 import M5.seshealthpatient.R;
 
-public class ViewInformation extends AppCompatActivity {
+public class ViewInformation extends BaseActivity {
     private FirebaseDatabase mFirebaseDatabase;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
@@ -32,11 +32,15 @@ public class ViewInformation extends AppCompatActivity {
 
     private ListView mListView;
 
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_view_information;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_information);
+        setTitle("View Information");
 
         mListView = (ListView) findViewById(R.id.listview);
 
