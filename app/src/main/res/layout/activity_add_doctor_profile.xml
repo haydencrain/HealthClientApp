@@ -6,6 +6,13 @@
     android:layout_height="match_parent"
     android:background="@drawable/gradient">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        android:theme="@style/ToolbarTheme"
+        app:titleTextColor="@color/whiteColor" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -13,15 +20,6 @@
         style="@style/Container"
         android:orientation="vertical"
         android:layout_centerVertical="true">
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/colorPrimary"
-            android:theme="@style/ToolbarTheme"
-            app:titleTextColor="@color/whiteColor" />
-
 
         <EditText
             android:hint="Name"
