@@ -118,9 +118,8 @@ public class AddDetails extends BaseActivity {
                     String userID = user.getUid();
 
                     PatientUser userInfo = createUser();
-
-
-                    myRef.child("Users").child(userID).setValue(userInfo);
+                    DatabaseReference userRef = myRef.child("Users").child(userID);
+                    setValuesToUser(userInfo, userRef);
                     toastMessage("Added "+ nNewName.getText().toString() + " successfully");
 
                     clearTextBoxes();
@@ -230,6 +229,15 @@ public class AddDetails extends BaseActivity {
                 nHeight.getText().toString(),
                 selectedDoctorKey
         );
+    }
+
+    public void setValuesToUser(PatientUser user, DatabaseReference userRef) {
+        userRef.child("name").setValue(user.getName());
+        userRef.child("phone").setValue(user.getPhone());
+        userRef.child("weight").setValue(user.getWeight());
+        userRef.child("height").setValue(user.getHeight());
+        userRef.child("doctorID").setValue(user.getDoctorID());
+        userRef.child("isDoctor").setValue(user.getIsDoctor());
     }
 
     void clearTextBoxes()

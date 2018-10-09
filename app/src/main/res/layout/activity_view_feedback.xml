@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".Activities.FeedbackActivity"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        android:theme="@style/ToolbarTheme"
+        app:titleTextColor="@color/whiteColor" />
+
+   <RelativeLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:padding="20dp">
+
+       <TextView
+           android:id="@+id/messageTV"
+           android:layout_marginTop="10dp"
+           android:layout_width="match_parent"
+           android:layout_alignParentTop="true"
+           android:layout_height="wrap_content"
+           />
+
+       <ListView
+           android:layout_width="match_parent"
+           android:layout_above="@id/addMessageWrapper"
+           android:layout_alignParentTop="true"
+           android:layout_height="wrap_content"
+           android:id="@+id/commentsListView"/>
+
+       <RelativeLayout
+           android:id="@+id/addMessageWrapper"
+           android:layout_alignParentBottom="true"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:orientation="horizontal"
+           >
+           <EditText
+               android:hint="Enter feedback..."
+               android:textSize="16dp"
+               android:layout_toLeftOf="@id/addMessageBtn"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:inputType="textPersonName"
+               android:ems="10"
+               android:id="@+id/addMessageTxt"/>
+
+           <ImageButton
+               style="@style/ButtonPrimary"
+               android:contentDescription="Send"
+               android:id="@+id/addMessageBtn"
+               android:layout_marginLeft="10dp"
+               android:layout_alignParentRight="true"
+               android:layout_width="50dp"
+               android:src="@drawable/ic_send_white_24dp" />
+
+       </RelativeLayout>
+
+   </RelativeLayout>
+
+</LinearLayout>

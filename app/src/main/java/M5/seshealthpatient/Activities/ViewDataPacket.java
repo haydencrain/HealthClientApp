@@ -1,9 +1,10 @@
 package M5.seshealthpatient.Activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 
@@ -21,27 +22,30 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import M5.seshealthpatient.Models.Comment;
 import M5.seshealthpatient.Models.DataPacket;
 import M5.seshealthpatient.Models.LocationDefaults;
 import M5.seshealthpatient.Models.PatientUser;
 import M5.seshealthpatient.R;
-
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 
 public class ViewDataPacket extends BaseActivity implements OnMapReadyCallback {
 
     private DatabaseReference mUserDb;
+    private DatabaseReference mDataPacketDb;
     private DataPacket mDataPacket;
     private String mPatientId;
     private PatientUser mPatient;
     private TextView mSentFromTV;
     private TextView mQueryTV;
+    private Button mQueryBtn;
     private TextView mHeartRateTV;
     private TextView mLocationTV;
     private MapView mMapView;
     private GoogleMap mGoogleMap;
     private GeoDataClient mGeoDataClient;
-
 
     @Override
     protected int getLayoutId() {
@@ -51,9 +55,9 @@ public class ViewDataPacket extends BaseActivity implements OnMapReadyCallback {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
         bindViewComponents();
+        ButterKnife.bind(this);
+
         mDataPacket = (DataPacket)getIntent().getSerializableExtra("DATA_PACKET");
         mPatientId = (String)getIntent().getSerializableExtra("PATIENT_ID");
         setTitle("Data Packet - " + mDataPacket.getTitle());
@@ -70,28 +74,30 @@ public class ViewDataPacket extends BaseActivity implements OnMapReadyCallback {
             mLocationTV.setText("Patient has not set their location");
             mMapView.setVisibility(View.GONE);
         }
-
-        mUserDb = FirebaseDatabase.getInstance().getReference("Users/" + mPatientId);
-        mUserDb.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                mPatient = dataSnapshot.getValue(PatientUser.class);
-                mSentFromTV.setText(mPatient.getName());
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
+        addDbListeners();
     }
 
     public void bindViewComponents() {
         mSentFromTV = findViewById(R.id.sentFromTV);
         mQueryTV = findViewById(R.id.queryTV);
+        mQueryBtn = findViewById(R.id.queryBtn);
         mHeartRateTV = findViewById(R.id.heartRateTV);
         mLocationTV = findViewById(R.id.locationTV);
         mMapView = findViewById(R.id.mapView);
+    }
+
+    @OnClick(R.id.queryBtn)
+    public void onQueryBtnClick() {
+        navigateToFeedbackActivity("QUERY");
+    }
+
+    public void navigateToFeedbackActivity(String feedbackType) {
+        Intent intent = new Intent(this, FeedbackActivity.class);
+        intent.putExtra("PATIENT_ID", mPatientId);
+        intent.putExtra("DATA_PACKET_ID", mDataPacket.getId());
+        intent.putExtra("DATA_PACKET_TITLE", mDataPacket.getTitle());
+        intent.putExtra("FEEDBACK_TYPE", feedbackType);
+        startActivity(intent);
     }
 
     public void setUpGoogleMaps(Bundle savedInstanceState) {
@@ -141,5 +147,49 @@ public class ViewDataPacket extends BaseActivity implements OnMapReadyCallback {
         super.onLowMemory();
         if (mMapView.getVisibility() == View.VISIBLE)
             mMapView.onLowMemory();
+    }
+
+    public void addDbListeners() {
+        mUserDb = FirebaseDatabase.getInstance().getReference("Users/" + mPatientId);
+        mDataPacketDb = mUserDb.child("Queries/" + mDataPacket.getId());
+        addPatientDbListener();
+        addDataPacketCommentListeners();
+    }
+
+    public void addPatientDbListener() {
+        mUserDb.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                mPatient = dataSnapshot.getValue(PatientUser.class);
+                mSentFromTV.setText(mPatient.getName());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public void addDataPacketCommentListeners() {
+        addQueryCommentsListener();
+    }
+
+    public void addQueryCommentsListener() {
+        mDataPacketDb.child("queryComments").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                for (DataSnapshot commentSnapshot : dataSnapshot.getChildren()) {
+                    Comment queryComment = commentSnapshot.getValue(Comment.class);
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 }
