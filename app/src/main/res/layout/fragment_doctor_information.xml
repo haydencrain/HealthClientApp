@@ -32,9 +32,17 @@
             android:orientation="vertical"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true">
-            
 
 
+            <Button
+                android:id="@+id/btnAD"
+                style="@style/ButtonPrimary"
+                android:text="Add personal details" />
+
+            <Button
+                android:id="@+id/btnView"
+                style="@style/ButtonPrimary"
+                android:text="View my details" />
             <Button
                 android:id="@+id/sign_out_button"
                 style="@style/ButtonPrimary"
