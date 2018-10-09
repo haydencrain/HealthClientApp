@@ -49,6 +49,7 @@
         <activity android:name=".Activities.PatientActivity" />
         <activity android:name=".Activities.RegisterActivity" />
         <activity android:name=".Activities.AddDetails" />
+
         <activity android:name=".Activities.ViewInformation" />
         <activity android:name=".Activities.ViewDataPacket" />
         <activity android:name=".Activities.FeedbackActivity" />
@@ -68,6 +69,8 @@
         </provider>
 
         <activity android:name=".Activities.DoctorActivity"></activity>
+        <activity android:name=".Activities.AddDoctorDetails"></activity>
+        <activity android:name=".Activities.ViewDoctorInformation"></activity>
     </application>
 
 </manifest>

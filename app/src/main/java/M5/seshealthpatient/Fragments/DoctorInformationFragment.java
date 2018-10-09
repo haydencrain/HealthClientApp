@@ -15,8 +15,10 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 
 import M5.seshealthpatient.Activities.AddDetails;
+import M5.seshealthpatient.Activities.AddDoctorDetails;
 import M5.seshealthpatient.Activities.BaseActivity;
 import M5.seshealthpatient.Activities.LoginActivity;
+import M5.seshealthpatient.Activities.ViewDoctorInformation;
 import M5.seshealthpatient.Activities.ViewInformation;
 import M5.seshealthpatient.Activities.ViewPatientDataPackets;
 import M5.seshealthpatient.R;
@@ -38,6 +40,7 @@ public class DoctorInformationFragment extends Fragment {
         // Required empty public constructor
     }
 
+    FirebaseAuth auth;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +54,30 @@ public class DoctorInformationFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_doctor_information, container, false);
+
+        Button btnOpen = (Button)v.findViewById(R.id.btnAD);
+
+
+
+        Button btnView = (Button)v.findViewById(R.id.btnView);
+
+        btnOpen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent in = new Intent(getActivity(), AddDoctorDetails.class);
+                in.putExtra("Information", "personal detail");
+                startActivity(in);
+            }
+        });
+
+        btnView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent in = new Intent(getActivity(), ViewDoctorInformation.class);
+                in.putExtra("Information", "personal detail");
+                startActivity(in);
+            }
+        });
 
         btnSignOut = (Button)v.findViewById(R.id.sign_out_button);
         btnSignOut.setOnClickListener(new View.OnClickListener() {
