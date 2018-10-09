@@ -72,9 +72,11 @@ public class FeedbackActivity extends BaseActivity {
             case "LOCATION":
                 addCommentListener("locationComments");
                 title = " - Location Feedback";
+                break;
             case "FILES":
                 addCommentListener("filesComments");
                 title = " - Files Feedback";
+                break;
         }
         setTitle(dataPacketTitle + title);
     }

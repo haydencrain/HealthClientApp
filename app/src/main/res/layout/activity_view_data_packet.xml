@@ -112,7 +112,7 @@
                     android:layout_marginTop="10dp"
                     android:id="@+id/locationBtn"
                     style="@style/ButtonSecondary"
-                    android:text="VIew feedback"
+                    android:text="View feedback"
                     />
 
                 <TextView
