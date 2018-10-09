@@ -91,6 +91,21 @@ public class ViewDataPacket extends BaseActivity implements OnMapReadyCallback {
         navigateToFeedbackActivity("QUERY");
     }
 
+    @OnClick(R.id.heartRateBtn)
+    public void onHeartRateBtnClick() {
+        navigateToFeedbackActivity("HEART_RATE");
+    }
+
+    @OnClick(R.id.locationBtn)
+    public void onLocationBtnClick() {
+        navigateToFeedbackActivity("LOCATION");
+    }
+
+    @OnClick(R.id.filesBtn)
+    public void onFilesBtnClick() {
+        navigateToFeedbackActivity("FILES");
+    }
+
     public void navigateToFeedbackActivity(String feedbackType) {
         Intent intent = new Intent(this, FeedbackActivity.class);
         intent.putExtra("PATIENT_ID", mPatientId);

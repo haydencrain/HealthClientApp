@@ -59,11 +59,26 @@ public class FeedbackActivity extends BaseActivity {
         if (!isUserDoctor())
             mAddMessageWrapper.setVisibility(View.GONE);
 
+        String title = "";
         switch (feedbackType) {
             case "QUERY":
                 addCommentListener("queryComments");
-                setTitle(dataPacketTitle + " - Query Feedback");
+                title = " - Query Feedback";
+                break;
+            case "HEART_RATE":
+                addCommentListener("heartRateComments");
+                title = " - Heart Rate Feedback";
+                break;
+            case "LOCATION":
+                addCommentListener("locationComments");
+                title = " - Location Feedback";
+                break;
+            case "FILES":
+                addCommentListener("filesComments");
+                title = " - Files Feedback";
+                break;
         }
+        setTitle(dataPacketTitle + title);
     }
 
     public void getDataFromIntent() {

@@ -21,87 +21,120 @@
             android:theme="@style/ToolbarTheme"
             app:titleTextColor="@color/whiteColor" />
 
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-       <LinearLayout
-           android:layout_width="match_parent"
-           android:layout_height="match_parent"
-           android:orientation="vertical"
-           android:padding="20dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="20dp">
 
-           <TextView
-               style="@style/TextHeading"
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:text="Sent From"
-               />
+                <TextView
+                    style="@style/TextHeading"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Sent From"
+                    />
 
-           <TextView
-               android:id="@+id/sentFromTV"
-               android:layout_marginTop="10dp"
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               />
-
-
-           <TextView
-               style="@style/TextHeading"
-               android:layout_marginTop="20dp"
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:text="Text Query"
-               />
-
-           <TextView
-               android:id="@+id/queryTV"
-               android:layout_marginTop="10dp"
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               />
-
-           <Button
-               android:layout_marginTop="10dp"
-               android:id="@+id/queryBtn"
-               style="@style/ButtonSecondary"
-               android:text="View feedback"
-               />
-
-           <TextView
-               style="@style/TextHeading"
-               android:layout_marginTop="20dp"
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:text="Heart Rate"/>
-
-           <TextView
-               android:id="@+id/heartRateTV"
-               android:layout_marginTop="10dp"
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               />
-
-           <TextView
-               style="@style/TextHeading"
-               android:layout_marginTop="20dp"
-               android:layout_marginBottom="10dp"
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:text="Location"/>
-
-           <com.google.android.gms.maps.MapView
-               android:id="@+id/mapView"
-               android:layout_width="match_parent"
-               android:layout_height="200dp" />
-
-           <TextView
-               android:id="@+id/locationTV"
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               />
+                <TextView
+                    android:id="@+id/sentFromTV"
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    />
 
 
+                <TextView
+                    style="@style/TextHeading"
+                    android:layout_marginTop="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Text Query"
+                    />
 
+                <TextView
+                    android:id="@+id/queryTV"
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    />
 
-       </LinearLayout>
+                <Button
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/queryBtn"
+                    style="@style/ButtonSecondary"
+                    android:text="View feedback"
+                    />
+
+                <TextView
+                    style="@style/TextHeading"
+                    android:layout_marginTop="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Heart Rate"/>
+
+                <TextView
+                    android:id="@+id/heartRateTV"
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    />
+
+                <Button
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/heartRateBtn"
+                    style="@style/ButtonSecondary"
+                    android:text="VIew feedback"
+                    />
+
+                <TextView
+                    style="@style/TextHeading"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Location"/>
+
+                <com.google.android.gms.maps.MapView
+                    android:id="@+id/mapView"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp" />
+
+                <TextView
+                    android:id="@+id/locationTV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    />
+
+                <Button
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/locationBtn"
+                    style="@style/ButtonSecondary"
+                    android:text="View feedback"
+                    />
+
+                <TextView
+                    style="@style/TextHeading"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Files"/>
+
+                <!-- ADD FILE SPECIFIC STUFF HERE -->
+
+                <Button
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/filesBtn"
+                    style="@style/ButtonSecondary"
+                    android:text="VIew feedback"
+                    />
+
+            </LinearLayout>
+
+        </ScrollView>
 
     </LinearLayout>
 
