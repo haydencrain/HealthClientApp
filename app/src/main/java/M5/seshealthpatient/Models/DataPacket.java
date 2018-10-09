@@ -18,6 +18,7 @@ public class DataPacket implements Serializable {
     private LinkedList<Comment> locationComments;
     private long sentDate;
     private LinkedList<String> files;
+    private LinkedList<Comment> filesComments;
 
     public DataPacket(String id, String title, String query, String heartRate, double latitude, double longitude, long sentDate, LinkedList<String> files) {
         this.id = id;

@@ -112,6 +112,24 @@
                android:text="VIew feedback"
                />
 
+           <TextView
+               style="@style/TextHeading"
+               android:layout_marginTop="20dp"
+               android:layout_marginBottom="10dp"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:text="Files"/>
+
+           <!-- ADD FILE SPECIFIC STUFF HERE -->
+
+           <Button
+               android:layout_marginTop="10dp"
+               android:id="@+id/filesBtn"
+               style="@style/ButtonSecondary"
+               android:text="VIew feedback"
+               />
+
+
 
 
 
