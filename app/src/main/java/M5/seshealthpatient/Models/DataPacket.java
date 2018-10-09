@@ -7,15 +7,18 @@ import java.io.Serializable;
 import java.util.LinkedList;
 
 public class DataPacket implements Serializable {
+    private String id;
     private String title;
     private String query;
+    private LinkedList<Comment> queryComments;
     private String heartRate;
     private double latitude;
     private double longitude;
     private long sentDate;
     private LinkedList<String> files;
 
-    public DataPacket(String title, String query, String heartRate, double latitude, double longitude, long sentDate, LinkedList<String> files) {
+    public DataPacket(String id, String title, String query, String heartRate, double latitude, double longitude, long sentDate, LinkedList<String> files) {
+        this.id = id;
         this.title = title == null || title.isEmpty() ? "Data Packet" : title;
         this.heartRate = heartRate;
         this.query = query;
@@ -26,6 +29,7 @@ public class DataPacket implements Serializable {
     }
 
     public DataPacket() {
+        this.id = "";
         this.title = "Data Packet";
         this.latitude = 0;
         this.longitude = 0;
@@ -33,6 +37,14 @@ public class DataPacket implements Serializable {
         this.heartRate = null;
         this.sentDate = 0;
         this.files = new LinkedList<>();
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -77,6 +89,14 @@ public class DataPacket implements Serializable {
 
     public void setQuery(String query) {
         this.query = query;
+    }
+
+    public void setQueryComments(LinkedList<Comment> queryComments) {
+        this.queryComments = queryComments;
+    }
+
+    public LinkedList<Comment> getQueryComments() {
+        return queryComments;
     }
 
     public long getSentDate() {

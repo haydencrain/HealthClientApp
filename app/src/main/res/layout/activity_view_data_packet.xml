@@ -58,6 +58,12 @@
                android:layout_height="wrap_content"
                />
 
+           <Button
+               android:id="@+id/queryBtn"
+               style="@style/ButtonSecondary"
+               android:text="View feedback"
+               />
+
            <TextView
                style="@style/TextHeading"
                android:layout_marginTop="20dp"

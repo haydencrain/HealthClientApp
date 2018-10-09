@@ -157,6 +157,7 @@ public class DataPacketFragment extends Fragment {
 
 
                 String queryKey = dbRef.child("Queries").push().getKey();
+                dataPacket.setId(queryKey);
                 dbRef.child("Queries").child(queryKey).setValue(dataPacket);
                 Toast.makeText(getActivity(), "Query Sent Successfully", Toast.LENGTH_LONG).show();
             }

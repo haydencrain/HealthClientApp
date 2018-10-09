@@ -51,6 +51,7 @@
         <activity android:name=".Activities.AddDetails" />
         <activity android:name=".Activities.ViewInformation" />
         <activity android:name=".Activities.ViewDataPacket" />
+        <activity android:name=".Activities.FeedbackActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

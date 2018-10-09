@@ -69,8 +69,6 @@
 
                 <Button
                     style="@style/ButtonSecondary"
-                    android:layout_width="150dp"
-                    android:layout_height="match_parent"
                     android:id="@+id/btnSHR"
                     android:text="Get Heart Rate" />
 
@@ -95,7 +93,6 @@
                 <Button
                     android:id="@+id/btnLocation"
                     style="@style/ButtonSecondary"
-                    android:layout_width="150dp"
                     android:text="Get Location" />
 
                 <TextView
@@ -118,7 +115,6 @@
                 <Button
                     android:id="@+id/btnRecord"
                     style="@style/ButtonSecondary"
-                    android:layout_width="150dp"
                     android:text="Record Video" />
 
 

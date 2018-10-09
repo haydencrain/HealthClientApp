@@ -69,6 +69,8 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseDatabase db;
     private DoctorUser doctorUser;
 
+    ValueEventListener mUserListener;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,6 +88,7 @@ public class LoginActivity extends AppCompatActivity {
         handleIfAlreadyLoggedIn();
     }
 
+
     public void handleIfAlreadyLoggedIn() {
         if (auth.getCurrentUser() != null)
             handleIfDoctorOrPatient();
@@ -93,7 +96,7 @@ public class LoginActivity extends AppCompatActivity {
 
     public void handleIfDoctorOrPatient() {
         userID = auth.getUid();
-        myRef.child("Users").child(userID).addValueEventListener(new ValueEventListener() {
+        mUserListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 BaseUser user = dataSnapshot.getValue(BaseUser.class);
@@ -108,7 +111,9 @@ public class LoginActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
-        });
+        };
+
+        myRef.child("Users").child(userID).addValueEventListener(mUserListener);
 
     }
 
@@ -164,6 +169,14 @@ public class LoginActivity extends AppCompatActivity {
         Intent intent = new Intent(LoginActivity.this, DoctorActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    @Override
+    public void onStop() {
+        if (auth.getCurrentUser() != null && mUserListener != null)
+            myRef.child("Users").child(auth.getUid()).removeEventListener(mUserListener);
+
+        super.onStop();
     }
 
 }
