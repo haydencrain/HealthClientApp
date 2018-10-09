@@ -12,6 +12,7 @@ public class DataPacket implements Serializable {
     private String query;
     private LinkedList<Comment> queryComments;
     private String heartRate;
+    private LinkedList<Comment> heartRateComments;
     private double latitude;
     private double longitude;
     private long sentDate;
