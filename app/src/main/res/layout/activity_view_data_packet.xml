@@ -105,6 +105,13 @@
                android:layout_height="wrap_content"
                />
 
+           <Button
+               android:layout_marginTop="10dp"
+               android:id="@+id/locationBtn"
+               style="@style/ButtonSecondary"
+               android:text="VIew feedback"
+               />
+
 
 
 

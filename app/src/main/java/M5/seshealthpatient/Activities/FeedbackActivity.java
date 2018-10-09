@@ -69,6 +69,9 @@ public class FeedbackActivity extends BaseActivity {
                 addCommentListener("heartRateComments");
                 title = " - Heart Rate Feedback";
                 break;
+            case "LOCATION":
+                addCommentListener("locationComments");
+                title = " - Location Feedback";
         }
         setTitle(dataPacketTitle + title);
     }

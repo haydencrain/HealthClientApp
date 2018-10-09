@@ -96,6 +96,11 @@ public class ViewDataPacket extends BaseActivity implements OnMapReadyCallback {
         navigateToFeedbackActivity("HEART_RATE");
     }
 
+    @OnClick(R.id.locationBtn)
+    public void onLocationBtnClick() {
+        navigateToFeedbackActivity("LOCATION");
+    }
+
     public void navigateToFeedbackActivity(String feedbackType) {
         Intent intent = new Intent(this, FeedbackActivity.class);
         intent.putExtra("PATIENT_ID", mPatientId);

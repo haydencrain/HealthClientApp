@@ -15,6 +15,7 @@ public class DataPacket implements Serializable {
     private LinkedList<Comment> heartRateComments;
     private double latitude;
     private double longitude;
+    private LinkedList<Comment> locationComments;
     private long sentDate;
     private LinkedList<String> files;
 
