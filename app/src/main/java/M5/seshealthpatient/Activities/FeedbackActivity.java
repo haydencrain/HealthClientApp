@@ -87,17 +87,20 @@ public class FeedbackActivity extends BaseActivity {
     }
 
     public void addComment() {
-        /*
-         String message = addMessageTxt.getText().toString();
-         Comment comment = new Comment(message, getUserId(), new Date().getTime());
-         String key = mCommentsDb.push().getKey();
-         mCommentsDb.child(key).setValue(comment);
-         // Toast.makeText(FeedbackActivity.this, "Feedback Sent Succesfully", Toast.LENGTH_LONG).show();
-         */
+        String message = addMessageTxt.getText().toString();
+        Comment comment = new Comment(message, getUserId(), new Date().getTime());
+        String key = mCommentsDb.push().getKey();
+        mCommentsDb.child(key).setValue(comment);
+        addMessageTxt.setText("");
+        Toast.makeText(FeedbackActivity.this, "Feedback Sent Succesfully", Toast.LENGTH_LONG).show();
     }
 
     public void addCommentListener(String commentsPath) {
-        mCommentsDb = FirebaseDatabase.getInstance().getReference("Users/" + patientId + "/" + dataPacketId + "/" + commentsPath);
+        mCommentsDb = FirebaseDatabase.getInstance()
+                .getReference("Users/" + patientId)
+                .child("Queries")
+                .child(dataPacketId)
+                .child(commentsPath);
         mCommentsDb.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

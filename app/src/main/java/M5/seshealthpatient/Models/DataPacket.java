@@ -91,14 +91,6 @@ public class DataPacket implements Serializable {
         this.query = query;
     }
 
-    public void setQueryComments(LinkedList<Comment> queryComments) {
-        this.queryComments = queryComments;
-    }
-
-    public LinkedList<Comment> getQueryComments() {
-        return queryComments;
-    }
-
     public long getSentDate() {
         return sentDate;
     }

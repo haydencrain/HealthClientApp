@@ -59,6 +59,7 @@
                />
 
            <Button
+               android:layout_marginTop="10dp"
                android:id="@+id/queryBtn"
                style="@style/ButtonSecondary"
                android:text="View feedback"
