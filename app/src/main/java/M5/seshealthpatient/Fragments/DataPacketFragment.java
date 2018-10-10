@@ -27,11 +27,17 @@ import android.widget.Toast;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.util.Date;
 import java.io.File;
@@ -65,6 +71,10 @@ public class DataPacketFragment extends Fragment {
 
     // data packet
     DataPacket dataPacket;
+
+    FirebaseStorage storage = FirebaseStorage.getInstance();
+    StorageReference storageRef = storage.getReference();
+
 
     private LinkedList<String> files;
 
@@ -191,9 +201,27 @@ public class DataPacketFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == VIDEO_REQUEST_CODE) {
             if (resultCode == getActivity().RESULT_OK) {
-                Toast.makeText(getActivity(),
-                        "Video Successfully Recorded",
-                        Toast.LENGTH_SHORT).show();
+
+                Uri file = Uri.fromFile(new File( "storage/emulated/0/DCIM/Camera/VID_20181011_054520.mp4" ));
+                String userUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                StorageReference storageRef = FirebaseStorage.getInstance().getReference();
+                StorageReference videoRef = storageRef.child("/videos/" + userUid + "/" + file.getLastPathSegment());
+                UploadTask uploadTask = videoRef.putFile( file );
+
+                uploadTask.addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        Toast.makeText(getContext(), "Nothing to upload", Toast.LENGTH_SHORT).show();// Handle unsuccessful uploads
+                    }
+                }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        taskSnapshot.getMetadata();// taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
+                        // ...
+                    }
+                });
+
+
             } else {
                 Toast.makeText(getActivity(),
                         "Video recorded failed",
