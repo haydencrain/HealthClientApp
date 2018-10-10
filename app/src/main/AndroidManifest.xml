@@ -53,6 +53,8 @@
         <activity android:name=".Activities.ViewInformation" />
         <activity android:name=".Activities.ViewDataPacket" />
         <activity android:name=".Activities.FeedbackActivity" />
+        <activity android:name=".Activities.ViewPatientDataPackets" />
+        <activity android:name=".Activities.HeartRateGraph" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

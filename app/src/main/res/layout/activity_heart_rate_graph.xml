@@ -14,23 +14,9 @@
         android:theme="@style/ToolbarTheme"
         app:titleTextColor="@color/whiteColor" />
 
-    <RelativeLayout
-        style="@style/ContainerBottomRounded"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <Button
-            android:layout_margin="15dp"
-            android:id="@+id/graphBtn"
-            style="@style/ButtonPrimary"
-            android:text="View Heart Rate Graph"
-            android:layout_centerHorizontal="true"/>
-
-    </RelativeLayout>
-
-    <ListView
+    <com.jjoe64.graphview.GraphView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/dataPacketsListView"/>
+        android:id="@+id/graph" />
 
 </LinearLayout>
