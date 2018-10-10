@@ -27,6 +27,8 @@ import java.util.Locale;
 import M5.seshealthpatient.Models.DataPacket;
 import M5.seshealthpatient.Models.PatientUser;
 import M5.seshealthpatient.R;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class ViewPatientDataPackets extends BaseActivity implements AdapterView.OnItemClickListener {
 
@@ -44,7 +46,7 @@ public class ViewPatientDataPackets extends BaseActivity implements AdapterView.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        ButterKnife.bind(this);
         setTitle("Data Packets");
         mPatientId = (String)getIntent().getSerializableExtra("PATIENT_ID");
         mListView = findViewById(R.id.dataPacketsListView);
@@ -76,6 +78,23 @@ public class ViewPatientDataPackets extends BaseActivity implements AdapterView.
 
         mListView.setOnItemClickListener(this);
 
+    }
+
+    @OnClick(R.id.graphBtn)
+    public void onGraphBtnClick() {
+        navigateToGraph();
+    }
+
+    public void navigateToGraph() {
+        String[] heartRates = new String[mDataPackets.size()];
+        for (int i = 0; i < heartRates.length; i++) {
+            heartRates[i] = mDataPackets.get(i).getHeartRate();
+        }
+
+        Intent intent = new Intent(this, HeartRateGraph.class);
+        intent.putExtra("PATIENT_NAME", mPatient.getName());
+        intent.putExtra("HEART_RATES", heartRates);
+        startActivity(intent);
     }
 
     public void createDataPacketList(DataSnapshot dataSnapshot) {

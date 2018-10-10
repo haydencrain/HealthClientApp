@@ -56,6 +56,11 @@ dependencies {
     implementation "com.google.firebase:firebase-core:$firebase"
     implementation "com.google.firebase:firebase-auth:$firebase"
     implementation "com.google.firebase:firebase-analytics:$firebase"
+
+    /**
+     * Graph View ref: https://github.com/jjoe64/GraphView
+     */
+    implementation 'com.jjoe64:graphview:4.2.2'
 }
 
 apply plugin: 'com.google.gms.google-services'
