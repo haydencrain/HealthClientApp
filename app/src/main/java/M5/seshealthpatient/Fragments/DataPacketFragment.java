@@ -42,6 +42,7 @@ import com.google.firebase.storage.UploadTask;
 import java.util.Date;
 import java.io.File;
 import java.util.LinkedList;
+import java.util.Locale;
 
 import M5.seshealthpatient.Models.DataPacket;
 import M5.seshealthpatient.Models.LocationDefaults;
@@ -78,6 +79,7 @@ public class DataPacketFragment extends Fragment {
 
     private LinkedList<String> files;
 
+    private Uri mVideo_uri;
 
     public DataPacketFragment() {
         // Required empty public constructor
@@ -180,8 +182,8 @@ public class DataPacketFragment extends Fragment {
         Intent camera_intent = new Intent( MediaStore.ACTION_VIDEO_CAPTURE);
         File video_file = getFilepath();
         //Uri video_uri = Uri.fromFile(video_file);
-        Uri video_uri = FileProvider.getUriForFile(getActivity(), "M5.seshealthpatient.provider", getFilepath());
-        camera_intent.putExtra(MediaStore.EXTRA_OUTPUT, video_uri);
+        mVideo_uri = FileProvider.getUriForFile(getActivity(), "M5.seshealthpatient.provider", video_file);
+        camera_intent.putExtra(MediaStore.EXTRA_OUTPUT, mVideo_uri);
         camera_intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
         startActivityForResult(camera_intent, VIDEO_REQUEST_CODE);
     }
@@ -193,7 +195,9 @@ public class DataPacketFragment extends Fragment {
         if (folder.exists()) {
             folder.mkdir();
         }
-        File video_file = new File(folder, "sample_video.mp4");
+        Date date = new Date();
+        String dateString = String.format(Locale.ENGLISH, "VID_%1$tY%1$tm%1$td_%1$tk%1$tM%1$tS", date, ".mp4");
+        File video_file = new File(folder, dateString);
         return video_file;
     }
 
@@ -201,7 +205,7 @@ public class DataPacketFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == VIDEO_REQUEST_CODE) {
             if (resultCode == getActivity().RESULT_OK) {
-
+                // I saved the uri of the video (from line 185) into a global variable, so you can access it (mVideo_uri)
                 Uri file = Uri.fromFile(new File( "storage/emulated/0/DCIM/Camera/VID_20181011_054520.mp4" ));
                 String userUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
                 StorageReference storageRef = FirebaseStorage.getInstance().getReference();

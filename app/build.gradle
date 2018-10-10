@@ -20,7 +20,7 @@ android {
 
 ext {
     //Add the firebase version
-    firebase = "16.0.3"
+    firebase = "16.0.1"
     maps = "15.0.1"
 }
 
@@ -57,6 +57,7 @@ dependencies {
     implementation "com.google.firebase:firebase-core:$firebase"
     implementation "com.google.firebase:firebase-auth:$firebase"
     implementation "com.google.firebase:firebase-analytics:$firebase"
+    implementation "com.google.firebase:firebase-storage:$firebase"
 
     /**
      * Graph View ref: https://github.com/jjoe64/GraphView
