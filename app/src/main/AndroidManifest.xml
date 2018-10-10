@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="M5.seshealthpatient">
 
-    <uses-sdk android:targetSdkVersion="15" />
+
 
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.CAMERA" />
@@ -56,7 +56,7 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/api_key" />
+            android:value="AIzaSyBX4zcSuMCZggE5utOlPZuUQo-SHSdZlpo" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"
