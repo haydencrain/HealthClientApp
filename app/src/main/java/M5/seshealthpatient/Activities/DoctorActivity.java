@@ -21,6 +21,7 @@ import M5.seshealthpatient.Fragments.DoctorInformationFragment;
 import M5.seshealthpatient.Fragments.MapFragment;
 import M5.seshealthpatient.Fragments.PatientInformationFragment;
 import M5.seshealthpatient.Fragments.ViewDataPacketsFragment;
+import M5.seshealthpatient.Fragments.ViewPatientsFragment;
 import M5.seshealthpatient.R;
 
 
@@ -50,6 +51,7 @@ public class DoctorActivity extends BaseActivity {
      */
     private enum MenuStates {
         DOCTOR_INFO,
+        PATIENTS_LIST,
     }
 
     /**
@@ -96,6 +98,15 @@ public class DoctorActivity extends BaseActivity {
                                     // change the fragment to the new fragment
                                     ChangeFragment(new DoctorInformationFragment());
                                     currentState = MenuStates.DOCTOR_INFO;
+                                }
+                                break;
+
+                            case R.id.nav_patients_list:
+                                // If the user clicked on a different item than the current item
+                                if (currentState != MenuStates.DOCTOR_INFO) {
+                                    // change the fragment to the new fragment
+                                    ChangeFragment(new ViewPatientsFragment());
+                                    currentState = MenuStates.PATIENTS_LIST;
                                 }
                                 break;
                         }
