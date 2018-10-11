@@ -3,6 +3,7 @@ package M5.seshealthpatient.Activities;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Pair;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -30,6 +31,8 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.LinkedList;
 
 import M5.seshealthpatient.R;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class AddPatientDetails extends BaseActivity {
 
@@ -46,12 +49,15 @@ public class AddPatientDetails extends BaseActivity {
     private LinkedList<String> mDoctorKeys;
     private String selectedDoctorKey;
 
-
     //add Firebase
     private FirebaseDatabase mFirebaseDatabase;
     private FirebaseAuth mAuth;
-    private FirebaseAuth.AuthStateListener mAuthListener;
     private DatabaseReference myRef;
+    private DatabaseReference mUsersDb;
+
+    private ValueEventListener mUsersEvent;
+    private OnItemSelectedListener mSelectedItemEvent;
+
 
     @Override
     protected int getLayoutId() {
@@ -62,76 +68,42 @@ public class AddPatientDetails extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTitle("Add Details");
-
-        mAddToDB = (Button) findViewById(R.id.btnAddNewName);
-        nNewName = (EditText) findViewById(R.id.add_name);
-        nPhone = (EditText) findViewById(R.id.add_phone);
-        nWeight = (EditText) findViewById(R.id.add_weight);
-        nHeight = (EditText) findViewById(R.id.add_height);
-        mDoctorDropdown = findViewById(R.id.doctorDropdown);
-
+        bindViewComponents();
+        ButterKnife.bind(this);
         selectedDoctorKey = "";
-
         mAuth = FirebaseAuth.getInstance();
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         myRef = mFirebaseDatabase.getReference();
+        mUsersDb = myRef.child("Users");
+    }
 
-        mAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null) {
-                    // User is signed in
-                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-                    toastMessage("Successfully signed in with: " + user.getEmail());
-                } else {
-                    // User is signed out
-                    Log.d(TAG, "onAuthStateChanged:signed_out");
-                    toastMessage("Successfully signed out.");
-                }
-                // ...
-            }
-        };
+    @Override
+    public void onStart() {
+        mUsersEvent = getFirebaseUsersEvent();
+        mSelectedItemEvent = getSelectedItemEvent();
+        mUsersDb.addValueEventListener(mUsersEvent);
+        mDoctorDropdown.setOnItemSelectedListener(mSelectedItemEvent);
+        super.onStart();
+    }
 
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
-                Object value = dataSnapshot.getValue();
-                Log.d(TAG, "Value is: " + value);
-            }
+    @Override
+    public void onStop() {
+        mUsersDb.removeEventListener(mUsersEvent);
+        super.onStop();
+    }
 
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-                Log.w(TAG, "Failed to read value.", error.toException());
-            }
-        });
-
-        mAddToDB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                if (textBoxesNotEmpty()) {
-                    FirebaseUser user = mAuth.getCurrentUser();
-                    String userID = user.getUid();
-
-                    PatientUser userInfo = createUser();
-                    DatabaseReference userRef = myRef.child("Users").child(userID);
-                    setValuesToUser(userInfo, userRef);
-                    toastMessage("Added "+ nNewName.getText().toString() + " successfully");
-
-                    clearTextBoxes();
-
-                }
-
-            }
-        });
-
-        myRef.child("Users").addListenerForSingleValueEvent(new ValueEventListener() {
+    public ValueEventListener getFirebaseUsersEvent() {
+        return new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                PatientUser user = dataSnapshot.child(mAuth.getUid()).getValue(PatientUser.class);
+                setTextBoxes(
+                        user.getName(),
+                        user.getPhone(),
+                        user.getWeight(),
+                        user.getHeight(),
+                        user.getDoctorID()
+                );
                 createDoctorDropdown(dataSnapshot);
             }
 
@@ -139,10 +111,11 @@ public class AddPatientDetails extends BaseActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
-        });
+        };
+    }
 
-        mDoctorDropdown.setOnItemSelectedListener(new OnItemSelectedListener() {
-
+    public OnItemSelectedListener getSelectedItemEvent() {
+        return new OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 selectedDoctorKey = mDoctorKeys.get(i);
@@ -150,29 +123,49 @@ public class AddPatientDetails extends BaseActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) { }
-        });
+        };
+    }
 
+    public void bindViewComponents() {
+        mAddToDB = (Button) findViewById(R.id.btnAddNewName);
+        nNewName = (EditText) findViewById(R.id.add_name);
+        nPhone = (EditText) findViewById(R.id.add_phone);
+        nWeight = (EditText) findViewById(R.id.add_weight);
+        nHeight = (EditText) findViewById(R.id.add_height);
+        mDoctorDropdown = findViewById(R.id.doctorDropdown);
+    }
 
+    @OnClick(R.id.btnAddNewName)
+    public void onClick(View view) {
+        if (textBoxesNotEmpty()) {
+            PatientUser userInfo = createUser();
+            setValuesToUser(userInfo, mUsersDb.child(mAuth.getUid()));
+            toastMessage(AddPatientDetails.this, "Added "+ nNewName.getText().toString() + " successfully");
+        }
     }
 
     private void createDoctorDropdown(DataSnapshot snapshotUsers) {
         LinkedList<DoctorUser> doctors = new LinkedList<>();
         LinkedList<String> doctorNames = new LinkedList<>();
         LinkedList<String> doctorKeys = new LinkedList<>();
-
+        int dropdownSelection = 0;
         // add a blank initial doctor
         doctors.add(new DoctorUser());
         doctorNames.add("");
         doctorKeys.add("");
 
+        int i = 0;
         for (DataSnapshot snapshotUser : snapshotUsers.getChildren()) {
             BaseUser baseUser = snapshotUser.getValue(BaseUser.class);
             if (baseUser.getIsDoctor()) {
+                i++;
                 DoctorUser doctorUser = snapshotUser.getValue(DoctorUser.class);
-
                 doctors.add(doctorUser);
                 doctorNames.add(doctorUser.getName());
                 doctorKeys.add(snapshotUser.getKey());
+                if (snapshotUser.getKey().equals(selectedDoctorKey)) {
+                    dropdownSelection = i;
+                }
             }
         }
 
@@ -182,31 +175,7 @@ public class AddPatientDetails extends BaseActivity {
 
         ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, doctorNames);
         mDoctorDropdown.setAdapter(adapter);
-    }
-
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        mAuth.addAuthStateListener(mAuthListener);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        if (mAuthListener != null) {
-            mAuth.removeAuthStateListener(mAuthListener);
-        }
-    }
-    //add a toast to show when successfully signed in
-
-    /**
-     * customizable toast
-     *
-     * @param message
-     */
-    private void toastMessage(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+        mDoctorDropdown.setSelection(dropdownSelection);
     }
 
     boolean textBoxesNotEmpty() {
@@ -240,13 +209,12 @@ public class AddPatientDetails extends BaseActivity {
         userRef.child("isDoctor").setValue(user.getIsDoctor());
     }
 
-    void clearTextBoxes()
+    void setTextBoxes(String name, String phone, String weight, String height, String doctorID)
     {
-        nNewName.setText("");
-        nPhone.setText("");
-        nWeight.setText("");
-        nHeight.setText("");
-        selectedDoctorKey = "";
-        mDoctorDropdown.setSelection(0);
+        nNewName.setText(name);
+        nPhone.setText(phone);
+        nWeight.setText(weight);
+        nHeight.setText(height);
+        selectedDoctorKey = doctorID;
     }
 }
