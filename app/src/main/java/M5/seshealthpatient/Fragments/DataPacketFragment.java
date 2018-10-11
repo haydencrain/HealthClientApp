@@ -136,6 +136,7 @@ public class DataPacketFragment extends Fragment {
         btnChoose = view.findViewById( R.id.choosefile );
     }
 
+
     private void setEventListeners() {
         btnHeartRate.setOnClickListener( new View.OnClickListener() {
             @Override
@@ -178,6 +179,7 @@ public class DataPacketFragment extends Fragment {
                 String uid = user.getUid();
                 //getting the db directory for the currently logged in user using their id
                 DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference("Users/" + uid);
+
 
                 dataPacket.setTitle(titleTextBox.getText().toString());
                 dataPacket.setQuery(queryTextBox.getText().toString());
@@ -251,7 +253,15 @@ public class DataPacketFragment extends Fragment {
             progressDialog.show();
 
             String userUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-            StorageReference riversRef = storageRef.child("/videos/" + userUid);
+
+
+            Date date = new Date();
+            String dateString = String.format(Locale.ENGLISH, "VID_%1$tY%1$tm%1$td_%1$tk%1$tM%1$tS", date, ".mp4");
+            File video_file = new File(dateString);
+
+            Uri file = Uri.fromFile(video_file);
+
+            StorageReference riversRef = storageRef.child(userUid+ "/"+ file.getLastPathSegment());
             riversRef.putFile(filePath)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
