@@ -20,6 +20,7 @@ import M5.seshealthpatient.Fragments.DataPacketFragment;
 import M5.seshealthpatient.Fragments.MapFragment;
 import M5.seshealthpatient.Fragments.PatientInformationFragment;
 import M5.seshealthpatient.Fragments.ViewDataPacketsFragment;
+import M5.seshealthpatient.Fragments.ViewDoctorFragment;
 import M5.seshealthpatient.R;
 
 
@@ -63,7 +64,7 @@ public class PatientActivity extends BaseActivity {
      * what I mean with this later in this code.
      */
     private enum MenuStates {
-        PATIENT_INFO, DATA_PACKET, NAVIGATION_MAP, VIEW_DATA_PACKETS
+        PATIENT_INFO, DATA_PACKET, NAVIGATION_MAP, VIEW_DATA_PACKETS, VIEW_DOCTOR
     }
 
     /**
@@ -110,6 +111,12 @@ public class PatientActivity extends BaseActivity {
                                     // change the fragment to the new fragment
                                     ChangeFragment(new PatientInformationFragment());
                                     currentState = MenuStates.PATIENT_INFO;
+                                }
+                                break;
+                            case R.id.nav_view_doctor:
+                                if (currentState != MenuStates.VIEW_DOCTOR) {
+                                    ChangeFragment(new ViewDoctorFragment());
+                                    currentState = MenuStates.VIEW_DOCTOR;
                                 }
                                 break;
                             case R.id.nav_data_packet:

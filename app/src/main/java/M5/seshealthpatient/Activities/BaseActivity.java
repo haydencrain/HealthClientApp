@@ -128,4 +128,14 @@ public class BaseActivity extends AppCompatActivity {
             // TODO: handle exception
         }
     }
+
+    /**
+     * customizable toast
+     *
+     * @param message
+     */
+    public void toastMessage(Context context, String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
 }

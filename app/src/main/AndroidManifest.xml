@@ -4,6 +4,7 @@
 
     <uses-sdk android:targetSdkVersion="15" />
 
+
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.CAMERA" />
 
@@ -48,7 +49,7 @@
         </activity>
         <activity android:name=".Activities.PatientActivity" />
         <activity android:name=".Activities.RegisterActivity" />
-        <activity android:name=".Activities.AddDetails" />
+        <activity android:name=".Activities.AddPatientDetails" />
 
         <activity android:name=".Activities.ViewInformation" />
         <activity android:name=".Activities.ViewDataPacket" />

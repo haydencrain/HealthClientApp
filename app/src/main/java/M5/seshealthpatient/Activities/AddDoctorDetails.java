@@ -30,6 +30,8 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.LinkedList;
 
 import M5.seshealthpatient.R;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class AddDoctorDetails extends BaseActivity {
 
@@ -40,12 +42,13 @@ public class AddDoctorDetails extends BaseActivity {
     private EditText nOccupation;
     private EditText nIntroduction;
 
-
     //add Firebase
     private FirebaseDatabase mFirebaseDatabase;
     private FirebaseAuth mAuth;
-    private FirebaseAuth.AuthStateListener mAuthListener;
     private DatabaseReference myRef;
+    private DatabaseReference mUserDb;
+
+    private ValueEventListener mUserEvent;
 
     @Override
     protected int getLayoutId() {
@@ -56,94 +59,53 @@ public class AddDoctorDetails extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTitle("Add Doctor Details");
-
-        mAddToDB = (Button) findViewById(R.id.btnAddNewName);
-        nName = (EditText) findViewById(R.id.add_doctor_name);
-        nDepartment = (EditText) findViewById(R.id.add_doctor_department);
-        nOccupation = (EditText) findViewById(R.id.add_doctor_occupation);
-        nIntroduction = (EditText) findViewById(R.id.add_doctor_introduction);
-
+        bindViewComponents();
+        ButterKnife.bind(this);
         mAuth = FirebaseAuth.getInstance();
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         myRef = mFirebaseDatabase.getReference();
-
-        mAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null) {
-                    // User is signed in
-                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-                    toastMessage("Successfully signed in with: " + user.getEmail());
-                } else {
-                    // User is signed out
-                    Log.d(TAG, "onAuthStateChanged:signed_out");
-                    toastMessage("Successfully signed out.");
-                }
-                // ...
-            }
-        };
-
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
-                Object value = dataSnapshot.getValue();
-                Log.d(TAG, "Value is: " + value);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-                Log.w(TAG, "Failed to read value.", error.toException());
-            }
-        });
-
-        mAddToDB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                if (textBoxesNotEmpty()) {
-                    FirebaseUser user = mAuth.getCurrentUser();
-                    String userID = user.getUid();
-
-                    DoctorUser userInfo = createUser();
-                    DatabaseReference userRef = myRef.child("Users").child(userID);
-                    setValuesToUser(userInfo, userRef);
-                    toastMessage("Added "+ nName.getText().toString() + " successfully");
-
-                    clearTextBoxes();
-
-                }
-
-            }
-        });
+        mUserDb = myRef.child("Users/" + mAuth.getUid());
     }
 
 
     @Override
     public void onStart() {
+        mUserEvent = getFirebaseUserEvent();
+        mUserDb.addValueEventListener(mUserEvent);
         super.onStart();
-        mAuth.addAuthStateListener(mAuthListener);
     }
 
     @Override
     public void onStop() {
+        mUserDb.removeEventListener(mUserEvent);
         super.onStop();
-        if (mAuthListener != null) {
-            mAuth.removeAuthStateListener(mAuthListener);
-        }
     }
-    //add a toast to show when successfully signed in
 
-    /**
-     * customizable toast
-     *
-     * @param message
-     */
-    private void toastMessage(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    public ValueEventListener getFirebaseUserEvent() {
+        return new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                DoctorUser user = dataSnapshot.getValue(DoctorUser.class);
+                setTextBoxes(
+                        user.getName(),
+                        user.getDepartment(),
+                        user.getOccupation(),
+                        user.getIntroduction()
+                );
+            }
+
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        };
+    }
+
+    public void bindViewComponents() {
+        mAddToDB = (Button) findViewById(R.id.btnAddNewName);
+        nName = (EditText) findViewById(R.id.add_doctor_name);
+        nDepartment = (EditText) findViewById(R.id.add_doctor_department);
+        nOccupation = (EditText) findViewById(R.id.add_doctor_occupation);
+        nIntroduction = (EditText) findViewById(R.id.add_doctor_introduction);
     }
 
     boolean textBoxesNotEmpty() {
@@ -174,11 +136,20 @@ public class AddDoctorDetails extends BaseActivity {
         userRef.child("introduction").setValue(user.getIntroduction());
     }
 
-    void clearTextBoxes()
+    void setTextBoxes(String name, String department, String occupation, String introduction)
     {
-        nName.setText("");
-        nDepartment.setText("");
-        nOccupation.setText("");
-        nIntroduction.setText("");
+        nName.setText(name);
+        nDepartment.setText(department);
+        nOccupation.setText(occupation);
+        nIntroduction.setText(introduction);
+    }
+
+    @OnClick(R.id.btnAddNewName)
+    public void onBtnClick(View view) {
+        if (textBoxesNotEmpty()) {
+            DoctorUser userInfo = createUser();
+            setValuesToUser(userInfo, mUserDb);
+            toastMessage(AddDoctorDetails.this, "Added "+ nName.getText().toString() + " successfully");
+        }
     }
 }

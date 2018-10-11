@@ -2,7 +2,6 @@ package M5.seshealthpatient.Fragments;
 
 
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -11,15 +10,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 
-import M5.seshealthpatient.Activities.AddDetails;
+import M5.seshealthpatient.Activities.AddPatientDetails;
 import M5.seshealthpatient.Activities.BaseActivity;
-import M5.seshealthpatient.Activities.LoginActivity;
 import M5.seshealthpatient.Activities.ViewInformation;
-import M5.seshealthpatient.Activities.ViewPatientDataPackets;
 import M5.seshealthpatient.R;
 
 /**
@@ -62,7 +58,7 @@ public class PatientInformationFragment extends Fragment {
         btnOpen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent in = new Intent(getActivity(), AddDetails.class);
+                Intent in = new Intent(getActivity(), AddPatientDetails.class);
                 in.putExtra("Information", "personal detail");
                 startActivity(in);
             }
