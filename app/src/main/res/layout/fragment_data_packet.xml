@@ -117,6 +117,15 @@
                     style="@style/ButtonSecondary"
                     android:text="Record Video" />
 
+                <Button
+                    android:id="@+id/choosefile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginEnd="32dp"
+                    android:text="Choose file" />
+
 
             </RelativeLayout>
 
