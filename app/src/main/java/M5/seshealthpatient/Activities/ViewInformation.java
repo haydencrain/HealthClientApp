@@ -92,6 +92,7 @@ public class ViewInformation extends BaseActivity {
                 uInfo.setWeight(""); //set the weight
                 uInfo.setHeight("");//set the height
                 uInfo.setDoctorID(""); //set the doctorID
+                uInfo.setMedicalCondition("");
 
             } else {
                 uInfo = user;
@@ -102,6 +103,7 @@ public class ViewInformation extends BaseActivity {
             array.add("Number:  " + uInfo.getPhone());
             array.add("Weight:      " + uInfo.getWeight() + "kg");
             array.add("Height:      " + uInfo.getHeight() + "cm");
+            array.add("Condition: " + uInfo.getMedicalCondition());
 
             // get doctor's user account and set their name as the selected doctor
             DoctorUser doctor = ds.child(uInfo.getDoctorID()).getValue(DoctorUser.class);

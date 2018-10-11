@@ -209,6 +209,7 @@ public class AddPatientDetails extends BaseActivity {
         userRef.child("phone").setValue(user.getPhone());
         userRef.child("weight").setValue(user.getWeight());
         userRef.child("height").setValue(user.getHeight());
+        userRef.child("medicalCondition").setValue(user.getMedicalCondition());
         userRef.child("doctorID").setValue(user.getDoctorID());
         userRef.child("isDoctor").setValue(user.getIsDoctor());
     }
