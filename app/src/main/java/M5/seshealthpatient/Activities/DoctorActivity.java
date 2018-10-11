@@ -103,7 +103,7 @@ public class DoctorActivity extends BaseActivity {
 
                             case R.id.nav_patients_list:
                                 // If the user clicked on a different item than the current item
-                                if (currentState != MenuStates.DOCTOR_INFO) {
+                                if (currentState != MenuStates.PATIENTS_LIST) {
                                     // change the fragment to the new fragment
                                     ChangeFragment(new ViewPatientsFragment());
                                     currentState = MenuStates.PATIENTS_LIST;
