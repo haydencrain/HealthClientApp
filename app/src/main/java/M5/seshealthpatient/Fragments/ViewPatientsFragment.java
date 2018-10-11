@@ -1,10 +1,8 @@
 package M5.seshealthpatient.Fragments;
 
-
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-//import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,7 +27,6 @@ import M5.seshealthpatient.Models.DataPacket;
 import M5.seshealthpatient.Models.PatientUser;
 import M5.seshealthpatient.R;
 
-
 public class ViewPatientsFragment extends Fragment implements AdapterView.OnItemClickListener {
 
     View view;
@@ -52,8 +49,6 @@ public class ViewPatientsFragment extends Fragment implements AdapterView.OnItem
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-
-
          view = inflater.inflate(R.layout.fragment_view_patients, container, false);
         patientsListView = view.findViewById(R.id.patientsListView);
 
@@ -68,7 +63,6 @@ public class ViewPatientsFragment extends Fragment implements AdapterView.OnItem
 
                 //this goes over all users in the db and checks whos a patient
                 findPatients(dataSnapshot);
-
             }
 
             @Override
@@ -76,22 +70,16 @@ public class ViewPatientsFragment extends Fragment implements AdapterView.OnItem
 
             }
         });
-
-
-
+        
         patientsListView.setOnItemClickListener(this);
 
         return view;
-
-
-
     }
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
     }
-
 
     void findPatients(DataSnapshot ds)
     {
@@ -106,24 +94,13 @@ public class ViewPatientsFragment extends Fragment implements AdapterView.OnItem
                 {
                     patients.add(patient);
                 }
-
             }
-
-
-
         }
-
-
-
-
-
         //this puts the data into the list view, this can only be called after find patients has been called
         //so i decided to include it here. Note, it wont work in the OnCreateView method, because its seems
         //to delay calling findPatients and calls preparePatients first while is empty causing the app
         //to crash. This way its guranteed findPatients is being called first.
         preparePatientsListView();
-
-
     }
 
 
@@ -139,10 +116,5 @@ public class ViewPatientsFragment extends Fragment implements AdapterView.OnItem
 
         patientsListView = view.findViewById(R.id.patientsListView);
         patientsListView.setAdapter(namesAdapter);
-
-
     }
-
 }
-
-
