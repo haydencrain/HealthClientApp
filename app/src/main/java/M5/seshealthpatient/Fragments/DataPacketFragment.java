@@ -4,8 +4,10 @@ package M5.seshealthpatient.Fragments;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
@@ -21,21 +23,30 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.IOException;
 import java.util.Date;
 import java.io.File;
 import java.util.LinkedList;
+import java.util.Locale;
 
 import M5.seshealthpatient.Models.DataPacket;
 import M5.seshealthpatient.Models.LocationDefaults;
@@ -61,13 +72,23 @@ public class DataPacketFragment extends Fragment {
     private TextView txtLocation;
     private Button btnSendPacket;
     private Button btnRecord;
+    private Button btnChoose;
     private int VIDEO_REQUEST_CODE = 1001;
 
     // data packet
     DataPacket dataPacket;
 
+    private Uri filePath;
+    private static final int PICK_VIDEO_REQUEST = 234;
+
+    FirebaseStorage storage = FirebaseStorage.getInstance();
+    StorageReference storageRef = storage.getReference();
+
+
     private LinkedList<String> files;
 
+    private Uri mVideo_uri;
+    private ImageView imageView;
 
     public DataPacketFragment() {
         // Required empty public constructor
@@ -112,7 +133,9 @@ public class DataPacketFragment extends Fragment {
         tvHeartRate = view.findViewById(R.id.tvHeartRate);
         btnSendPacket = view.findViewById(R.id.btnSendQ);
         btnRecord = view.findViewById( R.id.btnRecord );
+        btnChoose = view.findViewById( R.id.choosefile );
     }
+
 
     private void setEventListeners() {
         btnHeartRate.setOnClickListener( new View.OnClickListener() {
@@ -135,6 +158,13 @@ public class DataPacketFragment extends Fragment {
             }
         } );
 
+        btnChoose.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showFileChooser();
+            }
+        } );
+
         btnLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -150,6 +180,7 @@ public class DataPacketFragment extends Fragment {
                 //getting the db directory for the currently logged in user using their id
                 DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference("Users/" + uid);
 
+
                 dataPacket.setTitle(titleTextBox.getText().toString());
                 dataPacket.setQuery(queryTextBox.getText().toString());
                 Date date = new Date();
@@ -160,6 +191,7 @@ public class DataPacketFragment extends Fragment {
                 dataPacket.setId(queryKey);
                 dbRef.child("Queries").child(queryKey).setValue(dataPacket);
                 Toast.makeText(getActivity(), "Query Sent Successfully", Toast.LENGTH_LONG).show();
+                uploadFile();
             }
 
 
@@ -170,8 +202,8 @@ public class DataPacketFragment extends Fragment {
         Intent camera_intent = new Intent( MediaStore.ACTION_VIDEO_CAPTURE);
         File video_file = getFilepath();
         //Uri video_uri = Uri.fromFile(video_file);
-        Uri video_uri = FileProvider.getUriForFile(getActivity(), "M5.seshealthpatient.provider", getFilepath());
-        camera_intent.putExtra(MediaStore.EXTRA_OUTPUT, video_uri);
+        mVideo_uri = FileProvider.getUriForFile(getActivity(), "M5.seshealthpatient.provider", video_file);
+        camera_intent.putExtra(MediaStore.EXTRA_OUTPUT, mVideo_uri);
         camera_intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
         startActivityForResult(camera_intent, VIDEO_REQUEST_CODE);
     }
@@ -183,22 +215,90 @@ public class DataPacketFragment extends Fragment {
         if (folder.exists()) {
             folder.mkdir();
         }
-        File video_file = new File(folder, "sample_video.mp4");
+        Date date = new Date();
+        String dateString = String.format(Locale.ENGLISH, "VID_%1$tY%1$tm%1$td_%1$tk%1$tM%1$tS", date, ".mp4");
+        File video_file = new File(folder, dateString);
         return video_file;
     }
 
+    private void showFileChooser() {
+        Intent intent = new Intent();
+        intent.setType("video/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Video"), PICK_VIDEO_REQUEST);
+    }
+
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == VIDEO_REQUEST_CODE) {
-            if (resultCode == getActivity().RESULT_OK) {
-                Toast.makeText(getActivity(),
-                        "Video Successfully Recorded",
-                        Toast.LENGTH_SHORT).show();
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PICK_VIDEO_REQUEST) {
+            if (resultCode == getActivity().RESULT_OK && data.getData() != null) {
+                filePath = data.getData();
             } else {
                 Toast.makeText(getActivity(),
                         "Video recorded failed",
                         Toast.LENGTH_SHORT).show();
             }
+        }
+    }
+
+    //this method will upload the file
+    private void uploadFile() {
+        //if there is a file to upload
+        if (filePath != null) {
+            //displaying a progress dialog while upload is going on
+            final ProgressDialog progressDialog = new ProgressDialog(getActivity());
+            progressDialog.setTitle("Uploading");
+            progressDialog.show();
+
+            String userUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+
+            Date date = new Date();
+            String dateString = String.format(Locale.ENGLISH, "VID_%1$tY%1$tm%1$td_%1$tk%1$tM%1$tS", date, ".mp4");
+            File video_file = new File(dateString);
+
+            Uri file = Uri.fromFile(video_file);
+
+            StorageReference riversRef = storageRef.child(userUid+ "/"+ file.getLastPathSegment());
+            riversRef.putFile(filePath)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            //if the upload is successfull
+                            //hiding the progress dialog
+                            progressDialog.dismiss();
+
+                            //and displaying a success toast
+                            Toast.makeText(getActivity(), "File Uploaded ", Toast.LENGTH_LONG).show();
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception exception) {
+                            //if the upload is not successfull
+                            //hiding the progress dialog
+                            progressDialog.dismiss();
+
+                            //and displaying error message
+                            Toast.makeText(getActivity(), exception.getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                    })
+                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                            //calculating progress percentage
+                            double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
+
+                            //displaying percentage in progress dialog
+                            progressDialog.setMessage("Uploaded " + ((int) progress) + "%...");
+                        }
+                    });
+        }
+        //if there is not any file
+        else {
+            //you can display an error toast
         }
     }
 
