@@ -85,7 +85,7 @@ public class LoginActivity extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         db = FirebaseDatabase.getInstance();
 
-        //handleIfAlreadyLoggedIn();
+        handleIfAlreadyLoggedIn();
     }
 
 
