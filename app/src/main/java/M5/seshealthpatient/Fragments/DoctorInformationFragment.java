@@ -10,17 +10,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 
-import M5.seshealthpatient.Activities.AddDetails;
 import M5.seshealthpatient.Activities.AddDoctorDetails;
 import M5.seshealthpatient.Activities.BaseActivity;
-import M5.seshealthpatient.Activities.LoginActivity;
 import M5.seshealthpatient.Activities.ViewDoctorInformation;
-import M5.seshealthpatient.Activities.ViewInformation;
-import M5.seshealthpatient.Activities.ViewPatientDataPackets;
 import M5.seshealthpatient.R;
 
 /**

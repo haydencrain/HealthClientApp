@@ -49,7 +49,7 @@
         </activity>
         <activity android:name=".Activities.PatientActivity" />
         <activity android:name=".Activities.RegisterActivity" />
-        <activity android:name=".Activities.AddDetails" />
+        <activity android:name=".Activities.AddPatientDetails" />
 
         <activity android:name=".Activities.ViewInformation" />
         <activity android:name=".Activities.ViewDataPacket" />
