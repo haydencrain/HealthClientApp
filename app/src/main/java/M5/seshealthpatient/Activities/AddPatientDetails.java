@@ -42,6 +42,7 @@ public class AddPatientDetails extends BaseActivity {
     private EditText nPhone;
     private EditText nWeight;
     private EditText nHeight;
+    private EditText nMedicalCondition;
     private Spinner mDoctorDropdown;
 
     private LinkedList<DoctorUser> mDoctors;
@@ -102,6 +103,7 @@ public class AddPatientDetails extends BaseActivity {
                         user.getPhone(),
                         user.getWeight(),
                         user.getHeight(),
+                        user.getMedicalCondition(),
                         user.getDoctorID()
                 );
                 createDoctorDropdown(dataSnapshot);
@@ -132,6 +134,7 @@ public class AddPatientDetails extends BaseActivity {
         nPhone = (EditText) findViewById(R.id.add_phone);
         nWeight = (EditText) findViewById(R.id.add_weight);
         nHeight = (EditText) findViewById(R.id.add_height);
+        nMedicalCondition = (EditText) findViewById(R.id.add_medical_condition);
         mDoctorDropdown = findViewById(R.id.doctorDropdown);
     }
 
@@ -196,6 +199,7 @@ public class AddPatientDetails extends BaseActivity {
                 nPhone.getText().toString(),
                 nWeight.getText().toString(),
                 nHeight.getText().toString(),
+                nMedicalCondition.getText().toString(),
                 selectedDoctorKey
         );
     }
@@ -205,16 +209,18 @@ public class AddPatientDetails extends BaseActivity {
         userRef.child("phone").setValue(user.getPhone());
         userRef.child("weight").setValue(user.getWeight());
         userRef.child("height").setValue(user.getHeight());
+        userRef.child("medicalCondition").setValue(user.getMedicalCondition());
         userRef.child("doctorID").setValue(user.getDoctorID());
         userRef.child("isDoctor").setValue(user.getIsDoctor());
     }
 
-    void setTextBoxes(String name, String phone, String weight, String height, String doctorID)
+    void setTextBoxes(String name, String phone, String weight, String height, String medicalCondition, String doctorID)
     {
         nNewName.setText(name);
         nPhone.setText(phone);
         nWeight.setText(weight);
         nHeight.setText(height);
+        nMedicalCondition.setText(medicalCondition);
         selectedDoctorKey = doctorID;
     }
 }
