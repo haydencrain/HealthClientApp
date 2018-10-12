@@ -8,10 +8,10 @@
 
     <LinearLayout
         style="@style/Container"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="20dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -27,20 +27,19 @@
 
             <EditText
                 android:id="@+id/titleBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
                 android:inputType="text"
                 android:minLines="6"
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:scrollbars="vertical"
-                android:layout_marginBottom="20dp"
-                />
+                android:scrollbars="vertical" />
 
 
             <RelativeLayout
+                android:id="@+id/textContainer"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
-                android:layout_marginBottom="20dp"
-                android:id="@+id/textContainer">
+                android:layout_marginBottom="10dp">
 
                 <TextView
                     android:id="@+id/textLabel"
@@ -51,11 +50,11 @@
 
                 <EditText
                     android:id="@+id/queryBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_below="@id/textLabel"
                     android:inputType="text|textMultiLine"
                     android:minLines="6"
-                    android:layout_below="@id/textLabel"
-                    android:layout_height="fill_parent"
-                    android:layout_width="match_parent"
                     android:scrollbars="vertical" />
 
             </RelativeLayout>
@@ -63,13 +62,13 @@
             <RelativeLayout
                 android:id="@+id/heartRateContainer"
                 android:layout_width="match_parent"
-                android:layout_marginBottom="20dp"
                 android:layout_height="50dp"
-                android:layout_below="@id/textContainer">
+                android:layout_below="@id/textContainer"
+                android:layout_marginBottom="10dp">
 
                 <Button
-                    style="@style/ButtonSecondary"
                     android:id="@+id/btnSHR"
+                    style="@style/ButtonSecondary"
                     android:text="Get Heart Rate" />
 
                 <TextView
@@ -78,17 +77,17 @@
                     android:layout_height="match_parent"
                     android:layout_toRightOf="@+id/btnSHR"
                     android:gravity="center"
-                    android:textSize="18dp"
-                    android:text=""/>
+                    android:text=""
+                    android:textSize="18dp" />
 
             </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/locationContainer"
                 android:layout_width="match_parent"
-                android:layout_marginBottom="20dp"
                 android:layout_height="50dp"
-                android:layout_below="@+id/heartRateContainer">
+                android:layout_below="@+id/heartRateContainer"
+                android:layout_marginBottom="10dp">
 
                 <Button
                     android:id="@+id/btnLocation"
@@ -105,38 +104,43 @@
 
             </RelativeLayout>
 
+
             <RelativeLayout
                 android:id="@+id/VideoContainer"
                 android:layout_width="match_parent"
-                android:layout_marginBottom="20dp"
                 android:layout_height="50dp"
-                android:layout_below="@+id/locationContainer">
+                android:layout_below="@+id/locationContainer"
+                android:layout_marginBottom="10dp">
 
                 <Button
                     android:id="@+id/btnRecord"
                     style="@style/ButtonSecondary"
                     android:text="Record Video" />
 
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_below="@+id/VideoContainer"
+                android:layout_height="50dp">
                 <Button
                     android:id="@+id/choosefile"
-                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginEnd="32dp"
-                    android:text="Choose file" />
+                    style="@style/ButtonSecondary"
 
-
+                    android:text="Choose Video" />
             </RelativeLayout>
 
             <Space
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1"/>
+                android:layout_weight="1" />
 
             <Button
-                style="@style/ButtonPrimary"
                 android:id="@+id/btnSendQ"
+                style="@style/ButtonPrimary"
                 android:layout_width="match_parent"
                 android:text="Send Packet" />
 

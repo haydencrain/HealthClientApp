@@ -1,11 +1,18 @@
 package M5.seshealthpatient.Activities;
 
+import android.app.DownloadManager;
+import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.VideoView;
 
 
 import com.google.android.gms.location.places.GeoDataClient;
@@ -21,6 +28,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.Calendar;
+import java.util.Date;
 
 import M5.seshealthpatient.Models.Comment;
 import M5.seshealthpatient.Models.DataPacket;
@@ -46,7 +56,7 @@ public class ViewDataPacket extends BaseActivity implements OnMapReadyCallback {
     private MapView mMapView;
     private GoogleMap mGoogleMap;
     private GeoDataClient mGeoDataClient;
-
+    private Button mPlayVideo;
     @Override
     protected int getLayoutId() {
         return R.layout.activity_view_data_packet;
@@ -54,28 +64,61 @@ public class ViewDataPacket extends BaseActivity implements OnMapReadyCallback {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        super.onCreate( savedInstanceState );
         bindViewComponents();
-        ButterKnife.bind(this);
+        ButterKnife.bind( this );
 
-        mDataPacket = (DataPacket)getIntent().getSerializableExtra("DATA_PACKET");
-        mPatientId = (String)getIntent().getSerializableExtra("PATIENT_ID");
-        setTitle("Data Packet - " + mDataPacket.getTitle());
+        mDataPacket = (DataPacket) getIntent().getSerializableExtra( "DATA_PACKET" );
+        mPatientId = (String) getIntent().getSerializableExtra( "PATIENT_ID" );
+        setTitle( "Data Packet - " + mDataPacket.getTitle() );
         if (mDataPacket.getQuery() != null)
-            mQueryTV.setText(mDataPacket.getQuery());
+            mQueryTV.setText( mDataPacket.getQuery() );
         if (mDataPacket.getHeartRate() != null)
-            mHeartRateTV.setText(mDataPacket.getHeartRate());
+            mHeartRateTV.setText( mDataPacket.getHeartRate() );
 
-        if (mDataPacket.hasLocation()){
-            mLocationTV.setVisibility(View.GONE);
-            setUpGoogleMaps(savedInstanceState);
-        }
-        else {
-            mLocationTV.setText("Patient has not set their location");
-            mMapView.setVisibility(View.GONE);
+        if (mDataPacket.hasLocation()) {
+            mLocationTV.setVisibility( View.GONE );
+            setUpGoogleMaps( savedInstanceState );
+        } else {
+            mLocationTV.setText( "Patient has not set their location" );
+            mMapView.setVisibility( View.GONE );
         }
         addDbListeners();
+
+        mPlayVideo.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mDataPacket.getFile() != null) {
+                    Uri uri = Uri.parse( mDataPacket.getFile() );
+                    Toast.makeText( ViewDataPacket.this, "Loading video...", Toast.LENGTH_LONG ).show();
+                    Intent intent = new Intent( Intent.ACTION_VIEW, uri );
+                    startActivity( intent );
+
+                    DownloadManager.Request request = new DownloadManager.Request(uri);
+
+                    Date currentTime = Calendar.getInstance().getTime();
+
+                    request.setDescription("download");
+                    request.setTitle(""+currentTime.toString());
+// in order for this if to run, you must use the android 3.2 to compile your app
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+                        request.allowScanningByMediaScanner();
+                        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+                    }
+                    request.setDestinationInExternalPublicDir( Environment.DIRECTORY_DOWNLOADS, ""+currentTime.toString()+".mp4");
+
+// get download service and enqueue file
+                    DownloadManager manager = (DownloadManager) getSystemService( Context.DOWNLOAD_SERVICE);
+                    manager.enqueue(request);
+
+                } else {
+                    Toast.makeText( ViewDataPacket.this, "No video file uploaded", Toast.LENGTH_LONG ).show();
+                }
+
+            }
+        } );
     }
+
 
     public void bindViewComponents() {
         mSentFromTV = findViewById(R.id.sentFromTV);
@@ -84,6 +127,7 @@ public class ViewDataPacket extends BaseActivity implements OnMapReadyCallback {
         mHeartRateTV = findViewById(R.id.heartRateTV);
         mLocationTV = findViewById(R.id.locationTV);
         mMapView = findViewById(R.id.mapView);
+        mPlayVideo = findViewById( R.id.playVideoBtn );
     }
 
     @OnClick(R.id.queryBtn)

@@ -7,10 +7,11 @@
     tools:context=".Activities.ViewDataPacket">
 
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
         android:orientation="vertical">
 
         <android.support.v7.widget.Toolbar
@@ -35,67 +36,60 @@
                     style="@style/TextHeading"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Sent From"
-                    />
+                    android:text="Sent From" />
 
                 <TextView
                     android:id="@+id/sentFromTV"
-                    android:layout_marginTop="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    />
+                    android:layout_marginTop="10dp" />
 
 
                 <TextView
                     style="@style/TextHeading"
-                    android:layout_marginTop="20dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Text Query"
-                    />
+                    android:layout_marginTop="20dp"
+                    android:text="Text Query" />
 
                 <TextView
                     android:id="@+id/queryTV"
-                    android:layout_marginTop="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    />
+                    android:layout_marginTop="10dp" />
 
                 <Button
-                    android:layout_marginTop="10dp"
                     android:id="@+id/queryBtn"
                     style="@style/ButtonSecondary"
-                    android:text="View feedback"
-                    />
+                    android:layout_marginTop="10dp"
+                    android:text="View feedback" />
 
                 <TextView
                     style="@style/TextHeading"
-                    android:layout_marginTop="20dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Heart Rate"/>
+                    android:layout_marginTop="20dp"
+                    android:text="Heart Rate" />
 
                 <TextView
                     android:id="@+id/heartRateTV"
-                    android:layout_marginTop="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    />
+                    android:layout_marginTop="10dp" />
 
                 <Button
-                    android:layout_marginTop="10dp"
                     android:id="@+id/heartRateBtn"
                     style="@style/ButtonSecondary"
-                    android:text="VIew feedback"
-                    />
+                    android:layout_marginTop="10dp"
+                    android:text="VIew feedback" />
 
                 <TextView
                     style="@style/TextHeading"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginBottom="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Location"/>
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="20dp"
+                    android:text="Location" />
 
                 <com.google.android.gms.maps.MapView
                     android:id="@+id/mapView"
@@ -105,32 +99,35 @@
                 <TextView
                     android:id="@+id/locationTV"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    />
+                    android:layout_height="wrap_content" />
 
                 <Button
-                    android:layout_marginTop="10dp"
                     android:id="@+id/locationBtn"
                     style="@style/ButtonSecondary"
-                    android:text="View feedback"
-                    />
+                    android:layout_marginTop="10dp"
+                    android:text="View feedback" />
 
                 <TextView
                     style="@style/TextHeading"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginBottom="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Files"/>
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="20dp"
+                    android:text="Files" />
 
                 <!-- ADD FILE SPECIFIC STUFF HERE -->
 
                 <Button
-                    android:layout_marginTop="10dp"
                     android:id="@+id/filesBtn"
                     style="@style/ButtonSecondary"
-                    android:text="VIew feedback"
-                    />
+                    android:layout_marginTop="10dp"
+                    android:text="View feedback" />
+
+                <Button
+                    android:id="@+id/playVideoBtn"
+                    style="@style/ButtonSecondary"
+                    android:layout_marginTop="10dp"
+                    android:text="Play Video" />
 
             </LinearLayout>
 
