@@ -11,6 +11,8 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import android.arch.lifecycle.ViewModelProviders;
+
 
 import android.view.MenuItem;
 import android.view.View;
@@ -23,6 +25,7 @@ import M5.seshealthpatient.Fragments.PatientInformationFragment;
 import M5.seshealthpatient.Fragments.ViewDataPacketsFragment;
 import M5.seshealthpatient.Fragments.ViewPatientsFragment;
 import M5.seshealthpatient.R;
+
 
 
 public class DoctorActivity extends BaseActivity {
@@ -59,6 +62,8 @@ public class DoctorActivity extends BaseActivity {
      */
     private MenuStates currentState;
 
+
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_doctor;
@@ -67,6 +72,8 @@ public class DoctorActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
         // the default fragment on display is the patient information
         currentState = MenuStates.DOCTOR_INFO;
 

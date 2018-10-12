@@ -1,9 +1,12 @@
 package M5.seshealthpatient.Models;
 
-public class PatientUser extends BaseUser {
+import java.io.Serializable;
+
+public class PatientUser extends BaseUser implements Serializable {
     private String Phone;
     private String Weight;
     private String Height;
+    private String MedicalCondition;
     private String DoctorID;
 
 
@@ -13,15 +16,17 @@ public class PatientUser extends BaseUser {
         Weight = "";
         Height = "";
         DoctorID = "";
+        MedicalCondition = "";
         setIsDoctor(false);
     }
 
-    public PatientUser(String name, String phone, String weight, String height, String doctor) {
+    public PatientUser(String name, String phone, String weight, String height, String medicalCondition, String doctor) {
         super.setName(name);
         Phone = phone;
         Weight = weight;
         Height = height;
         DoctorID = doctor;
+        MedicalCondition = medicalCondition;
         super.setIsDoctor(false);
     }
 
@@ -57,4 +62,11 @@ public class PatientUser extends BaseUser {
         DoctorID = doctor;
     }
 
+    public String getMedicalCondition() {
+        return MedicalCondition;
+    }
+
+    public void setMedicalCondition(String medicalCondition) {
+        MedicalCondition = medicalCondition;
+    }
 }

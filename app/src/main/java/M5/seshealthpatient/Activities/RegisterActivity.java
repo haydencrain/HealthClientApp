@@ -106,6 +106,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     public void navigateToLogin() {
+        auth.signOut();
         Intent in = new Intent(RegisterActivity.this, LoginActivity.class);
         startActivity(in);
         finish();
