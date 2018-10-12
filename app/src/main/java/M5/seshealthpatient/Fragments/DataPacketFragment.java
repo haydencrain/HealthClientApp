@@ -263,7 +263,7 @@ public class DataPacketFragment extends Fragment {
 
             fileUri = Uri.fromFile(video_file);
 
-            StorageReference riversRef = storageRef.child(userUid+ "/"+ fileUri.getLastPathSegment());
+            final StorageReference riversRef = storageRef.child(userUid+ "/"+ fileUri.getLastPathSegment());
             riversRef.putFile(filePath)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
@@ -273,9 +273,9 @@ public class DataPacketFragment extends Fragment {
                             //hiding the progress dialog
                             progressDialog.dismiss();
 
-                            dataPacket.setFile(taskSnapshot.getUploadSessionUri().toString());
+//                            dataPacket.setFile(taskSnapshot.getUploadSessionUri().toString());
                             //and displaying a success toast
-                            Toast.makeText(getActivity(), taskSnapshot.getUploadSessionUri().toString(), Toast.LENGTH_LONG).show();
+//                            Toast.makeText(getActivity(), taskSnapshot.getUploadSessionUri().toString(), Toast.LENGTH_LONG).show();
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
@@ -299,6 +299,32 @@ public class DataPacketFragment extends Fragment {
                             progressDialog.setMessage("Uploaded " + ((int) progress) + "%...");
                         }
                     });
+
+            UploadTask uploadTask = riversRef.putFile(filePath);
+
+            Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+                @Override
+                public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                    if (!task.isSuccessful()) {
+                        throw task.getException();
+                    }
+
+                    // Continue with the task to get the download URL
+                    return riversRef.getDownloadUrl();
+                }
+            }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                @Override
+                public void onComplete(@NonNull Task<Uri> task) {
+                    if (task.isSuccessful()) {
+                        Uri downloadUri = task.getResult();
+                        dataPacket.setFile( downloadUri.toString() );
+                        Toast.makeText(getActivity(), downloadUri.toString(), Toast.LENGTH_LONG).show();
+                    } else {
+                        // Handle failures
+                        // ...
+                    }
+                }
+            });
         }
         //if there is not any file
         else {

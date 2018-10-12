@@ -1,7 +1,5 @@
 package M5.seshealthpatient.Fragments;
 
-
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;

@@ -39,7 +39,7 @@ public class DataPacket implements Serializable {
         this.query = null;
         this.heartRate = null;
         this.sentDate = 0;
-        this.file = new String();
+        this.file = null;
     }
 
     public String getId() {

@@ -1,11 +1,13 @@
 package M5.seshealthpatient.Activities;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.google.android.gms.location.places.GeoDataClient;
@@ -46,6 +48,7 @@ public class ViewDataPacket extends BaseActivity implements OnMapReadyCallback {
     private MapView mMapView;
     private GoogleMap mGoogleMap;
     private GeoDataClient mGeoDataClient;
+    private Button mPlayVideo;
 
     @Override
     protected int getLayoutId() {
@@ -54,28 +57,43 @@ public class ViewDataPacket extends BaseActivity implements OnMapReadyCallback {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        super.onCreate( savedInstanceState );
         bindViewComponents();
-        ButterKnife.bind(this);
+        ButterKnife.bind( this );
 
-        mDataPacket = (DataPacket)getIntent().getSerializableExtra("DATA_PACKET");
-        mPatientId = (String)getIntent().getSerializableExtra("PATIENT_ID");
-        setTitle("Data Packet - " + mDataPacket.getTitle());
+        mDataPacket = (DataPacket) getIntent().getSerializableExtra( "DATA_PACKET" );
+        mPatientId = (String) getIntent().getSerializableExtra( "PATIENT_ID" );
+        setTitle( "Data Packet - " + mDataPacket.getTitle() );
         if (mDataPacket.getQuery() != null)
-            mQueryTV.setText(mDataPacket.getQuery());
+            mQueryTV.setText( mDataPacket.getQuery() );
         if (mDataPacket.getHeartRate() != null)
-            mHeartRateTV.setText(mDataPacket.getHeartRate());
+            mHeartRateTV.setText( mDataPacket.getHeartRate() );
 
-        if (mDataPacket.hasLocation()){
-            mLocationTV.setVisibility(View.GONE);
-            setUpGoogleMaps(savedInstanceState);
-        }
-        else {
-            mLocationTV.setText("Patient has not set their location");
-            mMapView.setVisibility(View.GONE);
+        if (mDataPacket.hasLocation()) {
+            mLocationTV.setVisibility( View.GONE );
+            setUpGoogleMaps( savedInstanceState );
+        } else {
+            mLocationTV.setText( "Patient has not set their location" );
+            mMapView.setVisibility( View.GONE );
         }
         addDbListeners();
+
+        mPlayVideo.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mDataPacket.getFile() != null) {
+                    Uri uri = Uri.parse( mDataPacket.getFile() );
+                    Toast.makeText( ViewDataPacket.this, uri.toString(), Toast.LENGTH_LONG ).show();
+                    Intent intent = new Intent( Intent.ACTION_VIEW, uri );
+                    startActivity( intent );
+                } else {
+                    Toast.makeText( ViewDataPacket.this, "No video file uploaded", Toast.LENGTH_LONG ).show();
+                }
+
+            }
+        } );
     }
+
 
     public void bindViewComponents() {
         mSentFromTV = findViewById(R.id.sentFromTV);
@@ -84,6 +102,7 @@ public class ViewDataPacket extends BaseActivity implements OnMapReadyCallback {
         mHeartRateTV = findViewById(R.id.heartRateTV);
         mLocationTV = findViewById(R.id.locationTV);
         mMapView = findViewById(R.id.mapView);
+        mPlayVideo = findViewById( R.id.playVideoBtn );
     }
 
     @OnClick(R.id.queryBtn)
