@@ -1,5 +1,8 @@
 package M5.seshealthpatient.Fragments;
 
+
+import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -10,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.app.Fragment;
+
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -22,12 +26,17 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.LinkedList;
 import java.util.ArrayList;
 
+import M5.seshealthpatient.Activities.ViewDataPacket;
+import M5.seshealthpatient.Activities.ViewPatientActivity;
 import M5.seshealthpatient.Models.BaseUser;
 import M5.seshealthpatient.Models.DataPacket;
 import M5.seshealthpatient.Models.PatientUser;
 import M5.seshealthpatient.R;
 
-public class ViewPatientsFragment extends Fragment implements AdapterView.OnItemClickListener {
+
+
+
+public class ViewPatientsFragment extends Fragment implements AdapterView.OnItemClickListener  {
 
     View view;
 
@@ -36,11 +45,14 @@ public class ViewPatientsFragment extends Fragment implements AdapterView.OnItem
     private DatabaseReference mUserDb;
     String docId;
 
+
     LinkedList<PatientUser> patients;
+    LinkedList<String> patientDbKeys;
 
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         getActivity().setTitle("View Patients");
     }
@@ -79,12 +91,25 @@ public class ViewPatientsFragment extends Fragment implements AdapterView.OnItem
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
+        Intent intent = new Intent(getActivity(), ViewPatientActivity.class);
+        intent.putExtra("PatientInfo", patients.get(i));
+        intent.putExtra("PATIENT_ID", patientDbKeys.get(i));
+        //reason this has to be sent separately, because the patient object being sent doesnt actually have the name without its
+        //BaseUser parent, which gets lost once its passed to the next activity.
+        intent.putExtra("PatientName", patients.get(i).getName());
+        startActivity(intent);
+
     }
 
     void findPatients(DataSnapshot ds)
     {
+        //this is used to store the patient data
         patients = new LinkedList<>();
+        //this is used to store the patient keys so they can be used later to fetch their queries
+        patientDbKeys = new LinkedList<>();
+
         for (DataSnapshot snapshot : ds.getChildren()) {
+
 
             BaseUser baseUser = snapshot.getValue(BaseUser.class);
             if(!baseUser.getIsDoctor())
@@ -92,6 +117,7 @@ public class ViewPatientsFragment extends Fragment implements AdapterView.OnItem
                 PatientUser patient = snapshot.getValue(PatientUser.class);
                 if(patient.getDoctorID().equals(docId))
                 {
+                    patientDbKeys.add(snapshot.getKey().toString());
                     patients.add(patient);
                 }
             }
