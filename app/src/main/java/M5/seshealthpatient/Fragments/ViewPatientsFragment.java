@@ -1,5 +1,7 @@
 package M5.seshealthpatient.Fragments;
 
+
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -27,6 +29,9 @@ import M5.seshealthpatient.Models.DataPacket;
 import M5.seshealthpatient.Models.PatientUser;
 import M5.seshealthpatient.R;
 
+
+
+
 public class ViewPatientsFragment extends Fragment implements AdapterView.OnItemClickListener {
 
     View view;
@@ -36,11 +41,14 @@ public class ViewPatientsFragment extends Fragment implements AdapterView.OnItem
     private DatabaseReference mUserDb;
     String docId;
 
+
     LinkedList<PatientUser> patients;
+    LinkedList<String> patientDbKeys;
 
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         getActivity().setTitle("View Patients");
     }
@@ -79,12 +87,19 @@ public class ViewPatientsFragment extends Fragment implements AdapterView.OnItem
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
+
+
     }
 
     void findPatients(DataSnapshot ds)
     {
+        //this is used to store the patient data
         patients = new LinkedList<>();
+        //this is used to store the patient keys so they can be used later to fetch their queries
+        patientDbKeys = new LinkedList<>();
+
         for (DataSnapshot snapshot : ds.getChildren()) {
+
 
             BaseUser baseUser = snapshot.getValue(BaseUser.class);
             if(!baseUser.getIsDoctor())
@@ -92,6 +107,7 @@ public class ViewPatientsFragment extends Fragment implements AdapterView.OnItem
                 PatientUser patient = snapshot.getValue(PatientUser.class);
                 if(patient.getDoctorID().equals(docId))
                 {
+                    patientDbKeys.add(snapshot.getKey().toString());
                     patients.add(patient);
                 }
             }
