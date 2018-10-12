@@ -1,6 +1,8 @@
 package M5.seshealthpatient.Models;
 
-public class PatientUser extends BaseUser {
+import java.io.Serializable;
+
+public class PatientUser extends BaseUser implements Serializable {
     private String Phone;
     private String Weight;
     private String Height;
