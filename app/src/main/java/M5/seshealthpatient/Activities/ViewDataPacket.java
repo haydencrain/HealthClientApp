@@ -1,13 +1,18 @@
 package M5.seshealthpatient.Activities;
 
+import android.app.DownloadManager;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 
 import com.google.android.gms.location.places.GeoDataClient;
@@ -49,7 +54,6 @@ public class ViewDataPacket extends BaseActivity implements OnMapReadyCallback {
     private GoogleMap mGoogleMap;
     private GeoDataClient mGeoDataClient;
     private Button mPlayVideo;
-
     @Override
     protected int getLayoutId() {
         return R.layout.activity_view_data_packet;
@@ -86,6 +90,21 @@ public class ViewDataPacket extends BaseActivity implements OnMapReadyCallback {
                     Toast.makeText( ViewDataPacket.this, uri.toString(), Toast.LENGTH_LONG ).show();
                     Intent intent = new Intent( Intent.ACTION_VIEW, uri );
                     startActivity( intent );
+
+                    DownloadManager.Request request = new DownloadManager.Request(uri);
+                    request.setDescription("download");
+                    request.setTitle(""+"new video");
+// in order for this if to run, you must use the android 3.2 to compile your app
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+                        request.allowScanningByMediaScanner();
+                        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+                    }
+                    request.setDestinationInExternalPublicDir( Environment.DIRECTORY_DOWNLOADS, ""+"new video"+".mp4");
+
+// get download service and enqueue file
+                    DownloadManager manager = (DownloadManager) getSystemService( Context.DOWNLOAD_SERVICE);
+                    manager.enqueue(request);
+
                 } else {
                     Toast.makeText( ViewDataPacket.this, "No video file uploaded", Toast.LENGTH_LONG ).show();
                 }

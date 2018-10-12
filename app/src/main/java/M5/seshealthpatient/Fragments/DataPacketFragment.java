@@ -239,7 +239,7 @@ public class DataPacketFragment extends Fragment {
 
             } else {
                 Toast.makeText(getActivity(),
-                        "Video recorded failed",
+                        "Video uploaded canceled",
                         Toast.LENGTH_SHORT).show();
             }
         }
@@ -251,7 +251,7 @@ public class DataPacketFragment extends Fragment {
         if (filePath != null) {
             //displaying a progress dialog while upload is going on
             final ProgressDialog progressDialog = new ProgressDialog(getActivity());
-            progressDialog.setTitle("Uploading");
+            progressDialog.setTitle("Uploading Video");
             progressDialog.show();
 
             String userUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -272,10 +272,6 @@ public class DataPacketFragment extends Fragment {
                             //if the upload is successfull
                             //hiding the progress dialog
                             progressDialog.dismiss();
-
-//                            dataPacket.setFile(taskSnapshot.getUploadSessionUri().toString());
-                            //and displaying a success toast
-//                            Toast.makeText(getActivity(), taskSnapshot.getUploadSessionUri().toString(), Toast.LENGTH_LONG).show();
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
@@ -318,7 +314,7 @@ public class DataPacketFragment extends Fragment {
                     if (task.isSuccessful()) {
                         Uri downloadUri = task.getResult();
                         dataPacket.setFile( downloadUri.toString() );
-                        Toast.makeText(getActivity(), downloadUri.toString(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActivity(), "Video uploaded successfully :)", Toast.LENGTH_LONG).show();
                     } else {
                         // Handle failures
                         // ...
@@ -331,8 +327,6 @@ public class DataPacketFragment extends Fragment {
             //you can display an error toast
         }
     }
-
-
 
     private void setDeviceLocation() {
         /*
