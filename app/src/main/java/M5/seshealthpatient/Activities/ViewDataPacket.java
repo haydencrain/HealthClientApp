@@ -29,6 +29,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Calendar;
+import java.util.Date;
+
 import M5.seshealthpatient.Models.Comment;
 import M5.seshealthpatient.Models.DataPacket;
 import M5.seshealthpatient.Models.LocationDefaults;
@@ -87,19 +90,22 @@ public class ViewDataPacket extends BaseActivity implements OnMapReadyCallback {
             public void onClick(View v) {
                 if (mDataPacket.getFile() != null) {
                     Uri uri = Uri.parse( mDataPacket.getFile() );
-                    Toast.makeText( ViewDataPacket.this, uri.toString(), Toast.LENGTH_LONG ).show();
+                    Toast.makeText( ViewDataPacket.this, "Loading video...", Toast.LENGTH_LONG ).show();
                     Intent intent = new Intent( Intent.ACTION_VIEW, uri );
                     startActivity( intent );
 
                     DownloadManager.Request request = new DownloadManager.Request(uri);
+
+                    Date currentTime = Calendar.getInstance().getTime();
+
                     request.setDescription("download");
-                    request.setTitle(""+"new video");
+                    request.setTitle(""+currentTime.toString());
 // in order for this if to run, you must use the android 3.2 to compile your app
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
                         request.allowScanningByMediaScanner();
                         request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
                     }
-                    request.setDestinationInExternalPublicDir( Environment.DIRECTORY_DOWNLOADS, ""+"new video"+".mp4");
+                    request.setDestinationInExternalPublicDir( Environment.DIRECTORY_DOWNLOADS, ""+currentTime.toString()+".mp4");
 
 // get download service and enqueue file
                     DownloadManager manager = (DownloadManager) getSystemService( Context.DOWNLOAD_SERVICE);
