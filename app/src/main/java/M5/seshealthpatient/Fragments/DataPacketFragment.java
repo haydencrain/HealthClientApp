@@ -29,6 +29,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -89,6 +90,8 @@ public class DataPacketFragment extends Fragment {
 
     private Uri mVideo_uri;
     private ImageView imageView;
+
+    private Uri fileUri;
 
     public DataPacketFragment() {
         // Required empty public constructor
@@ -191,10 +194,7 @@ public class DataPacketFragment extends Fragment {
                 dataPacket.setId(queryKey);
                 dbRef.child("Queries").child(queryKey).setValue(dataPacket);
                 Toast.makeText(getActivity(), "Query Sent Successfully", Toast.LENGTH_LONG).show();
-                uploadFile();
             }
-
-
         });
     }
 
@@ -235,6 +235,8 @@ public class DataPacketFragment extends Fragment {
         if (requestCode == PICK_VIDEO_REQUEST) {
             if (resultCode == getActivity().RESULT_OK && data.getData() != null) {
                 filePath = data.getData();
+                uploadFile();
+
             } else {
                 Toast.makeText(getActivity(),
                         "Video recorded failed",
@@ -259,19 +261,21 @@ public class DataPacketFragment extends Fragment {
             String dateString = String.format(Locale.ENGLISH, "VID_%1$tY%1$tm%1$td_%1$tk%1$tM%1$tS", date, ".mp4");
             File video_file = new File(dateString);
 
-            Uri file = Uri.fromFile(video_file);
+            fileUri = Uri.fromFile(video_file);
 
-            StorageReference riversRef = storageRef.child(userUid+ "/"+ file.getLastPathSegment());
+            StorageReference riversRef = storageRef.child(userUid+ "/"+ fileUri.getLastPathSegment());
             riversRef.putFile(filePath)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
                             //if the upload is successfull
                             //hiding the progress dialog
                             progressDialog.dismiss();
 
+                            dataPacket.setFile(taskSnapshot.getUploadSessionUri().toString());
                             //and displaying a success toast
-                            Toast.makeText(getActivity(), "File Uploaded ", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getActivity(), taskSnapshot.getUploadSessionUri().toString(), Toast.LENGTH_LONG).show();
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
@@ -302,6 +306,8 @@ public class DataPacketFragment extends Fragment {
         }
     }
 
+
+
     private void setDeviceLocation() {
         /*
          * Get the best and most recent location of the device, which may be null in rare
@@ -313,17 +319,17 @@ public class DataPacketFragment extends Fragment {
                 locationResult.addOnCompleteListener(getActivity(), new OnCompleteListener<Location>() {
                     @Override
                     public void onComplete(@NonNull Task<Location> task) {
-                    if (task.isSuccessful()) {
-                        // Set the map's camera position to the current location of the device.
-                        Location location = task.getResult();
-                        if (location == null) {
-                            location.setLatitude(LocationDefaults.DEFAULT_LOCATION.latitude);
-                            location.setLongitude(LocationDefaults.DEFAULT_LOCATION.longitude);
+                        if (task.isSuccessful()) {
+                            // Set the map's camera position to the current location of the device.
+                            Location location = task.getResult();
+                            if (location == null) {
+                                location.setLatitude(LocationDefaults.DEFAULT_LOCATION.latitude);
+                                location.setLongitude(LocationDefaults.DEFAULT_LOCATION.longitude);
+                            }
+                            dataPacket.setLatitude(location.getLatitude());
+                            dataPacket.setLongitude(location.getLongitude());
+                            txtLocation.setText(String.format("%s, %s", location.getLatitude(), location.getLongitude()));
                         }
-                        dataPacket.setLatitude(location.getLatitude());
-                        dataPacket.setLongitude(location.getLongitude());
-                        txtLocation.setText(String.format("%s, %s", location.getLatitude(), location.getLongitude()));
-                    }
                     }
                 });
             }

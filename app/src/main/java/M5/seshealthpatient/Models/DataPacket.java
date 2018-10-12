@@ -17,10 +17,10 @@ public class DataPacket implements Serializable {
     private double longitude;
     private LinkedList<Comment> locationComments;
     private long sentDate;
-    private LinkedList<String> files;
+    private String file;
     private LinkedList<Comment> filesComments;
 
-    public DataPacket(String id, String title, String query, String heartRate, double latitude, double longitude, long sentDate, LinkedList<String> files) {
+    public DataPacket(String id, String title, String query, String heartRate, double latitude, double longitude, long sentDate, String file) {
         this.id = id;
         this.title = title == null || title.isEmpty() ? "Data Packet" : title;
         this.heartRate = heartRate;
@@ -28,7 +28,7 @@ public class DataPacket implements Serializable {
         this.latitude = latitude;
         this.longitude = longitude;
         this.sentDate = sentDate;
-        this.files = files;
+        this.file = file;
     }
 
     public DataPacket() {
@@ -39,7 +39,7 @@ public class DataPacket implements Serializable {
         this.query = null;
         this.heartRate = null;
         this.sentDate = 0;
-        this.files = new LinkedList<>();
+        this.file = new String();
     }
 
     public String getId() {
@@ -58,9 +58,6 @@ public class DataPacket implements Serializable {
         this.title = title;
     }
 
-    public void addFile(String file) {
-        files.add(file);
-    }
 
     public String getHeartRate() {
         return heartRate;
@@ -102,12 +99,15 @@ public class DataPacket implements Serializable {
         this.sentDate = sentDate;
     }
 
-    public LinkedList<String> getFiles() {
-        return files;
-    }
-
     public boolean hasLocation() {
         return latitude != 0 && longitude != 0;
     }
 
+    public void setFile(String file) {
+        this.file = file;
+    }
+
+    public String getFile() {
+        return file;
+    }
 }
