@@ -24,8 +24,10 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.Locale;
 
+import M5.seshealthpatient.Models.BaseUser;
 import M5.seshealthpatient.Models.Comment;
 import M5.seshealthpatient.Models.DataPacket;
+import M5.seshealthpatient.Models.DoctorUser;
 import M5.seshealthpatient.R;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -37,12 +39,18 @@ public class FeedbackActivity extends BaseActivity {
     private String feedbackType;
     private LinkedList<Comment> mComments;
 
+    DatabaseReference mUsersDb;
     DatabaseReference mCommentsDb;
 
     private RelativeLayout mAddMessageWrapper;
     private TextView mMessageTV;
     private ListView mListView;
     private EditText addMessageTxt;
+
+    private ValueEventListener mCommentsEventListener;
+    private ValueEventListener mUsersEventListener;
+
+    DataSnapshot mUserDataSnapshot;
 
     @Override
     protected int getLayoutId() {
@@ -55,30 +63,25 @@ public class FeedbackActivity extends BaseActivity {
         getDataFromIntent();
         bindViewComponents();
         ButterKnife.bind(this);
+        checkIfCanAddComment();
+        setTitleAndCommentListener();
+        mUsersDb = FirebaseDatabase.getInstance().getReference("Users");
+    }
 
-        if (!isUserDoctor())
-            mAddMessageWrapper.setVisibility(View.GONE);
+    @Override
+    public void onStart() {
+        mUsersEventListener = getUsersEventListener();
+        mCommentsEventListener = getCommentsEventListener();
+        mCommentsDb.addValueEventListener(mCommentsEventListener);
+        mUsersDb.addValueEventListener(mUsersEventListener);
+        super.onStart();
+    }
 
-        String title = "";
-        switch (feedbackType) {
-            case "QUERY":
-                addCommentListener("queryComments");
-                title = " - Query Feedback";
-                break;
-            case "HEART_RATE":
-                addCommentListener("heartRateComments");
-                title = " - Heart Rate Feedback";
-                break;
-            case "LOCATION":
-                addCommentListener("locationComments");
-                title = " - Location Feedback";
-                break;
-            case "FILES":
-                addCommentListener("filesComments");
-                title = " - Files Feedback";
-                break;
-        }
-        setTitle(dataPacketTitle + title);
+    @Override
+    public void onStop() {
+        mCommentsDb.removeEventListener(mCommentsEventListener);
+        mUsersDb.removeEventListener(mUsersEventListener);
+        super.onStop();
     }
 
     public void getDataFromIntent() {
@@ -93,6 +96,34 @@ public class FeedbackActivity extends BaseActivity {
         mListView = findViewById(R.id.commentsListView);
         mMessageTV = findViewById(R.id.messageTV);
         addMessageTxt = findViewById(R.id.addMessageTxt);
+    }
+
+    public void checkIfCanAddComment() {
+        if (patientId.equals(getUserId()))
+            mAddMessageWrapper.setVisibility(View.GONE);
+    }
+
+    public void setTitleAndCommentListener() {
+        String title = "";
+        switch (feedbackType) {
+            case "QUERY":
+                setCommentsDbPath("queryComments");
+                title = " - Query Feedback";
+                break;
+            case "HEART_RATE":
+                setCommentsDbPath("heartRateComments");
+                title = " - Heart Rate Feedback";
+                break;
+            case "LOCATION":
+                setCommentsDbPath("locationComments");
+                title = " - Location Feedback";
+                break;
+            case "FILES":
+                setCommentsDbPath("filesComments");
+                title = " - Files Feedback";
+                break;
+        }
+        setTitle(dataPacketTitle + title);
     }
 
     @OnClick(R.id.addMessageBtn)
@@ -110,13 +141,16 @@ public class FeedbackActivity extends BaseActivity {
         Toast.makeText(FeedbackActivity.this, "Feedback Sent Succesfully", Toast.LENGTH_LONG).show();
     }
 
-    public void addCommentListener(String commentsPath) {
+    public void setCommentsDbPath(String commentsPath) {
         mCommentsDb = FirebaseDatabase.getInstance()
                 .getReference("Users/" + patientId)
                 .child("Queries")
                 .child(dataPacketId)
                 .child(commentsPath);
-        mCommentsDb.addValueEventListener(new ValueEventListener() {
+    }
+
+    public ValueEventListener getCommentsEventListener() {
+        return new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 createCommentList(dataSnapshot.getChildren());
@@ -126,7 +160,21 @@ public class FeedbackActivity extends BaseActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
-        });
+        };
+    }
+
+    public ValueEventListener getUsersEventListener() {
+        return new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                mUserDataSnapshot = dataSnapshot;
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        };
     }
 
     public void createCommentList(Iterable<DataSnapshot> commentsSnapshot) {
@@ -155,16 +203,20 @@ public class FeedbackActivity extends BaseActivity {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 View view = super.getView(position, convertView, parent);
-
                 TextView text1 = view.findViewById(android.R.id.text1);
                 TextView text2 = view.findViewById(android.R.id.text2);
-
                 text1.setTextSize(16);
 
                 Comment comment = mComments.get(position);
+                String doctorName = "";
+                if (mUserDataSnapshot != null) {
+                    BaseUser user = mUserDataSnapshot.child(comment.getCommenterId()).getValue(BaseUser.class);
+                    doctorName = user.getName();
+                }
+
                 Date date = comment.getSentDate();
                 String dateString = String.format(Locale.ENGLISH, "%1$s %2$tr %2$te %2$tb %2$tY", "at:", date);
-                String bottomText = String.format("%s %s", comment.getCommenterId(), dateString);
+                String bottomText = String.format("%s %s", doctorName, dateString);
 
                 text1.setText(comment.getMessage());
                 text2.setText(bottomText);
