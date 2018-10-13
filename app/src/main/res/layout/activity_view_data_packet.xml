@@ -91,7 +91,7 @@
                     android:layout_marginTop="20dp"
                     android:text="Location" />
 
-                <com.google.android.gms.maps.MapView
+                <M5.seshealthpatient.Extensions.NoScrollMapView
                     android:id="@+id/mapView"
                     android:layout_width="match_parent"
                     android:layout_height="200dp" />

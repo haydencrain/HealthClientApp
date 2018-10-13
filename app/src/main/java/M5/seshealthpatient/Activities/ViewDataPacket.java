@@ -191,7 +191,7 @@ public class ViewDataPacket extends BaseActivity implements OnMapReadyCallback {
         markerOptions.position(latLng);
         markerOptions.title("Patient's Location");
         mGoogleMap.addMarker(markerOptions);
-        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, LocationDefaults.DEFAULT_ZOOM));
+        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, LocationDefaults.MEDIUM_ZOOM));
     }
 
 

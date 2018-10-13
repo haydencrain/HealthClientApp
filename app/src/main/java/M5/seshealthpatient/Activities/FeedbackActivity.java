@@ -184,7 +184,7 @@ public class FeedbackActivity extends BaseActivity {
                 String key = recommendationsDb.push().getKey();
                 recommendationsDb.child(key).setValue(selectedFacility);
                 toastMessage(this, "Added Successfully");
-                addComment("*...has recommended to visit " + selectedFacility.getName() + "!*");
+                addComment("*...has recommended to visit " + selectedFacility.getName() + "*");
             } else {
                 toastMessage(this, "This facility has already been recommended!");
             }
