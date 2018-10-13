@@ -1,9 +1,7 @@
 package M5.seshealthpatient.Activities;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -13,7 +11,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -26,8 +23,6 @@ import java.util.Locale;
 
 import M5.seshealthpatient.Models.BaseUser;
 import M5.seshealthpatient.Models.Comment;
-import M5.seshealthpatient.Models.DataPacket;
-import M5.seshealthpatient.Models.DoctorUser;
 import M5.seshealthpatient.R;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -99,8 +94,17 @@ public class FeedbackActivity extends BaseActivity {
     }
 
     public void checkIfCanAddComment() {
-        if (patientId.equals(getUserId()))
+        if (isUserPatient())
             mAddMessageWrapper.setVisibility(View.GONE);
+    }
+
+    public void checkIfCanRecommendLocation() {
+        if (isUserPatient())
+            return;
+    }
+
+    public boolean isUserPatient() {
+        return patientId.equals(getUserId());
     }
 
     public void setTitleAndCommentListener() {
@@ -117,6 +121,7 @@ public class FeedbackActivity extends BaseActivity {
             case "LOCATION":
                 setCommentsDbPath("locationComments");
                 title = " - Location Feedback";
+                checkIfCanRecommendLocation();
                 break;
             case "FILES":
                 setCommentsDbPath("filesComments");
@@ -205,7 +210,8 @@ public class FeedbackActivity extends BaseActivity {
                 View view = super.getView(position, convertView, parent);
                 TextView text1 = view.findViewById(android.R.id.text1);
                 TextView text2 = view.findViewById(android.R.id.text2);
-                text1.setTextSize(16);
+                text1.setTextSize(12);
+                text1.setPadding(0,0,0,5);
 
                 Comment comment = mComments.get(position);
                 String doctorName = "";
@@ -215,11 +221,11 @@ public class FeedbackActivity extends BaseActivity {
                 }
 
                 Date date = comment.getSentDate();
-                String dateString = String.format(Locale.ENGLISH, "%1$s %2$tr %2$te %2$tb %2$tY", "at:", date);
-                String bottomText = String.format("%s %s", doctorName, dateString);
+                String dateString = String.format(Locale.ENGLISH, "%1$s %2$tr %2$te %2$tb %2$tY", "at", date);
+                String nameAndDate = String.format("%s %s", doctorName, dateString);
 
-                text1.setText(comment.getMessage());
-                text2.setText(bottomText);
+                text1.setText(nameAndDate);
+                text2.setText(comment.getMessage());
 
                 return view;
             }
