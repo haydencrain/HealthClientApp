@@ -174,24 +174,14 @@ public class RecommendFacility extends BaseActivity implements OnMapReadyCallbac
 
     public void setUpMarkersAndLocation() {
         if (mDataPacket != null) {
-            setPatientLocation();
+            patientLatitude = mDataPacket.getLatitude();
+            patientLongitude = mDataPacket.getLongitude();
+            Helpers.setPatientLocation(mGoogleMap, patientLatitude, patientLongitude, LocationDefaults.DEFAULT_ZOOM);
             getMedicalPlaces();
         }
     }
 
-    public void setPatientLocation() {
-        patientLatitude = mDataPacket.getLatitude();
-        patientLongitude = mDataPacket.getLongitude();
 
-        LatLng latLng =  new LatLng(patientLatitude, patientLongitude);
-        MarkerOptions markerOptions = new MarkerOptions()
-                .position(latLng)
-                .title("Patient's Location")
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
-
-        mGoogleMap.addMarker(markerOptions);
-        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, LocationDefaults.DEFAULT_ZOOM));
-    }
 
     private void getMedicalPlaces() {
         JsonObjectRequest medicalPlacesRequest = getMedicalPlacesRequest();
@@ -220,13 +210,7 @@ public class RecommendFacility extends BaseActivity implements OnMapReadyCallbac
             LinkedList<PlaceResult> places = new LinkedList<>();
             for(int i = 0; i < results.length(); i++) {
                 PlaceResult place = new PlaceResult(results.getJSONObject(i));
-
-                MarkerOptions markerOptions = new MarkerOptions()
-                        .position(new LatLng(place.getLat(), place.getLng()))
-                        .title(place.getName())
-                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
-
-                mGoogleMap.addMarker(markerOptions);
+                Helpers.addPlaceResultMarker(mGoogleMap, place, BitmapDescriptorFactory.HUE_BLUE);
                 places.add(place);
             }
             mMedicalFacilities = places;
