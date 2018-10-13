@@ -1,5 +1,6 @@
 package M5.seshealthpatient.Activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.location.places.Place;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -23,15 +25,19 @@ import java.util.Locale;
 
 import M5.seshealthpatient.Models.BaseUser;
 import M5.seshealthpatient.Models.Comment;
+import M5.seshealthpatient.Models.PlaceResult;
 import M5.seshealthpatient.R;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class FeedbackActivity extends BaseActivity {
+    public static final int RECOMMEND_FACILITY = 10101;
+
     private String patientId;
     private String dataPacketId;
     private String dataPacketTitle;
     private String feedbackType;
+    private boolean hasLocation;
     private LinkedList<Comment> mComments;
 
     DatabaseReference mUsersDb;
@@ -41,6 +47,7 @@ public class FeedbackActivity extends BaseActivity {
     private TextView mMessageTV;
     private ListView mListView;
     private EditText addMessageTxt;
+    private RelativeLayout mLocationRecommendation;
 
     private ValueEventListener mCommentsEventListener;
     private ValueEventListener mUsersEventListener;
@@ -59,7 +66,7 @@ public class FeedbackActivity extends BaseActivity {
         bindViewComponents();
         ButterKnife.bind(this);
         checkIfCanAddComment();
-        setTitleAndCommentListener();
+        setTitleAndCommentDb();
         mUsersDb = FirebaseDatabase.getInstance().getReference("Users");
     }
 
@@ -84,6 +91,7 @@ public class FeedbackActivity extends BaseActivity {
         dataPacketId = (String)getIntent().getSerializableExtra("DATA_PACKET_ID");
         dataPacketTitle = (String)getIntent().getSerializableExtra("DATA_PACKET_TITLE");
         feedbackType = (String)getIntent().getSerializableExtra("FEEDBACK_TYPE");
+        hasLocation = (boolean)getIntent().getSerializableExtra("HAS_LOCATION");
     }
 
     public void bindViewComponents() {
@@ -91,6 +99,8 @@ public class FeedbackActivity extends BaseActivity {
         mListView = findViewById(R.id.commentsListView);
         mMessageTV = findViewById(R.id.messageTV);
         addMessageTxt = findViewById(R.id.addMessageTxt);
+        mLocationRecommendation = findViewById(R.id.locationRecommendation);
+        mLocationRecommendation.setVisibility(View.GONE);
     }
 
     public void checkIfCanAddComment() {
@@ -99,15 +109,15 @@ public class FeedbackActivity extends BaseActivity {
     }
 
     public void checkIfCanRecommendLocation() {
-        if (isUserPatient())
-            return;
+        if (!isUserPatient() && hasLocation)
+            mLocationRecommendation.setVisibility(View.VISIBLE);
     }
 
     public boolean isUserPatient() {
         return patientId.equals(getUserId());
     }
 
-    public void setTitleAndCommentListener() {
+    public void setTitleAndCommentDb() {
         String title = "";
         switch (feedbackType) {
             case "QUERY":
@@ -128,6 +138,10 @@ public class FeedbackActivity extends BaseActivity {
                 title = " - Files Feedback";
                 break;
         }
+
+        if (title.isEmpty())
+            title = "Untitled";
+
         setTitle(dataPacketTitle + title);
     }
 
@@ -135,6 +149,22 @@ public class FeedbackActivity extends BaseActivity {
     public void onAddMessageClick(View view) {
         hideKeyboard();
         addComment();
+    }
+
+    @OnClick(R.id.locationBtn)
+    public void onLocationBtnClick(View view) {
+        Intent intent = new Intent(this, RecommendFacility.class);
+        intent.putExtra("DATA_PACKET_ID", dataPacketId);
+        intent.putExtra("PATIENT_ID", patientId);
+        startActivityForResult(intent, RECOMMEND_FACILITY);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        if (requestCode == RECOMMEND_FACILITY && resultCode == RESULT_OK) {
+            PlaceResult selectedFacility = (PlaceResult)intent.getSerializableExtra("SELECTED_FACILITY");
+            toastMessage(this, "Hey we did something hella cool here boysss");
+        }
     }
 
     public void addComment() {
@@ -214,15 +244,15 @@ public class FeedbackActivity extends BaseActivity {
                 text1.setPadding(0,0,0,5);
 
                 Comment comment = mComments.get(position);
-                String doctorName = "";
+                String commenterName = "";
                 if (mUserDataSnapshot != null) {
                     BaseUser user = mUserDataSnapshot.child(comment.getCommenterId()).getValue(BaseUser.class);
-                    doctorName = user.getName();
+                    commenterName = user.getName();
                 }
 
                 Date date = comment.getSentDate();
                 String dateString = String.format(Locale.ENGLISH, "%1$s %2$tr %2$te %2$tb %2$tY", "at", date);
-                String nameAndDate = String.format("%s %s", doctorName, dateString);
+                String nameAndDate = String.format("%s %s", commenterName, dateString);
 
                 text1.setText(nameAndDate);
                 text2.setText(comment.getMessage());

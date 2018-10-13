@@ -56,6 +56,7 @@ public class ViewDataPacket extends BaseActivity implements OnMapReadyCallback {
     private MapView mMapView;
     private GoogleMap mGoogleMap;
     private GeoDataClient mGeoDataClient;
+    private TextView videoTV;
     private Button mPlayVideo;
     @Override
     protected int getLayoutId() {
@@ -67,21 +68,33 @@ public class ViewDataPacket extends BaseActivity implements OnMapReadyCallback {
         super.onCreate( savedInstanceState );
         bindViewComponents();
         ButterKnife.bind( this );
-
         mDataPacket = (DataPacket) getIntent().getSerializableExtra( "DATA_PACKET" );
         mPatientId = (String) getIntent().getSerializableExtra( "PATIENT_ID" );
         setTitle( "Data Packet - " + mDataPacket.getTitle() );
-        if (mDataPacket.getQuery() != null)
+        if (mDataPacket.getQuery() == null || mDataPacket.getQuery().isEmpty()) {
+            mQueryTV.setText("No query has been sent");
+        } else {
             mQueryTV.setText( mDataPacket.getQuery() );
-        if (mDataPacket.getHeartRate() != null)
+        }
+        if (mDataPacket.getHeartRate() == null || mDataPacket.getHeartRate().isEmpty()) {
+            mHeartRateTV.setText("A heart rate has not been sent");
+        } else {
             mHeartRateTV.setText( mDataPacket.getHeartRate() );
+        }
 
         if (mDataPacket.hasLocation()) {
-            mLocationTV.setVisibility( View.GONE );
+            mLocationTV.setText("A red marker indicates the location of the Patient, where as blue markers indicate recommended medical facilities");
             setUpGoogleMaps( savedInstanceState );
         } else {
-            mLocationTV.setText( "Patient has not set their location" );
+            mLocationTV.setText( "A location has not been sent" );
             mMapView.setVisibility( View.GONE );
+        }
+
+        if (mDataPacket.getFile() == null || mDataPacket.getFile().isEmpty()) {
+            mPlayVideo.setVisibility(View.GONE);
+            videoTV.setText("No video files have been sent");
+        } else {
+            videoTV.setVisibility(View.GONE);
         }
         addDbListeners();
 
@@ -127,6 +140,7 @@ public class ViewDataPacket extends BaseActivity implements OnMapReadyCallback {
         mHeartRateTV = findViewById(R.id.heartRateTV);
         mLocationTV = findViewById(R.id.locationTV);
         mMapView = findViewById(R.id.mapView);
+        videoTV = findViewById(R.id.videoTV);
         mPlayVideo = findViewById( R.id.playVideoBtn );
     }
 
@@ -156,6 +170,7 @@ public class ViewDataPacket extends BaseActivity implements OnMapReadyCallback {
         intent.putExtra("DATA_PACKET_ID", mDataPacket.getId());
         intent.putExtra("DATA_PACKET_TITLE", mDataPacket.getTitle());
         intent.putExtra("FEEDBACK_TYPE", feedbackType);
+        intent.putExtra("HAS_LOCATION", mDataPacket.hasLocation());
         startActivity(intent);
     }
 
@@ -212,7 +227,6 @@ public class ViewDataPacket extends BaseActivity implements OnMapReadyCallback {
         mUserDb = FirebaseDatabase.getInstance().getReference("Users/" + mPatientId);
         mDataPacketDb = mUserDb.child("Queries/" + mDataPacket.getId());
         addPatientDbListener();
-        addDataPacketCommentListeners();
     }
 
     public void addPatientDbListener() {
@@ -221,28 +235,6 @@ public class ViewDataPacket extends BaseActivity implements OnMapReadyCallback {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 mPatient = dataSnapshot.getValue(PatientUser.class);
                 mSentFromTV.setText(mPatient.getName());
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-    }
-
-    public void addDataPacketCommentListeners() {
-        addQueryCommentsListener();
-    }
-
-    public void addQueryCommentsListener() {
-        mDataPacketDb.child("queryComments").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                for (DataSnapshot commentSnapshot : dataSnapshot.getChildren()) {
-                    Comment queryComment = commentSnapshot.getValue(Comment.class);
-
-                }
             }
 
             @Override

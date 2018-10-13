@@ -113,21 +113,24 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
                     android:layout_marginTop="20dp"
-                    android:text="Files" />
+                    android:text="Video File" />
 
-                <!-- ADD FILE SPECIFIC STUFF HERE -->
-
-                <Button
-                    android:id="@+id/filesBtn"
-                    style="@style/ButtonSecondary"
-                    android:layout_marginTop="10dp"
-                    android:text="View feedback" />
+                <TextView
+                    android:id="@+id/videoTV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
                 <Button
                     android:id="@+id/playVideoBtn"
                     style="@style/ButtonSecondary"
                     android:layout_marginTop="10dp"
                     android:text="Play Video" />
+
+                <Button
+                    android:id="@+id/filesBtn"
+                    style="@style/ButtonSecondary"
+                    android:layout_marginTop="10dp"
+                    android:text="View feedback" />
 
             </LinearLayout>
 

@@ -7,7 +7,9 @@ import com.google.android.gms.location.places.Place;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class PlaceResult {
+import java.io.Serializable;
+
+public class PlaceResult implements Serializable {
     private String _id;
     private String _placeId;
     private String _name;

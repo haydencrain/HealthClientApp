@@ -36,10 +36,10 @@ public class DataPacket implements Serializable {
         this.title = "Data Packet";
         this.latitude = 0;
         this.longitude = 0;
-        this.query = null;
-        this.heartRate = null;
+        this.query = "";
+        this.heartRate = "";
         this.sentDate = 0;
-        this.file = null;
+        this.file = "";
     }
 
     public String getId() {
