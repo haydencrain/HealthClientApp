@@ -37,6 +37,7 @@ public class FeedbackActivity extends BaseActivity {
     private String dataPacketId;
     private String dataPacketTitle;
     private String feedbackType;
+    private String mCommentsPath;
     private boolean hasLocation;
     private LinkedList<Comment> mComments;
 
@@ -124,20 +125,24 @@ public class FeedbackActivity extends BaseActivity {
         String title = "";
         switch (feedbackType) {
             case "QUERY":
-                setCommentsDbPath("queryComments");
+                mCommentsPath = "queryComments";
+                setCommentsDbPath(mCommentsPath);
                 title = " - Query Feedback";
                 break;
             case "HEART_RATE":
-                setCommentsDbPath("heartRateComments");
+                mCommentsPath = "heartRateComments";
+                setCommentsDbPath(mCommentsPath);
                 title = " - Heart Rate Feedback";
                 break;
             case "LOCATION":
-                setCommentsDbPath("locationComments");
+                mCommentsPath = "locationComments";
+                setCommentsDbPath(mCommentsPath);
                 title = " - Location Feedback";
                 checkIfCanRecommendLocation();
                 break;
             case "FILES":
-                setCommentsDbPath("filesComments");
+                mCommentsPath = "filesComments";
+                setCommentsDbPath(mCommentsPath);
                 title = " - Files Feedback";
                 break;
         }
@@ -239,6 +244,8 @@ public class FeedbackActivity extends BaseActivity {
                         .child(patientId)
                         .child("Queries")
                         .child(dataPacketId);
+
+                createCommentList(mDataPacketDataSnapshot.child(mCommentsPath).getChildren());
             }
 
             @Override
