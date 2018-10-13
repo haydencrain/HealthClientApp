@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".Activities.ViewDataPacket"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        android:theme="@style/ToolbarTheme"
+        app:titleTextColor="@color/whiteColor" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            style="@style/ContainerBottomRounded"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/locationRecommendation">
+
+            <TextView
+                android:id="@+id/mapTV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:textAlignment="center"
+                android:text="Press on a medical facility's marker to select the medical facility"/>
+
+        </RelativeLayout>
+
+        <com.google.android.gms.maps.MapView
+            android:id="@+id/mapView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+
+        <RelativeLayout
+            style="@style/ContainerTopRounded"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/selectFacilityContainer"
+            android:layout_alignParentBottom="true"
+            android:padding="15dp">
+
+            <Button
+                android:id="@+id/selectBtn"
+                style="@style/ButtonPrimary"
+                android:layout_width="match_parent"
+                android:text="Select medical Facility"
+                android:layout_marginBottom="0dp"/>
+
+        </RelativeLayout>
+
+
+
+    </RelativeLayout>
+
+</LinearLayout>

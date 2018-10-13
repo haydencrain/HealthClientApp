@@ -7,35 +7,77 @@ import com.google.android.gms.location.places.Place;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class PlaceResult {
-    private String _id;
-    private String _placeId;
-    private String _name;
-    private String _address;
-    private double _lat;
-    private double _lng;
+import java.io.Serializable;
+
+public class PlaceResult implements Serializable {
+    private String Id;
+    private String PlaceId;
+    private String Name;
+    private String Address;
+    private double Lat;
+    private double Lng;
 
     public PlaceResult(JSONObject jsonRes) {
         try {
-            _id = jsonRes.getString("id");
-            _placeId = jsonRes.getString("place_id");
-            _name = jsonRes.getString("name");
-            _address = jsonRes.getString("vicinity");
-            _lat = jsonRes.getJSONObject("geometry").getJSONObject("location").getDouble("lat");
-            _lng = jsonRes.getJSONObject("geometry").getJSONObject("location").getDouble("lng");
+            Id = jsonRes.getString("id");
+            PlaceId = jsonRes.getString("place_id");
+            Name = jsonRes.getString("name");
+            Address = jsonRes.getString("vicinity");
+            Lat = jsonRes.getJSONObject("geometry").getJSONObject("location").getDouble("lat");
+            Lng = jsonRes.getJSONObject("geometry").getJSONObject("location").getDouble("lng");
         } catch (JSONException e) {
             Log.d("PlaceResult", e.toString());
         }
     }
 
-    public String getId() { return _id; }
-    public String getPlaceId() { return _placeId; }
-    public String getName() { return _name; }
-    public String get_address() { return _address; }
-    public Double getLat() { return _lat; }
-    public Double getLng() { return _lng; }
+    public PlaceResult() {
+        Id = "";
+        PlaceId = "";
+        Name = "";
+        Address = "";
+        Lat = 0;
+        Lng = 0;
+    }
+
+
+    public String getId() { return Id; }
+
+    public void setId(String Id) {
+        this.Id = Id;
+    }
+
+    public String getPlaceId() { return PlaceId; }
+
+    public void setPlaceId(String PlaceId) {
+        this.PlaceId = PlaceId;
+    }
+
+    public String getName() { return Name; }
+
+    public void setName(String Name) {
+        this.Name = Name;
+    }
+
+    public String getAddress() { return Address; }
+
+    public void setAddress(String Address) {
+        this.Address = Address;
+    }
+
+    public Double getLat() { return Lat; }
+
+    public void setLat(double Lat) {
+        this.Lat = Lat;
+    }
+
+    public Double getLng() { return Lng; }
+
+    public void setLng(double Lng) {
+        this.Lng = Lng;
+    }
+
     @Override
     public String toString() {
-        return "(" + _id + ": " + _name + ") " + _lat + ", " + _lng;
+        return "(" + Id + ": " + Name + ") " + Lat + ", " + Lng;
     }
 }

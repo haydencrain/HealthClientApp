@@ -38,7 +38,7 @@
             <RelativeLayout
                 android:id="@+id/textContainer"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp">
 
                 <TextView
@@ -51,10 +51,9 @@
                 <EditText
                     android:id="@+id/queryBox"
                     android:layout_width="match_parent"
-                    android:layout_height="fill_parent"
+                    android:layout_height="wrap_content"
                     android:layout_below="@id/textLabel"
-                    android:inputType="text|textMultiLine"
-                    android:minLines="6"
+                    android:inputType="text"
                     android:scrollbars="vertical" />
 
             </RelativeLayout>
@@ -63,8 +62,7 @@
                 android:id="@+id/heartRateContainer"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_below="@id/textContainer"
-                android:layout_marginBottom="10dp">
+                android:layout_below="@id/textContainer">
 
                 <Button
                     android:id="@+id/btnSHR"
@@ -81,6 +79,13 @@
                     android:textSize="18dp" />
 
             </RelativeLayout>
+
+            <TextView
+                android:id="@+id/mapTV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:text="NB: Please record heart rate before inputting any other data, otherwise data may be lost"/>
 
             <RelativeLayout
                 android:id="@+id/locationContainer"

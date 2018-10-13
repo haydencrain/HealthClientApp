@@ -2,6 +2,14 @@ package M5.seshealthpatient.Utils;
 
 import android.app.Activity;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+
+import M5.seshealthpatient.Models.LocationDefaults;
+import M5.seshealthpatient.Models.PlaceResult;
 import M5.seshealthpatient.R;
 
 public class Helpers {
@@ -19,5 +27,24 @@ public class Helpers {
         url.append("placeid=" + placeId);
         url.append("&key=" + activity.getResources().getString(R.string.api_key));
         return url.toString();
+    }
+
+    public static void setPatientLocation(GoogleMap map, double latitute, double longitude, int zoom) {
+        LatLng latLng =  new LatLng(latitute, longitude);
+        MarkerOptions markerOptions = new MarkerOptions()
+                .position(latLng)
+                .title("Patient's Location")
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+
+        map.addMarker(markerOptions);
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
+    }
+
+    public static void addPlaceResultMarker(GoogleMap map, PlaceResult place, float colour) {
+        MarkerOptions markerOptions = new MarkerOptions()
+                .position(new LatLng(place.getLat(), place.getLng()))
+                .title(place.getName())
+                .icon(BitmapDescriptorFactory.defaultMarker(colour));
+        map.addMarker(markerOptions);
     }
 }

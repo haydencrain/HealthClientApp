@@ -14,7 +14,7 @@
     <string name="heart_rate">Heart Rate</string>
     <string name="record_video">Record Video</string>
     <string name="send_local_file">Send Local File</string>
-    <string name="facilities_map">Facilities Map</string>
+    <string name="facilities_map">View Nearby Facilities</string>
 
     <string name="drawer_open">Drawer Open</string>
     <string name="drawer_close">Drawer Close</string>

@@ -34,6 +34,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -76,7 +77,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getActivity().setTitle("Facilities Map");
+        getActivity().setTitle("View Nearby Facilities");
     }
 
 
@@ -121,12 +122,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                     results = response.getJSONArray("results");
                     LinkedList<PlaceResult> places = new LinkedList<>();
                     for(int i = 0; i < results.length(); i++) {
-                        MarkerOptions markerOptions = new MarkerOptions();
                         PlaceResult place = new PlaceResult(results.getJSONObject(i));
-                        Log.d("placeResult", place.toString());
-                        markerOptions.position(new LatLng(place.getLat(), place.getLng()));
-                        markerOptions.title(place.getName());
-                        mGoogleMap.addMarker(markerOptions);
+                        Helpers.addPlaceResultMarker(mGoogleMap, place, BitmapDescriptorFactory.HUE_RED);
                         places.add(place);
                     }
                     mMedicalFacilities = places;

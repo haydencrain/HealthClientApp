@@ -53,6 +53,11 @@
         <item name="android:elevation">10dp</item>
     </style>
 
+    <style name="ContainerTopRounded">
+        <item name="android:background">@drawable/container_corners_top</item>
+        <item name="android:elevation">10dp</item>
+    </style>
+
     <style name="ButtonPrimary">
         <item name="android:textSize">@dimen/default_text_size</item>
         <item name="android:layout_marginBottom">10dp</item>
