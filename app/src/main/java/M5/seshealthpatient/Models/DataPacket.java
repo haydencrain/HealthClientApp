@@ -2,6 +2,8 @@ package M5.seshealthpatient.Models;
 
 import android.location.Location;
 
+import com.google.android.gms.location.places.Place;
+
 import java.util.Date;
 import java.io.Serializable;
 import java.util.LinkedList;
@@ -16,6 +18,7 @@ public class DataPacket implements Serializable {
     private double latitude;
     private double longitude;
     private LinkedList<Comment> locationComments;
+    private LinkedList<PlaceResult> facilityRecommendations;
     private long sentDate;
     private String file;
     private LinkedList<Comment> filesComments;

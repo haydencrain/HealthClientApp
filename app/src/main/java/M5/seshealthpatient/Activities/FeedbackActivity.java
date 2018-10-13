@@ -42,6 +42,7 @@ public class FeedbackActivity extends BaseActivity {
 
     DatabaseReference mUsersDb;
     DatabaseReference mCommentsDb;
+    DatabaseReference mDataPacketDb;
 
     private RelativeLayout mAddMessageWrapper;
     private TextView mMessageTV;
@@ -53,6 +54,7 @@ public class FeedbackActivity extends BaseActivity {
     private ValueEventListener mUsersEventListener;
 
     DataSnapshot mUserDataSnapshot;
+    DataSnapshot mDataPacketDataSnapshot;
 
     @Override
     protected int getLayoutId() {
@@ -68,6 +70,7 @@ public class FeedbackActivity extends BaseActivity {
         checkIfCanAddComment();
         setTitleAndCommentDb();
         mUsersDb = FirebaseDatabase.getInstance().getReference("Users");
+        mDataPacketDb = getDataPacketReference();
     }
 
     @Override
@@ -148,7 +151,7 @@ public class FeedbackActivity extends BaseActivity {
     @OnClick(R.id.addMessageBtn)
     public void onAddMessageClick(View view) {
         hideKeyboard();
-        addComment();
+        addComment(addMessageTxt.getText().toString());
     }
 
     @OnClick(R.id.locationBtn)
@@ -163,12 +166,34 @@ public class FeedbackActivity extends BaseActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         if (requestCode == RECOMMEND_FACILITY && resultCode == RESULT_OK) {
             PlaceResult selectedFacility = (PlaceResult)intent.getSerializableExtra("SELECTED_FACILITY");
-            toastMessage(this, "Hey we did something hella cool here boysss");
+            addRecommendedPlace(selectedFacility);
         }
     }
 
-    public void addComment() {
-        String message = addMessageTxt.getText().toString();
+    public void addRecommendedPlace(PlaceResult selectedFacility) {
+        if (mDataPacketDataSnapshot != null) {
+            DataSnapshot facilitiesSnapshot = mDataPacketDataSnapshot.child("facilityRecommendations");
+            boolean hasDuplicate = false;
+            for (DataSnapshot facilitySnapshot : facilitiesSnapshot.getChildren()) {
+                PlaceResult facility = facilitySnapshot.getValue(PlaceResult.class);
+                if (selectedFacility.getName().equals(facility.getName()))
+                    hasDuplicate = true;
+            }
+            if (!hasDuplicate) {
+                DatabaseReference recommendationsDb = mDataPacketDb.child("facilityRecommendations");
+                String key = recommendationsDb.push().getKey();
+                recommendationsDb.child(key).setValue(selectedFacility);
+                toastMessage(this, "Added Successfully");
+                addComment("*...has recommended to visit " + selectedFacility.getName() + "!*");
+            } else {
+                toastMessage(this, "This facility has already been recommended!");
+            }
+        } else {
+            toastMessage(this, "Error occured. Please try again in a few moments.");
+        }
+    }
+
+    public void addComment(String message) {
         Comment comment = new Comment(message, getUserId(), new Date().getTime());
         String key = mCommentsDb.push().getKey();
         mCommentsDb.child(key).setValue(comment);
@@ -182,6 +207,13 @@ public class FeedbackActivity extends BaseActivity {
                 .child("Queries")
                 .child(dataPacketId)
                 .child(commentsPath);
+    }
+
+    public DatabaseReference getDataPacketReference() {
+        return FirebaseDatabase.getInstance()
+                .getReference("Users/" + patientId)
+                .child("Queries")
+                .child(dataPacketId);
     }
 
     public ValueEventListener getCommentsEventListener() {
@@ -203,6 +235,10 @@ public class FeedbackActivity extends BaseActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 mUserDataSnapshot = dataSnapshot;
+                mDataPacketDataSnapshot = dataSnapshot
+                        .child(patientId)
+                        .child("Queries")
+                        .child(dataPacketId);
             }
 
             @Override
