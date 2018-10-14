@@ -16,13 +16,17 @@
         android:theme="@style/ToolbarTheme"
         app:titleTextColor="@color/whiteColor" />
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        style="@style/Container"
-        android:orientation="vertical"
-        android:layout_marginTop="20dp"
-        android:layout_centerVertical="true">
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/Container"
+            android:orientation="vertical"
+            android:layout_marginTop="20dp"
+            android:layout_centerVertical="true">
 
 
 
@@ -69,16 +73,16 @@
                 android:ems="10"
                 android:id="@+id/add_height"/>
 
-        <EditText
-            android:hint="Enter Medical Condition"
-            android:layout_below="@id/add_weight"
-            android:layout_marginTop="20dp"
-            android:textAlignment="center"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:ems="10"
-            android:id="@+id/add_medical_condition"/>
+            <EditText
+                android:hint="Enter Medical Condition"
+                android:layout_below="@id/add_weight"
+                android:layout_marginTop="20dp"
+                android:textAlignment="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:ems="10"
+                android:id="@+id/add_medical_condition"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -103,6 +107,8 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/btnAddNewName"/>
 
-    </LinearLayout>
+        </LinearLayout>
+
+    </ScrollView>
 
 </LinearLayout>
