@@ -58,7 +58,7 @@
            android:orientation="horizontal"
            >
            <EditText
-               android:hint="Enter feedback..."
+               android:hint="Enter message..."
                android:textSize="16dp"
                android:layout_toLeftOf="@id/addMessageBtn"
                android:layout_width="match_parent"

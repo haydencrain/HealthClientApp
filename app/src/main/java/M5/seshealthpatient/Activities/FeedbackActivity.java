@@ -68,7 +68,7 @@ public class FeedbackActivity extends BaseActivity {
         getDataFromIntent();
         bindViewComponents();
         ButterKnife.bind(this);
-        checkIfCanAddComment();
+        // checkIfCanAddComment();
         setTitleAndCommentDb();
         mUsersDb = FirebaseDatabase.getInstance().getReference("Users");
         mDataPacketDb = getDataPacketReference();
