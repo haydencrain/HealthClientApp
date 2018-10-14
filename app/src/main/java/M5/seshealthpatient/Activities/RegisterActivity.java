@@ -92,11 +92,11 @@ public class RegisterActivity extends AppCompatActivity {
                                     //        .child(auth.getCurrentUser().getUid())
                                     //        .setValue(new DoctorUser());
 
-                                Toast.makeText(getApplicationContext(),"Patient is registered", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(),"Registered successfully :)", Toast.LENGTH_SHORT).show();
                                 navigateToLogin();
                         }
                         else{
-                                Toast.makeText(getApplicationContext(),"Patient cannot be registered", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(),"Registered unsuccessfully :(", Toast.LENGTH_SHORT).show();
 
                             }
                         }
