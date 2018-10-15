@@ -100,6 +100,8 @@ public class ViewInformation extends BaseActivity {
 
             ArrayList<String> array = new ArrayList<>();
             array.add("Name:        " + uInfo.getName());
+            array.add("Age:     " + uInfo.getAge());
+            array.add("Sex:     " + uInfo.getSex());
             array.add("Number:  " + uInfo.getPhone());
             array.add("Weight:      " + uInfo.getWeight() + "kg");
             array.add("Height:      " + uInfo.getHeight() + "cm");

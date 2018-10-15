@@ -38,7 +38,9 @@ public class ViewPatientActivity extends BaseActivity {
 
         ArrayList<String> patientInfo = new ArrayList<>();
         patientInfo.add("Name:        " + patientName);
-        patientInfo.add("Number:  " + patient.getPhone());
+        patientInfo.add("Age:       " + patient.getAge());
+        patientInfo.add("Sex:       " + patient.getSex());
+        patientInfo.add("Number:    " + patient.getPhone());
         patientInfo.add("Weight:      " + patient.getWeight() + "kg");
         patientInfo.add("Height:      " + patient.getHeight() + "cm");
         patientInfo.add("Condition: " + patient.getMedicalCondition());
