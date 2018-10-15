@@ -17,6 +17,7 @@ import M5.seshealthpatient.Models.PatientUser;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -39,10 +40,13 @@ public class AddPatientDetails extends BaseActivity {
     private static final String TAG = "AddToDatabase";
     private Button mAddToDB;
     private EditText nNewName;
+    private EditText nAge;
     private EditText nPhone;
     private EditText nWeight;
     private EditText nHeight;
     private EditText nMedicalCondition;
+    private RadioButton radioMale;
+    private RadioButton radioFemale;
     private Spinner mDoctorDropdown;
 
     private LinkedList<DoctorUser> mDoctors;
@@ -100,6 +104,8 @@ public class AddPatientDetails extends BaseActivity {
                 PatientUser user = dataSnapshot.child(mAuth.getUid()).getValue(PatientUser.class);
                 setTextBoxes(
                         user.getName(),
+                        user.getSex(),
+                        user.getAge(),
                         user.getPhone(),
                         user.getWeight(),
                         user.getHeight(),
@@ -131,10 +137,13 @@ public class AddPatientDetails extends BaseActivity {
     public void bindViewComponents() {
         mAddToDB = (Button) findViewById(R.id.btnAddNewName);
         nNewName = (EditText) findViewById(R.id.add_name);
+        nAge = (EditText) findViewById(R.id.add_age);
         nPhone = (EditText) findViewById(R.id.add_phone);
         nWeight = (EditText) findViewById(R.id.add_weight);
         nHeight = (EditText) findViewById(R.id.add_height);
         nMedicalCondition = (EditText) findViewById(R.id.add_medical_condition);
+        radioMale = (RadioButton) findViewById(R.id.radio_male);
+        radioFemale = (RadioButton) findViewById(R.id.radio_female);
         mDoctorDropdown = findViewById(R.id.doctorDropdown);
     }
 
@@ -194,8 +203,17 @@ public class AddPatientDetails extends BaseActivity {
     PatientUser createUser() {
         Log.d(TAG, "onClick: Attempting to add object to database.");
 
+        String sex = "";
+        if (radioMale.isChecked())
+            sex = "Male";
+        if (radioFemale.isChecked()) {
+            sex = "Female";
+        }
+
         return new PatientUser(
                 nNewName.getText().toString(),
+                sex,
+                nAge.getText().toString(),
                 nPhone.getText().toString(),
                 nWeight.getText().toString(),
                 nHeight.getText().toString(),
@@ -206,6 +224,8 @@ public class AddPatientDetails extends BaseActivity {
 
     public void setValuesToUser(PatientUser user, DatabaseReference userRef) {
         userRef.child("name").setValue(user.getName());
+        userRef.child("age").setValue(user.getAge());
+        userRef.child("sex").setValue(user.getSex());
         userRef.child("phone").setValue(user.getPhone());
         userRef.child("weight").setValue(user.getWeight());
         userRef.child("height").setValue(user.getHeight());
@@ -214,13 +234,23 @@ public class AddPatientDetails extends BaseActivity {
         userRef.child("isDoctor").setValue(user.getIsDoctor());
     }
 
-    void setTextBoxes(String name, String phone, String weight, String height, String medicalCondition, String doctorID)
+    void setTextBoxes(String name, String sex, String age, String phone, String weight, String height, String medicalCondition, String doctorID)
     {
+        nAge.setText(age);
         nNewName.setText(name);
         nPhone.setText(phone);
         nWeight.setText(weight);
         nHeight.setText(height);
         nMedicalCondition.setText(medicalCondition);
         selectedDoctorKey = doctorID;
+
+        radioMale.setChecked(false);
+        radioFemale.setChecked(false);
+        if (sex.equals("Male")) {
+            radioMale.setChecked(true);
+        }
+        if (sex.equals("Female")) {
+            radioFemale.setChecked(true);
+        }
     }
 }
