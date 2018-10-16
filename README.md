@@ -42,11 +42,14 @@ A step by step series of examples that tell you how to get a development env run
 
 - Open Android Studio
 - Open the HealthClientApp project through Android Studio
+- Ensure you have a valid Google API key. Steps in order to create and add the key to your project can be found [here](https://developers.google.com/maps/documentation/android-sdk/signup)
 - To run the project, simply press the 'Play' button icon at the top right of the IDE.
 
 ## Deployment
 
 Navigate to Build > Generate unsigned APK's
+
+The APK that is created can be then downloaded and installed on Android devices.
 
 ## Built With
 
