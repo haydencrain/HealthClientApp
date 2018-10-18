@@ -62,7 +62,9 @@ public class DoctorActivity extends BaseActivity {
     private MenuStates currentState;
 
 
-
+    /**
+     * Overrides the BaseActivity to set which layout to use
+     */
     @Override
     protected int getLayoutId() {
         return R.layout.activity_doctor;
@@ -71,7 +73,6 @@ public class DoctorActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
 
         // the default fragment on display is the patient information
         currentState = MenuStates.DOCTOR_INFO;
@@ -156,7 +157,7 @@ public class DoctorActivity extends BaseActivity {
         ft.commit();
     }
 
-    /**hayden
+    /**
      * Called when one of the items in the toolbar was clicked, in this case, the menu button.
      */
     @Override

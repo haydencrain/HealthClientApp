@@ -1,5 +1,9 @@
 package M5.seshealthpatient.Models;
 
+/*
+*   BaseUser class, in which all Users within this application extend
+*   Any fields shared between Users are added here
+*/
 public class BaseUser {
     private boolean IsDoctor;
     private String Name;

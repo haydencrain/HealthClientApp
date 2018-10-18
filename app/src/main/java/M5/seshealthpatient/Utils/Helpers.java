@@ -13,6 +13,8 @@ import M5.seshealthpatient.Models.PlaceResult;
 import M5.seshealthpatient.R;
 
 public class Helpers {
+    
+    // Builds a NearbyPlaces Url string with specific query params
     public static String getNearbyPlacesUrl(Activity activity, double lat, double lng, String placeType) {
         StringBuilder url = new StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?");
         url.append("location=" + String.valueOf(lat) + "," + String.valueOf(lng));
@@ -22,6 +24,7 @@ public class Helpers {
         return url.toString();
     }
 
+    // Builds a NearbyPlaces Url string with specific query params
     public static String getPlaceDetailsUrl(Activity activity, String placeId) {
         StringBuilder url = new StringBuilder("https://maps.googleapis.com/maps/api/place/details/json?");
         url.append("placeid=" + placeId);
@@ -29,6 +32,7 @@ public class Helpers {
         return url.toString();
     }
 
+    // helper to add a marker on a google map implementation
     public static void setPatientLocation(GoogleMap map, double latitute, double longitude, int zoom) {
         LatLng latLng =  new LatLng(latitute, longitude);
         MarkerOptions markerOptions = new MarkerOptions()
@@ -40,6 +44,7 @@ public class Helpers {
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
     }
 
+    // helper to add a medical facility place marker on a google map implementation
     public static void addPlaceResultMarker(GoogleMap map, PlaceResult place, float colour) {
         MarkerOptions markerOptions = new MarkerOptions()
                 .position(new LatLng(place.getLat(), place.getLng()))

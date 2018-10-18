@@ -2,6 +2,12 @@ package M5.seshealthpatient.Models;
 
 import java.io.Serializable;
 
+/*
+*   PatientUser class, extends BaseUser.
+*   Implements serializable. (serializable is to be implemented in order for the data packet to be
+*   successfully added to activity intents).
+*   Fields specific to the Patient user are here.
+*/
 public class PatientUser extends BaseUser implements Serializable {
     private String Sex;
     private String Age;

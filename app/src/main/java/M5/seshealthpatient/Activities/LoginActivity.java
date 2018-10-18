@@ -85,6 +85,7 @@ public class LoginActivity extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         db = FirebaseDatabase.getInstance();
 
+        // if there is a user already logged in, navigate them to the main screen
         handleIfAlreadyLoggedIn();
     }
 
@@ -127,9 +128,6 @@ public class LoginActivity extends AppCompatActivity {
         String username = usernameEditText.getText().toString();
         String password = passwordEditText.getText().toString();
 
-        // TODO: For now, the login button will simply print on the console the username/password and let you in
-        // TODO: It is up to you guys to implement a proper login system
-
         // Having a tag, and the name of the function on the console message helps allot in
         // knowing where the message should appear.
         Log.d(TAG, "LogIn: username: " + username + " password: " + password);
@@ -171,6 +169,8 @@ public class LoginActivity extends AppCompatActivity {
         finish();
     }
 
+    // when the activity finishes, ensure that event listeners are removed from the firebase instance,
+    // otherwise they will persist and execute for the entirety of the app's lifetime.
     @Override
     public void onStop() {
         if (auth.getCurrentUser() != null && mUserListener != null)

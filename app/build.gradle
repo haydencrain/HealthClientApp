@@ -44,14 +44,24 @@ dependencies {
     implementation 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
 
+    /**
+     *  Volley, allows the ability to interact with and make HTTP requests 
+     *  ref: https://github.com/google/volley
+     */
     implementation 'com.android.volley:volley:1.1.1'
 
     /**
-     *  Google play services ref: https://developers.google.com/android/guides/setup
+     *  Google play services, specifically for map implementations 
+     *  ref: https://developers.google.com/android/guides/setup
      */
     implementation "com.google.android.gms:play-services-maps:$maps"
     implementation "com.google.android.gms:play-services-places:$maps"
     implementation "com.google.android.gms:play-services-location:$maps"
+
+    /**
+     *  Firebase, our database implementation for this project 
+     *  ref: https://firebase.google.com/docs/android/setup
+     */
     implementation "com.google.firebase:firebase-database:$firebase"
     implementation "com.google.firebase:firebase-core:$firebase"
     implementation "com.google.firebase:firebase-auth:$firebase"
@@ -59,7 +69,8 @@ dependencies {
     implementation "com.google.firebase:firebase-storage:$firebase"
 
     /**
-     * Graph View ref: https://github.com/jjoe64/GraphView
+     *  Graph View for displaying patient's heart rate 
+     *  ref: https://github.com/jjoe64/GraphView
      */
     implementation 'com.jjoe64:graphview:4.2.2'
 

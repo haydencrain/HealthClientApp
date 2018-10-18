@@ -8,6 +8,11 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 
+/**
+*   This is an implementation of a singleton class, specifically for holding an instance of
+*   Volley's Request Queue. The class' instance will persist for the lifetime of the application,
+*   And can be called and added to at any stage. This allows for multiple HTTP requests to be queued at the same time.
+*/
 public class RequestQueueSingleton {
     private static RequestQueueSingleton mInstance;
     private RequestQueue mRequestQueue;

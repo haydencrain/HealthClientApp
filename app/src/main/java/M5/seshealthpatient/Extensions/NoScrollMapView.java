@@ -6,6 +6,11 @@ import android.view.MotionEvent;
 
 import com.google.android.gms.maps.MapView;
 
+/**
+*   NoScrollMapView
+*   extends: MapView
+*   Allows a map to be scrolled when within a ScrollLayout element.
+*/
 public class NoScrollMapView extends MapView {
     public NoScrollMapView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -15,11 +20,11 @@ public class NoScrollMapView extends MapView {
     public boolean dispatchTouchEvent(MotionEvent ev) {
         switch (ev.getAction()) {
             case MotionEvent.ACTION_UP:
-                System.out.println("unlocked");
+                // on touch up, allow ScrollLayout to interact with touch event again.
                 this.getParent().requestDisallowInterceptTouchEvent(false);
                 break;
             case MotionEvent.ACTION_DOWN:
-                System.out.println("locked");
+                // on touch down, prevent ScrollLayout from interacting with touch event
                 this.getParent().requestDisallowInterceptTouchEvent(true);
                 break;
         }

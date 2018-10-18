@@ -1,5 +1,8 @@
 package M5.seshealthpatient.Utils;
 
+/**
+*   Implements methods that calculate the average heart rate, depending on the inputs from the camera
+*/
 public abstract class ImageProcessing {
 
     private static int decodeYUV420SPtoRedSum(byte[] yuv420sp, int width,int height) {

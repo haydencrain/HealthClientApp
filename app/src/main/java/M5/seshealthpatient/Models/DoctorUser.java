@@ -1,5 +1,9 @@
 package M5.seshealthpatient.Models;
 
+/*
+*   DoctorUser class, extends BaseUser.
+*   Fields specific to the Doctor user are here.
+*/
 public class DoctorUser extends BaseUser {
     private String Department;
     private String Occupation;
