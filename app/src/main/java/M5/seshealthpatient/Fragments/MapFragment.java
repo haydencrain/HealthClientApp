@@ -110,9 +110,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     }
 
     private void getMedicalPlaces(double lat, double lng) {
+				// get the api url for getting nearby medical facilities
         String url = Helpers.getNearbyPlacesUrl(getActivity(), lat, lng, "hospital");
         Log.d("getUrl", url);
 
+				// Send out a HTTP request to find all medical facilities (hospitals)
         RequestQueueSingleton.getInstance(getActivity()).addToRequestQueue(new JsonObjectRequest(Request.Method.GET, url, null,  new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -120,7 +122,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 JSONArray results;
                 try {
                     results = response.getJSONArray("results");
-                    LinkedList<PlaceResult> places = new LinkedList<>();
+										LinkedList<PlaceResult> places = new LinkedList<>();
+										// for each place that was returned from the request, create a marker for it,
+										// and add it to the map
                     for(int i = 0; i < results.length(); i++) {
                         PlaceResult place = new PlaceResult(results.getJSONObject(i));
                         Helpers.addPlaceResultMarker(mGoogleMap, place, BitmapDescriptorFactory.HUE_RED);

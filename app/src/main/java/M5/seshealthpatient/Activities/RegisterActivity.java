@@ -78,6 +78,8 @@ public class RegisterActivity extends AppCompatActivity {
                                                 .child(auth.getCurrentUser().getUid())
                                                 .setValue(new PatientUser());
                                     }
+																		// ELSE
+																				// Add a new empty Doctor Record
                                     else if(radioButton2.isChecked())
                                     {
                                         db.getReference()
@@ -85,12 +87,6 @@ public class RegisterActivity extends AppCompatActivity {
                                                 .child(auth.getCurrentUser().getUid())
                                                 .setValue(new DoctorUser());
                                     }
-                                // ELSE
-                                    // Add a new empty Doctor Record
-                                    //db.getReference()
-                                    //        .child("Users")
-                                    //        .child(auth.getCurrentUser().getUid())
-                                    //        .setValue(new DoctorUser());
 
                                 Toast.makeText(getApplicationContext(),"Registered successfully :)", Toast.LENGTH_SHORT).show();
                                 navigateToLogin();
@@ -106,6 +102,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     public void navigateToLogin() {
+				// we want users to sign in after they have signed up.
         auth.signOut();
         Intent in = new Intent(RegisterActivity.this, LoginActivity.class);
         startActivity(in);

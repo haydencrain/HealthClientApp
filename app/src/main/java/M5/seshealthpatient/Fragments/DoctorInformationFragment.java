@@ -39,8 +39,6 @@ public class DoctorInformationFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //TODO: Instead of hardcoding the title perhaps take the user name from somewhere?
-        // Note the use of getActivity() to reference the Activity holding this fragment
         getActivity().setTitle("Doctor Information");
     }
 

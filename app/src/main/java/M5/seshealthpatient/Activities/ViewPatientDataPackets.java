@@ -48,9 +48,14 @@ public class ViewPatientDataPackets extends BaseActivity implements AdapterView.
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
         setTitle("Data Packets");
+        
+        // receive data passed in through the intent
         mPatientId = (String)getIntent().getSerializableExtra("PATIENT_ID");
+        
+        // bind xml component to variable
         mListView = findViewById(R.id.dataPacketsListView);
 
+        // get the patient's database reference
         mUserDb = FirebaseDatabase.getInstance().getReference("Users/" + mPatientId);
         mUserDb.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -64,6 +69,8 @@ public class ViewPatientDataPackets extends BaseActivity implements AdapterView.
 
             }
         });
+        // add a listener for the patient's queries. When a datapacket is updated, added or removed,
+        // the datapacket list will be updated to reflect the changes.
         mUserDb.child("Queries").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -134,14 +141,3 @@ public class ViewPatientDataPackets extends BaseActivity implements AdapterView.
         startActivity(intent);
     }
 }
-
-/* EXAMPLE CODE TO SUCCESSFULLY CALL THIS ACTIVITY (PASS IN THE PATIENT ID INTO THE INTENT)
-v.findViewById(R.id.btnTEMP).setOnClickListener(new View.OnClickListener() {
-@Override
-public void onClick(View v) {
-        Intent in = new Intent(getActivity(), ViewPatientDataPackets.class);
-        in.putExtra("PATIENT_ID", "ebso6YbxA4PInNY64dTeGrww0x33");
-        startActivity(in);
-    }
-});
-*/
