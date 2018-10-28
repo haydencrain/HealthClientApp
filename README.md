@@ -1,6 +1,11 @@
 # HealthClientApp
+
+
 ## Software Engineering Studio 1B - 2018
 **Wrk1 01 5**
+
+[![Demonstration Video](http://img.youtube.com/vi/6se_OZiCaEs/0.jpg)](http://www.youtube.com/watch?v=6se_OZiCaEs "HealthClientApp - SES1B Morning Group 5")
+
 
 This is the repository for SES1B's Patient-Doctor application assignment. This project allows Doctors and Patients to communicate and collaborate through the comfort of a Android phone.
 
